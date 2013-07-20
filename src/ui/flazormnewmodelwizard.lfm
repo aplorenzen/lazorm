@@ -1,0 +1,435 @@
+object loNewModelForm: TloNewModelForm
+  Left = 399
+  Height = 444
+  Top = 155
+  Width = 551
+  AutoSize = True
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
+  Caption = 'LazORM - New Object Model'
+  ClientHeight = 444
+  ClientWidth = 551
+  OnCreate = FormCreate
+  LCLVersion = '1.0.10.0'
+  object TitlePanel: TPanel
+    Left = 0
+    Height = 96
+    Top = 0
+    Width = 551
+    Align = alTop
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 96
+    ClientWidth = 551
+    TabOrder = 0
+    object TopLeftPanel: TPanel
+      Left = 0
+      Height = 96
+      Top = 0
+      Width = 96
+      Align = alLeft
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 96
+      ClientWidth = 96
+      TabOrder = 0
+      object Image1: TImage
+        Left = 16
+        Height = 64
+        Top = 16
+        Width = 64
+        Align = alLeft
+        BorderSpacing.Around = 16
+        Picture.Data = {
+          1754506F727461626C654E6574776F726B477261706869632D0E000089504E47
+          0D0A1A0A0000000D4948445200000040000000400806000000AA6971DE00000D
+          F449444154789CE59B7B8C5CD75DC73FBF7BEE6376F6617B5FF6DA8E9F719CB8
+          4D4C1D5214226890A8402A8F36AD44A506893F00C93CFF02212440080981F823
+          098FAA157F81AA2A12524D2110C5344AD384D826D82D254D133B7EC5F63E6776
+          77667666EEDCC7F9F1C79DD95DAFBDBB73D7BB492BBED299BB73F79E737FBFEF
+          F99DDFF99DDF3903FFCF215BD5F0E4D474AFAA3E68AD1E15910322EC15911111
+          190206408C08036D192AAAAAED6B59556754B9A5AAD744E4A208DF1FDBB5B3B6
+          15726E1A01376F8D8F5AAB3F238E3CE91AF3B831E6A86B8C638C0380B5166B15
+          AB1655C83E6E97444470C4C17104C7C9EAA5D69226A9C669FA9E4DD3B3D6EA37
+          1DC77969EF9EB15B9B21F73D1170EDFA8DA2B5F6F3C6985F2904FE1341E03B0A
+          44514C1C2724494292A6A4A9DD50FBC6381863F05C83E7BAF8BE8788D08A626D
+          B5A27371927CC518E71F0FECBB6FC3D6B12102DEBB7C3548D2F4770A41F0FB03
+          FDBDC3AAD0683669862DE238D9A82C5DC1735D0A858062B180230EB57ABD1A86
+          ADE78CE3FCC5FD870F36F2B6979B80B7DFB9F820F0B591E1C187ACB5CC576A84
+          612B6F339B8220F0D93ED08FEBB9944AB357ADD5CF1D7BE8810B79DAC845C077
+          DF7AFB7E41DE18DB353A529E9D63A19E9BF02D41B1A7C0C8F01053D3A5469226
+          4F1C7FF823DFE9B6AE9BE74561D87A6ECFEE9D23376E8D1345717E49B708D5DA
+          028D66C8D8CE91E28D5B137F0F3CD66DDD5C1670E6DC7F47FDFD7DDE7CA59A5B
+          C80F02FD7DBD84618BA9C989FE5FF8F94F2D7453279705D834F1CAB373A8D5F5
+          1FFE10303757A156AB303D3DD5B55EB908087C8FB0564757CEE13F205055DE79
+          FB7B38C6745D271701AE6B18DC314069769E3449730BB895B036E5FAD52B542A
+          F30441D075BD5C0400148280FD7B77333B57A13C3BF703610D71D4A234334DAD
+          96F9A6288ABAAE9B9B0000630C7BF78CB167CF18A5D22C9353D3B45A1F6C2C60
+          8C83E7B9245144D8AC63ED92455ADB7DE4B921023A087C9F8307F6F1C091C3D4
+          16EA944A65A66766989BAFE412A21B08E0792E3D85027DBD458AC51E6AB51AD5
+          B8FBDEBE1BEE898045E14418DCB19DD19161EE3F7C9046A341B93CCBDCFC3CF5
+          7A8366181245114992925A8BAAAE317414411617449E6BF03D8F20F0F13C0FDF
+          CFAE9B854D2160254484DEDE22C638F4F51669B55A8B258AA23619C962C9568A
+          19318EE3605C172306D7089E6B30C641646B56EECE96B4FA21C3EDAB77FF6CCE
+          B6952D4CA26C167A86B220F0CB677E7A07921E4D353D24C8A471DC577EFDC75E
+          BE6DECE525E07F81473649CE4D822571E749FB6E627AA7E8BBAF4C6167E95FBE
+          74F6A78E069E3F1AB8451CC7254923CA0BE35F017E7979ED5C0488C81F02FFCA
+          8760058A52E77DE66D89282AD1D4292253C68ED4711CA12842AF18040176FC44
+          948634A3052A8D128AD2E3F5B1BD38F2F417CF7CE2CF7EE3F1572F76DACD45C0
+          F1E3C7FFEDDBDFF99FBFF47DFF0F365DC3753029DF60D67915838BE0208E436A
+          63A256D85530D68816E8F107B0363D026C8C80D7DF38FB70A3D93AE9F93EA955
+          7CDFCFAFC906B15D1FA69C9EA3996E7C259AA431A9DAFDCBEFE59A05C256EBD9
+          624F61DBD4F40CEFDFB8C5E5ABD7999B9BDFF4A0E76EE861171F95DF639B1CC3
+          2A1B2A511A91A6E9BEE5EDE67382AA3F59ADD548DA0BA16A6D816A6D812BD7DF
+          6768709091E141FA7AFB364FEB15305AE401E7D778DFBECC38FF8E928FF82889
+          49556FB380BC4ED06D349B77361CA54C4C4E3231390980EFF9140A01AE318880
+          5A4B9ADAAEC6AA88208E83630C8E71410CA90A364ED138237E902728B09FEBE6
+          AB4432D7B5FC61DC42918D13D0DF5BA4343B8F5D4791661AD20CC3D51F705C8C
+          E7E2788AAF99871791CC83AF88F82C64F6CBEDEF0CD84D91230C6C9F60AA76B3
+          2BF953B500B70D815C3EC0F73D768E0E21C262F8BAB1A25855543B6A09AA6055
+          BB6E23B2355A856BD45A0B584B9E32F6A7A73FBEB898C8BD1628F6F470FFC1FD
+          4C97CA94CB737C58D98071F79BF87E81A9CA4CDEAA8E85BDC055D8E062C8755D
+          0EEEDFC7FEFBEE636A7A86C9E9E90F344BDC94495A7D5708EB75920DF4802AFB
+          B817023A2814028EDC7F88630F1DA552AD313353627A6686F94A75D333452219
+          F14160B8A82F52108F85D6C6F625DA04009B980F181E1A64D7CE51A22862A15E
+          A75C2E333F5F65A15E270C43A228264D97F201AB88B6B8DC7224CB07B8AEC1F7
+          5C0A4180E779BCD53A851F08139549543716912B4B53E196E4038CE3D0DFD787
+          E7BAF4F7E5CF07B8AE8B7196F201D9742A5C0DCF52762E52AD5488D3AE2CEC15
+          E07BC06FADB8BF68013F34F980C9F85DDE4DBEC17CA346338E482CEB9549AB7C
+          E1995F3CF7DBD6F25462995BFC5FBA140BFC5010309BDEE46CFD796A61837A2B
+          244959AF84A9E5A9E73E7D6E02E0B9CF9C3B65958F252967921412CB48A7EDBC
+          04BCB5A99A7581D9F426AFD6FE817A1CD28863622BEB95D4A6E6F35FFCECB933
+          CBDBF9BBA7CE5D57F844AAFC6EAAFC79E77EBE50D871FE08F81A1F503EA06C6F
+          70B6F94FC4749772171506D25DBFF9ECD3A7BE7EB7FF7FE973E762E0AF97DFCB
+          6501C71F79E49FE324FDDB3C75368A297B99375ACF77ADBCAB01C7DD4F7DF5D9
+          A74F7D39CF7B721170F6BFCE3F16B6E25F8D929456EBDEF2F1003177AE175262
+          2ED933BC999E22A5BBD326A3FE41BE70F84FF8F1C33FF74B2F7DEBA54FE69121
+          DFF98056EBD9C11DDB7A664A65AC557A7B7B181D1E667868304F338B7030DCE4
+          6DCADC401DA5A5752A32414A775165D1D9C68F0CFC2C477A3F8E444250F44C20
+          FD7F033CD8AD0CB9C6F22BAFBE9E789E675AD1ED66E9B92E83833B181E1AA2B7
+          D8439224349B4DC230240CC375E380C8868CEB3B4CCA452A8CA3B2FA1C2F08A3
+          FE210E151EE560CFC770C42C93C3C3AAA55C9AD9FED9CF7CBAD28D4E39032135
+          8DC69DE1679AA48C8F4F323E9EE50382202008FC6C4303B069BA18E8DC5D089F
+          BDFA51F6D88FA04E4ADD2D139A2AB1139210E18A4FC1E9639B1965C8BB0F4F0A
+          993429A42CED09A649CAC2428D99E999AE3B361701BDC502E5B9F5E3FCA4D1A0
+          7E17A23208627C5CE3E1FA592EA013FE8A08220E43EC59BD710B09AB6CCDAB72
+          F9BD4BB9CC3A1701BEE73132B483E95279C367FF5685D2267663E70E542DB76E
+          BC4F657E0E7F2BCE07BCF6DA6B02D05BECE1F0817D4CCD94999D9BDF80A89B8F
+          3489992DCF50AB66C33E6C36BB3682AECE929C3C79520606069CD1D1D13F765D
+          17CFF318191E6274741841A8371AA469BAB8EBFB411400DF73114D6936EAB739
+          DB5AADF657478F1E0D0B8582DCBAB5F689DA75993A71E284B37FFF7E333F3FEF
+          3EF3CC338D2008F07D9FCED5F77D8C7199AF54982995989A9EA1565BD8929323
+          AEEB522C04F4F5F5D2D75B646161816AB5BA582A950AD56A95F3E7CFEF36C694
+          262727536BAD5EB870615561D61C02274E9C700073FDFA751FE859ED39631C76
+          8E8EB067F718511451ABD52895CACC572A2CD41B593E208E499214B576ED349A
+          EA6DF900CF35789E4721F01709F73C6FCDEDF246A351ACD56A3E10913995FC04
+          9C387142C82245AFADFCC05A72DFD6A8EBB26DDB0041E0B36D9538204E12D2F5
+          F2016E760CC675CDE2E9F16E60ADED07AA6DC5F5C48913AB5AC15A1620643EC2
+          077A811D5D4BD005B6723565ADDD0154C87ADFB6CB5D09B82BADCB7ADF050A40
+          3F9B4CC0564255B7037D4040A683D3D6E90EAC6557CB2DA008F497CBE5894D96
+          75D3912449B5D56AB964561B90E9B0AAC1AD4780D36EC003FC53A74EBDB489B2
+          6E092E5FBE7C5A553D32990D990E1B220096C68D029C3973E6BBCF3FFFFC6955
+          DDFAEDE09C50557DE7DD77BF75E5CA9573B49D5F37F5D672821DE791002DA009
+          345F78E185FFBC7CF9F2CCC993273F79E4C891D17B157C33303737573E7DFAF4
+          CB376EDC781B680021D91498B0CE3478D748706C6C4CB873087888B802A65C2E
+          D75F3A7DFAFBD7AF5D2B0F0E0EF68C8D8D0D1863C4711CD234BD6DA99B2449B6
+          1FB0A22CDFE75B1EDD497BFEEF1463CC1D5793A5C9F5D2A54BE32FBEF8E2EBA7
+          4F9FFE8F4AA5320ECC03B3401998036A6D3262402726EE7461AB8E8D7610E4B2
+          14030C02C322322C2283C080881445A4B073E7CEED4F3EF9E491C71F7FFCC0B1
+          63C776AB6A90271F70D738C0183A6177E7AAAAD1CD5BB7262E5EBC78EDDB172E
+          5C9A99999955D5964203D5AAAACE2994502DB549A892596E7CE1C285BB0EDBB5
+          08581908F503DB456487886C6F13D08F4851A020223E229E31C63B78E0C0F0A1
+          438776EDDAB56B68686868C7B66DDB067A7A7AFA44A4A71B02ACB56118860BB5
+          5AAD56AD56E7CAE572696262627A7C62623A4D92585563556D01A1AA36557581
+          EC3787F3AA3AD7B6845A4779205D2D105A331E6993D0190205A028227D88F40B
+          F4B7FFEE95EC7E019140B2A1E209B822E222E2081844C435C62DF6F606BEEFFB
+          9EEBFA88386DF3D7388A5A711CC7CD66334CB2959555B0A8A60A29AA89AAC60A
+          11AA2D550D159AA8D6DB042CA86A4D556B647E605DE5D72560050906F0DB8AF6
+          08F48848B14D4A0F220581404402447C59F2192E2246C041C490ED73663EA613
+          CF67E3BF735C40DBCAA7CB948F15625423558D8096AA36DB043455B50134DBD6
+          B0DC01DAD54CBF6B029691E0008E88B8802722BE8804DCAE74E7EA77AC601909
+          99256444749C6CE7FD1DC595F699265453205548C84C3E0662558D145A6D2B68
+          B5C9888048338252DA21F05A3D9F8B80652420221D220C6D336F9B7A47E1958A
+          BBED2190D5EB04264B24B04C79D5CEF4BB6405C9322B48DADFE3362909906836
+          3C52C0B67F83BCE61278430474F0E8A38F76889036114EBB77335296C67CC7EC
+          3B3D2FEDBF977ABFB3A66D0B4D6718ACB08415BEC02E53B6F38CCD5A51CE9F3F
+          9F2B11714F8BB21F7DEC3159C6862CBB3ACBBE3BED27167B5D3AEF5EE103DA1F
+          4BD69075A75DF6BDA3A82EBBF2E69B6F6E38FBF27FEB97AEB789D88CD8000000
+          0049454E44AE426082
+        }
+        Proportional = True
+        Stretch = True
+        Transparent = True
+      end
+    end
+    object TopRightPanel: TPanel
+      Left = 96
+      Height = 96
+      Top = 0
+      Width = 455
+      HelpType = htKeyword
+      Align = alClient
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 96
+      ClientWidth = 455
+      TabOrder = 1
+      object TitleLabel: TLabel
+        Left = 8
+        Height = 29
+        Top = 8
+        Width = 439
+        Align = alTop
+        BorderSpacing.Around = 8
+        Caption = 'TitleLabel'
+        Font.Height = -24
+        ParentColor = False
+        ParentFont = False
+      end
+      object DescriptionLabel: TLabel
+        Left = 8
+        Height = 43
+        Top = 45
+        Width = 439
+        Align = alClient
+        BorderSpacing.Around = 8
+        Caption = 'DescriptionLabel'
+        ParentColor = False
+        ParentShowHint = False
+        WordWrap = True
+      end
+    end
+  end
+  object BottomPanel: TPanel
+    Left = 0
+    Height = 41
+    Top = 403
+    Width = 551
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 41
+    ClientWidth = 551
+    TabOrder = 1
+    object CancelButton: TButton
+      Left = 8
+      Height = 25
+      Top = 8
+      Width = 75
+      Align = alLeft
+      BorderSpacing.Around = 8
+      Cancel = True
+      Caption = 'Cancel'
+      ModalResult = 2
+      OnClick = CancelButtonClick
+      TabOrder = 0
+    end
+    object BackButton: TButton
+      Left = 385
+      Height = 25
+      Top = 8
+      Width = 75
+      Align = alRight
+      BorderSpacing.Around = 8
+      Caption = 'Back'
+      OnClick = BackButtonClick
+      TabOrder = 1
+    end
+    object NextButton: TButton
+      Left = 468
+      Height = 25
+      Top = 8
+      Width = 75
+      Align = alRight
+      BorderSpacing.Around = 8
+      Caption = 'Next'
+      OnClick = NextButtonClick
+      TabOrder = 2
+    end
+  end
+  object CenterPanel: TPanel
+    Left = 0
+    Height = 307
+    Top = 96
+    Width = 551
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 307
+    ClientWidth = 551
+    TabOrder = 2
+    object PageControl: TPageControl
+      Left = 0
+      Height = 307
+      Top = 0
+      Width = 551
+      ActivePage = Step1TabSheet
+      Align = alClient
+      TabIndex = 0
+      TabOrder = 0
+      Options = [nboHidePageListPopup]
+      object Step1TabSheet: TTabSheet
+        Caption = 'Step1TabSheet'
+        ClientHeight = 276
+        ClientWidth = 547
+        object Panel1: TPanel
+          Left = 0
+          Height = 276
+          Top = 0
+          Width = 547
+          Align = alClient
+          BevelOuter = bvNone
+          ClientHeight = 276
+          ClientWidth = 547
+          TabOrder = 0
+          object DatabaseTypeLabel: TLabel
+            Left = 12
+            Height = 18
+            Top = 17
+            Width = 65
+            Caption = 'Database'
+            ParentColor = False
+          end
+          object DatabaseTypeComboBox: TComboBox
+            Left = 180
+            Height = 31
+            Top = 11
+            Width = 352
+            Align = alCustom
+            Anchors = [akTop, akLeft, akRight]
+            ItemHeight = 0
+            Style = csDropDownList
+            TabOrder = 0
+          end
+          object HostnameLabel: TLabel
+            Left = 12
+            Height = 18
+            Top = 55
+            Width = 146
+            Caption = 'Hostname/IP address'
+            ParentColor = False
+          end
+          object HostnameEdit: TEdit
+            Left = 180
+            Height = 27
+            Top = 51
+            Width = 352
+            Align = alCustom
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = False
+            TabOrder = 1
+          end
+          object HostportEdit: TEdit
+            Left = 180
+            Height = 27
+            Top = 83
+            Width = 352
+            Align = alCustom
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = False
+            TabOrder = 2
+          end
+          object LoginEdit: TEdit
+            Left = 180
+            Height = 27
+            Top = 115
+            Width = 352
+            Align = alCustom
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = False
+            TabOrder = 3
+          end
+          object HostportLabel: TLabel
+            Left = 12
+            Height = 18
+            Top = 87
+            Width = 66
+            Caption = 'Host port'
+            ParentColor = False
+          end
+          object LoginLabel: TLabel
+            Left = 12
+            Height = 18
+            Top = 119
+            Width = 38
+            Caption = 'Login'
+            ParentColor = False
+          end
+          object PasswordLabel: TLabel
+            Left = 12
+            Height = 18
+            Top = 151
+            Width = 67
+            Caption = 'Password'
+            ParentColor = False
+          end
+          object PasswordEdit: TEdit
+            Left = 180
+            Height = 27
+            Top = 147
+            Width = 352
+            Align = alCustom
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = False
+            EchoMode = emPassword
+            PasswordChar = '*'
+            TabOrder = 4
+          end
+          object Button1: TButton
+            Left = 457
+            Height = 25
+            Top = 211
+            Width = 75
+            Caption = 'Connect'
+            OnClick = Button1Click
+            TabOrder = 6
+          end
+          object CatalogLabel: TLabel
+            Left = 12
+            Height = 18
+            Top = 183
+            Width = 92
+            Caption = 'Initial catalog'
+            ParentColor = False
+          end
+          object CatalogEdit: TEdit
+            Left = 180
+            Height = 27
+            Top = 179
+            Width = 352
+            Align = alCustom
+            Anchors = [akTop, akLeft, akRight]
+            AutoSize = False
+            TabOrder = 5
+          end
+        end
+      end
+      object Step2TabSheet: TTabSheet
+        Caption = 'Step2TabSheet'
+        ClientHeight = 276
+        ClientWidth = 547
+        object Panel2: TPanel
+          Left = 0
+          Height = 246
+          Top = 0
+          Width = 563
+          Align = alClient
+          BevelOuter = bvNone
+          TabOrder = 0
+        end
+      end
+      object Step3TabSheet: TTabSheet
+        Caption = 'Step3TabSheet'
+        ClientHeight = 276
+        ClientWidth = 547
+        object Panel3: TPanel
+          Left = 0
+          Height = 276
+          Top = 0
+          Width = 547
+          Align = alClient
+          BevelOuter = bvNone
+          TabOrder = 0
+        end
+      end
+    end
+  end
+end

@@ -1,0 +1,6 @@
+LazORM
+
+Step 1:
+	- Create new Object Relation Model
+	- Update Object Relation Model
+		should appear if there has already been created an ORM file in the project.

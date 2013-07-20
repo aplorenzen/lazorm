@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <General>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="lazorm"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
+    </General>
+    <LazDoc Paths="fpdoc"/>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="SQLDBLaz"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="6">
+      <Unit0>
+        <Filename Value="lazorm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="lazorm"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="ui/flazormnewmodelwizard.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="loNewModelForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="flazormnewmodelwizard"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="common/ulazormtypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulazormtypes"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="common/ulazormutils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulazormutils"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="common/ulazormconstants.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulazormconstants"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uclassbuilder"/>
+      </Unit5>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <Target>
+      <Filename Value="lazorm"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <Libraries Value="/usr/local/lib/;/usr/lib/"/>
+      <OtherUnitFiles Value="common;codebuilder;ui"/>
+      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerMessages>
+        <MsgFileName Value=""/>
+      </CompilerMessages>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

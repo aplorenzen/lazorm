@@ -1,0 +1,326 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="31">
+      <Unit0>
+        <Filename Value="lazorm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="lazorm"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="40" Y="5"/>
+        <UsageCount Value="27"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="ui/flazormnewmodelwizard.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="loNewModelForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="flazormnewmodelwizard"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="10"/>
+        <CursorPos X="37" Y="16"/>
+        <UsageCount Value="27"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="common/ulazormtypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulazormtypes"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="18" Y="1"/>
+        <UsageCount Value="27"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="common/ulazormutils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulazormutils"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="3" Y="10"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="common/ulazormconstants.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulazormconstants"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="3" Y="9"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uclassbuilder"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="94"/>
+        <CursorPos X="10" Y="118"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="../unit1.pas"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="22"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../../lorm/ide/frmlormnewmodel.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/sqldb/mssql/mssqlconn.pp"/>
+        <UnitName Value="mssqlconn"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="859"/>
+        <CursorPos X="24" Y="861"/>
+        <UsageCount Value="12"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <UnitName Value="sqldb"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="464"/>
+        <CursorPos X="17" Y="479"/>
+        <UsageCount Value="12"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fpgtk/src/fpglib.pp"/>
+        <UnitName Value="FPGlib"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="18"/>
+        <CursorPos X="33" Y="26"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fpgtk/src/fpgtk.pp"/>
+        <UnitName Value="FPgtk"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="10780"/>
+        <CursorPos X="29" Y="10800"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fpgtk/src/fpgtkext.pp"/>
+        <UnitName Value="FPgtkExt"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="154"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/gtk1/src/glib/glib.pp"/>
+        <UnitName Value="glib"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="131"/>
+        <CursorPos X="4" Y="143"/>
+        <UsageCount Value="10"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/rtl/objpas/fgl.pp"/>
+        <UnitName Value="fgl"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="103"/>
+        <CursorPos X="19" Y="106"/>
+        <UsageCount Value="10"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/sqldb/interbase/ibconnection.pp"/>
+        <UnitName Value="IBConnection"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="97"/>
+        <CursorPos X="42" Y="117"/>
+        <UsageCount Value="10"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/sqldb/sqlite/sqlite3conn.pp"/>
+        <UnitName Value="sqlite3conn"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="84"/>
+        <CursorPos X="47" Y="104"/>
+        <UsageCount Value="10"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/sqldb/mysql/mysql40conn.pas"/>
+        <UnitName Value="mysql40conn"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="24" Y="7"/>
+        <UsageCount Value="10"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/sqldb/mysql/mysqlconn.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1122"/>
+        <CursorPos X="3" Y="1124"/>
+        <UsageCount Value="10"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/sqldb/mysql/mysql41conn.pas"/>
+        <UnitName Value="mysql41conn"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/sqldb/odbc/odbcconn.pas"/>
+        <UnitName Value="odbcconn"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="122"/>
+        <CursorPos X="21" Y="142"/>
+        <UsageCount Value="10"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/sqldb/oracle/oracleconnection.pp"/>
+        <UnitName Value="oracleconnection"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="77"/>
+        <CursorPos X="23" Y="97"/>
+        <UsageCount Value="10"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/packages/fcl-db/src/sqldb/postgres/pqconnection.pp"/>
+        <UnitName Value="pqconnection"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="75"/>
+        <CursorPos X="19" Y="95"/>
+        <UsageCount Value="10"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/rtl/inc/objpash.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="180"/>
+        <CursorPos X="23" Y="192"/>
+        <UsageCount Value="11"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="/usr/share/lazarus/1.0.10/ideintf/projectintf.pas"/>
+        <UnitName Value="ProjectIntf"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="17" Y="18"/>
+        <UsageCount Value="10"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="/usr/share/lazarus/1.0.10/components/lazutils/fileutil.pas"/>
+        <UnitName Value="FileUtil"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="65"/>
+        <CursorPos X="1" Y="76"/>
+        <UsageCount Value="10"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="/usr/share/lazarus/1.0.10/components/lazutils/fileutil.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="278"/>
+        <CursorPos X="3" Y="285"/>
+        <UsageCount Value="10"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="/usr/share/lazarus/1.0.10/lcl/include/customform.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="2"/>
+        <UsageCount Value="11"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/rtl/unix/sysutils.pp"/>
+        <UnitName Value="sysutils"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="11"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="/usr/share/fpcsrc/2.6.2/rtl/objpas/classes/classesh.inc"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="712"/>
+        <CursorPos X="3" Y="727"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="../../lorm/ide/frmlormnewmodel.pas"/>
+        <UnitName Value="frmLORMNewModel"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="92"/>
+        <CursorPos X="27" Y="92"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit30>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="10" HistoryIndex="9">
+      <Position1>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Caret Line="199" Column="17" TopLine="184"/>
+      </Position2>
+      <Position3>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Caret Line="222" Column="3" TopLine="220"/>
+      </Position3>
+      <Position4>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Caret Line="76" Column="17" TopLine="58"/>
+      </Position4>
+      <Position5>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Caret Line="221" Column="13" TopLine="219"/>
+      </Position5>
+      <Position6>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Caret Line="96" Column="17" TopLine="80"/>
+      </Position6>
+      <Position7>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Caret Line="219" Column="13" TopLine="217"/>
+      </Position7>
+      <Position8>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Caret Line="136" Column="17" TopLine="118"/>
+      </Position8>
+      <Position9>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Caret Line="112" Column="17" TopLine="94"/>
+      </Position9>
+      <Position10>
+        <Filename Value="../../lorm/ide/frmlormnewmodel.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position10>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>
