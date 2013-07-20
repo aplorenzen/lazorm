@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 # Ignore backup directories
-/src/backup
+backup
 /src/lib
 .*~
-=======
-# Backup and library folders
-backup/
-lib/
->>>>>>> dd5f4aaa63e6b3c2228c1fcb07a6749d89fe0fb7
+

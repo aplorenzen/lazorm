@@ -39,7 +39,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="8">
       <Unit0>
         <Filename Value="lazorm.pas"/>
         <IsPartOfProject Value="True"/>
@@ -73,6 +73,15 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uclassbuilder"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="../.gitignore"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="common/xmlserializer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="XMLSerializer"/>
+      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -86,6 +95,11 @@
       <OtherUnitFiles Value="common;codebuilder;ui"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
+    <CodeGeneration>
+      <Optimizations>
+        <OptimizationLevel Value="0"/>
+      </Optimizations>
+    </CodeGeneration>
     <Linking>
       <Options>
         <Win32>

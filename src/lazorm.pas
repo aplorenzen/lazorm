@@ -12,7 +12,7 @@ uses
   flazormnewmodelwizard,
   ulazormtypes,
   ulazormutils,
-  ulazormconstants, uclassbuilder;
+  ulazormconstants, XMLSerializer, uclassbuilder;
 
 {$R *.res}
 

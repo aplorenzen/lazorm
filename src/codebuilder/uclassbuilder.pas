@@ -52,21 +52,31 @@ type
   TfpClassVariableList = class;
   TfpClassProperty = class;
   TfpClassPropertyList = class;
+  TfpUnit = class;
+  TpfUnitList = class;
 
-  IfpClassElement = interface(IInterface)
-    ['{294F48AA-5C20-4B01-97A9-C7D7CEB633B2}']
+  TfpCodeBuilderConfiguration
+
+  IfpNamedElement = interface(IInterface)
+    ['{035C5796-ABB1-4523-A20A-4A7AC382CF47}']
     function GetName: String;
     procedure SetName(AName: String);
-    function GetClassDeclaration: String;
     property Name: String read GetName write SetName;
+  end;
+
+  TfpNamedElementList = class(specialize TFPGList<IfpNamedElement>);
+
+  IfpNamedClassElement = interface(IfpNamedElement)
+    ['{294F48AA-5C20-4B01-97A9-C7D7CEB633B2}']
+    function GetClassDeclaration: String;
     property ClassDeclaration: String read GetClassDeclaration;
   end;
 
-  TfpClassElementList = class(specialize TFPGList<IfpClassElement>);
+  TfpNamedClassElementList = class(specialize TFPGList<IfpNamedClassElement>);
 
   { TfpMethodParameter }
 
-  TfpMethodParameter = class(TObject)
+  TfpMethodParameter = class(TInterfacedPersistent, IfpNamedElement)
   private
     fParameterName: String;
     fParameterType: String;
@@ -76,6 +86,9 @@ type
     constructor Create;
     destructor Destroy; override;
 
+    function GetName: String;
+    procedure SetName(AName: String);
+
     property ParameterName: String read fParameterName write fParameterName;
     property ParameterType: String read fParameterType write fParameterType;
     property ParameterDefault: String read fParameterDefault write fParameterDefault;
@@ -84,7 +97,7 @@ type
 
   TfpMethodParameterList = class(specialize TFPGList<TfpMethodParameter>);
 
-  TfpMethod = class(TInterfacedObject, IInterface)
+  TfpMethod = class(TInterfacedPersistent, IfpNamedElement)
   private
     fMethodType: TfpMethodType;
     fMethodName: String;
@@ -95,6 +108,9 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+
+    function GetName: String;
+    procedure SetName(AName: String);
 
     property MethodType: TfpMethodType read fMethodType write fMethodType;
     property MethodName: String read fMethodName write fMethodName;
@@ -108,17 +124,15 @@ type
 
   { TfpClassMethod }
 
-  TfpClassMethod = class(TfpMethod, IfpClassElement)
+  TfpClassMethod = class(TfpMethod, IfpNamedClassElement)
   private
     fOwnerClass: TfpClass;
     fClassSection : TfpClassSection;
-
-    function GetName: String;
-    procedure SetName(AName: String);
-    function GetClassDeclaration: String;
   public
     constructor Create;
     destructor Destroy; override;
+
+    function GetClassDeclaration: String;
 
     property OwnerClass: TfpClass read fOwnerClass write fOwnerClass;
     property ClassSection: TfpClassSection read fClassSection  write fClassSection ;
@@ -128,13 +142,16 @@ type
 
   { TfpVariable }
 
-  TfpVariable = class(TInterfacedObject, IInterface)
+  TfpVariable = class(TInterfacedObject, IfpNamedElement)
   private
     fVariableName: String;
     fVariableType: String;
   public
     constructor Create;
     destructor Destroy; override;
+
+    function GetName: String;
+    procedure SetName(AName: String);
 
     property VariableName: String read fVariableName write fVariableName;
     property VariableType: String read fVariableType write fVariableType;
@@ -144,17 +161,16 @@ type
 
   { TfpClassVariable }
 
-  TfpClassVariable = class(TfpVariable, IfpClassElement)
+  TfpClassVariable = class(TfpVariable, IfpNamedClassElement)
   private
     fOwnerClass: TfpClass;
     fClassSection : TfpClassSection;
 
-    function GetName: String;
-    procedure SetName(AName: String);
-    function GetClassDeclaration: String;
   public
     constructor Create;
     destructor Destroy; override;
+
+    function GetClassDeclaration: String;
 
     property OwnerClass: TfpClass read fOwnerClass write fOwnerClass;
     property ClassSection : TfpClassSection read fClassSection  write fClassSection ;
@@ -164,28 +180,29 @@ type
 
   { TfpClassProperty }
 
-  TfpClassProperty = class(TInterfacedObject, IfpClassElement)
+  TfpClassProperty = class(TInterfacedObject, IfpNamedClassElement)
   private
     fOwnerClass: TfpClass;
     fClassSection : TfpClassSection;
     fPropertyName: String;
     fPropertyType: String;
-    fPropertyReadElement: IfpClassElement;
-    fPropertyWriteElement: IfpClassElement;
+    fPropertyReadElement: IfpNamedClassElement;
+    fPropertyWriteElement: IfpNamedClassElement;
+
+  public
+    constructor Create;
+    destructor Destroy; override;
 
     function GetName: String;
     procedure SetName(AName: String);
     function GetClassDeclaration: String;
-  public
-    constructor Create;
-    destructor Destroy; override;
 
     property OwnerClass: TfpClass read fOwnerClass write fOwnerClass;
     property ClassSection : TfpClassSection read fClassSection  write fClassSection ;
     property PropertyName: String read fPropertyName write fPropertyName;
     property PropertyType: String read fPropertyType write fPropertyType;
-    property PropertyReadElement: IfpClassElement read fPropertyReadElement write fPropertyReadElement;
-    property PropertyWriteElement: IfpClassElement read fPropertyWriteElement write fPropertyWriteElement;
+    property PropertyReadElement: IfpNamedClassElement read fPropertyReadElement write fPropertyReadElement;
+    property PropertyWriteElement: IfpNamedClassElement read fPropertyWriteElement write fPropertyWriteElement;
   end;
 
   TfpClassPropertyList = class(specialize TFPGList<TfpClassProperty>);
@@ -198,7 +215,7 @@ type
     fClassVariableList: TfpClassVariableList;
     fClassMethodList: TfpClassMethodList;
     fClassPropertyList: TfpClassPropertyList;
-    fClassElementList: TfpClassElementList;
+    fClassElementList: TfpNamedClassElementList;
   public
     constructor Create;
     destructor Destroy; override;
@@ -209,12 +226,45 @@ type
     property ClassVariableList: TfpClassVariableList read fClassVariableList write fClassVariableList;
     property ClassMethodList: TfpClassMethodList read fClassMethodList write fClassMethodList;
     property ClassPropertyList: TfpClassPropertyList read fClassPropertyList write fClassPropertyList;
-    property ClassElementList: TfpClassElementList read fClassElementList write fClassElementList;
+    property ClassElementList: TfpNamedClassElementList read fClassElementList write fClassElementList;
   end;
 
   TfpClassList = class(specialize TFPGList<TfpClass>);
 
+  { TfpUnit }
+
+  TfpUnit = class(TInterfacedPersistent, IfpNamedElement)
+  private
+    fUnitName: String;
+    fUnitTopCommentBlock: TStringList;
+    fUnitTopCompilerDirectives: TStringList;
+    fUnitInterfaceUsesList: TStringList;
+    fUnitImplementationUsesList: TStringList;
+    fUnitMethods: TfpMethodList;
+    fUnitVariabled: TfpVariableList;
+    fUnitInitialization: TStringList;
+    fUnitFinalization: TStringList;
+    fUnitClassList TfpClassList;
+    fUnitConstants: TStringList;
+    // TODO -oAPL -cClassBuilders 5: Intefaces, records, constants, sets... and more?
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
 implementation
+
+{ TfpUnit }
+
+constructor TfpUnit.Create;
+begin
+  inherited;
+end;
+
+destructor TfpUnit.Destroy;
+begin
+  inherited Destroy;
+end;
 
 { TfpVariable }
 
@@ -228,6 +278,16 @@ begin
   inherited Destroy;
 end;
 
+function TfpVariable.GetName: String;
+begin
+  Result := fVariableName;
+end;
+
+procedure TfpVariable.SetName(AName: String);
+begin
+  fVariableName := AName;
+end;
+
 constructor TfpMethod.Create;
 begin
   inherited;
@@ -236,6 +296,16 @@ end;
 destructor TfpMethod.Destroy;
 begin
   inherited Destroy;
+end;
+
+function TfpMethod.GetName: String;
+begin
+  Result := fMethodName;
+end;
+
+procedure TfpMethod.SetName(AName: String);
+begin
+  fMethodName := AName;
 end;
 
 { TfpMethodParameter }
@@ -248,6 +318,16 @@ end;
 destructor TfpMethodParameter.Destroy;
 begin
   inherited Destroy;
+end;
+
+function TfpMethodParameter.GetName: String;
+begin
+  Result := fParameterName;
+end;
+
+procedure TfpMethodParameter.SetName(AName: String);
+begin
+  fParameterName := AName;
 end;
 
 constructor TfpClass.Create;
@@ -289,16 +369,6 @@ end;
 
 { TfpClassVariable }
 
-function TfpClassVariable.GetName: String;
-begin
-  Result := fVariableName;
-end;
-
-procedure TfpClassVariable.SetName(AName: String);
-begin
-  fVariableName := AName;
-end;
-
 function TfpClassVariable.GetClassDeclaration: String;
 begin
   // TODO: Make code that generates the declaration
@@ -314,19 +384,7 @@ begin
   inherited Destroy;
 end;
 
-
-
 { TfpClassMethod }
-
-function TfpClassMethod.GetName: String;
-begin
-  Result := fMethodName;
-end;
-
-procedure TfpClassMethod.SetName(AName: String);
-begin
-  fMethodName := AName;
-end;
 
 function TfpClassMethod.GetClassDeclaration: String;
 begin
