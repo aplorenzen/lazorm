@@ -7,12 +7,12 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms,
+  Forms, log4fpc,
 
   flazormnewmodelwizard,
   ulazormtypes,
   ulazormutils,
-  ulazormconstants, XMLSerializer, uclassbuilder;
+  ulazormconstants, uclassbuilder;
 
 {$R *.res}
 

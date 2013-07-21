@@ -15,6 +15,11 @@
       <EnableI18N LFM="False"/>
     </i18n>
     <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <AutoIncrementBuild Value="True"/>
+      <MinorVersionNr Value="5"/>
+      <RevisionNr Value="1"/>
+      <BuildNr Value="13"/>
       <StringTable ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -31,15 +36,18 @@
         <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="SQLDBLaz"/>
+        <PackageName Value="log4fpc"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
     </RequiredPackages>
-    <Units Count="8">
+    <Units Count="7">
       <Unit0>
         <Filename Value="lazorm.pas"/>
         <IsPartOfProject Value="True"/>
@@ -77,11 +85,6 @@
         <Filename Value="../.gitignore"/>
         <IsPartOfProject Value="True"/>
       </Unit6>
-      <Unit7>
-        <Filename Value="common/xmlserializer.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="XMLSerializer"/>
-      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, sqldb, IBConnection, sqlite3conn, mysql40conn, mysql41conn,
   mysql50conn, mysql51conn, mysql55conn, odbcconn, oracleconnection,
   pqconnection, mssqlconn, FileUtil, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, StdCtrls, ComCtrls, LCLProc, MaskEdit, LazIDEIntf, ProjectIntf,
+  ExtCtrls, StdCtrls, ComCtrls, LCLProc, LazIDEIntf, ProjectIntf,
 
   ulazormtypes,
   ulazormutils;

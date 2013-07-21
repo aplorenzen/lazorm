@@ -27,7 +27,6 @@ interface
 {$mode objfpc}{$H+}
 
 uses
-  xmlconf
   Classes, Controls,
   XMLDoc, XMLIntf, TypInfo, Variants, SysUtils, XmlDom;
 

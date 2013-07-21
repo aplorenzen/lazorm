@@ -9,8 +9,7 @@ uses
   SysUtils,
   FileUtil,
 
-  ulazormconstants,
-  ulazormtypes;
+  ulazormconstants;
 
 function FilenameIsLazORMUnit(const AFileName: String): Boolean;
 
