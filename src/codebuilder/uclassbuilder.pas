@@ -15,6 +15,7 @@ uses
 
 type
   TcbMethodParameterModifier = (
+    mpmNone,
     mpmOut,
     mpmConst,
     mpmVar);
@@ -125,6 +126,14 @@ type
     function GetOwnerComponent: TcbComponent; virtual;
   end;
 
+  { TcbComponentList }
+
+  TcbComponentList = class(specialize TFPGList<TcbComponent>)
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
   { TcbMethodParameter }
 
   TcbMethodParameter = class(TcbComponent, IcbNamedElement)
@@ -134,7 +143,12 @@ type
     fParameterDefault: String;
     fParameterModifier: TcbMethodParameterModifier;
   public
-    constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(
+      AOwner: TcbComponent;
+      AParameterName: String;
+      AParameterType: String;
+      AParameterModifier: TcbMethodParameterModifier = mpmNone;
+      AParameterDefault: String = '');
     destructor Destroy; override;
     function GetElementName: String;
     procedure SetElementName(AName: String);
@@ -145,31 +159,52 @@ type
     property ParameterModifier: TcbMethodParameterModifier read fParameterModifier write fParameterModifier;
   end;
 
-  TcbMethodParameterList = class(specialize TFPGList<TcbMethodParameter>);
+  { TcbMethodParameterList }
+
+  TcbMethodParameterList = class(specialize TFPGList<TcbMethodParameter>)
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function WriteMethodParameters: String;
+  end;
 
   TcbMethod = class(TcbComponent, IcbNamedElement)
   private
     fMethodType: TcbMethodType;
     fMethodName: String;
     fReturnType: String;
+    fMethodDirectives: TcbMethodDirectives;
     fParameterList: TcbMethodParameterList;
     fImplementationVars: TcbVariableList;
     fMethodImplementation: TStringList;
   public
-    constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(
+      AOwner: TcbComponent;
+      AMethodName: String;
+      AMethodType: TcbMethodType = mtProcedure;
+      AMethodDirectives: TcbMethodDirectives = [];
+      AReturnType: String = '');
     destructor Destroy; override;
     function GetElementName: String;
     procedure SetElementName(AName: String);
+    function WriteMethodPrototype: String; virtual;
   published
     property MethodType: TcbMethodType read fMethodType write fMethodType;
     property MethodName: String read fMethodName write fMethodName;
     property ReturnType: String read fReturnType write fReturnType;
+    property MethodDirectives: TcbMethodDirectives read fMethodDirectives write fMethodDirectives;
     property ParameterList: TcbMethodParameterList read fParameterList write fParameterList;
     property ImplementationVars: TcbVariableList read fImplementationVars write fImplementationVars;
     property MethodImplementation: TStringList read fMethodImplementation write fMethodImplementation;
   end;
 
-  TcbMethodList = class(specialize TFPGList<TcbMethod>);
+  { TcbMethodList }
+
+  TcbMethodList = class(specialize TFPGList<TcbMethod>)
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
 
   { TcbClassMethod }
 
@@ -178,7 +213,7 @@ type
     fOwnerClass: TcbClass;
     fClassSection : TcbClassSection;
   public
-    constructor Create(AOwner: TcbClass; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(AOwner: TcbClass);
     destructor Destroy; override;
     function GetClassDeclaration: String;
     function GetOwnerClass: TcbClass;
@@ -187,7 +222,13 @@ type
     property ClassSection: TcbClassSection read fClassSection  write fClassSection ;
   end;
 
-  TcbClassMethodList = class(specialize TFPGList<TcbClassMethod>);
+  { TcbClassMethodList }
+
+  TcbClassMethodList = class(specialize TFPGList<TcbClassMethod>)
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
 
   { TcbVariable }
 
@@ -196,8 +237,11 @@ type
     fVariableName: String;
     fVariableType: String;
   public
-    constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
-    destructor Destroy; override;
+    constructor Create(
+      AOwner: TcbComponent;
+      AVariableName: String;
+      AVariableType: String);
+      destructor Destroy; override;
     function GetElementName: String;
     procedure SetElementName(AName: String);
   published
@@ -205,7 +249,13 @@ type
     property VariableType: String read fVariableType write fVariableType;
   end;
 
-  TcbVariableList = class(specialize TFPGList<TcbVariable>);
+  { TcbVariableList }
+
+  TcbVariableList = class(specialize TFPGList<TcbVariable>)
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
 
   { TcbClassVariable }
 
@@ -214,7 +264,7 @@ type
     fOwnerClass: TcbClass;
     fClassSection : TcbClassSection;
   public
-    constructor Create(AOwner: TcbClass; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(AOwner: TcbClass);
     destructor Destroy; override;
     function GetClassDeclaration: String;
     function GetOwnerClass: TcbClass;
@@ -224,7 +274,13 @@ type
     property ClassSection : TcbClassSection read fClassSection  write fClassSection ;
   end;
 
-  TcbClassVariableList = class(specialize TFPGList<TcbClassVariable>);
+  { TcbClassVariableList }
+
+  TcbClassVariableList = class(specialize TFPGList<TcbClassVariable>)
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
 
   { TcbClassProperty }
 
@@ -237,7 +293,13 @@ type
     fPropertyReadElement: IcbNamedClassElement;
     fPropertyWriteElement: IcbNamedClassElement;
   public
-    constructor Create(AOwner: TcbClass; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(
+      AOwner: TcbClass;
+      APropertyName: String;
+      APropertyType: String;
+      AClassSection : TcbClassSection = csPackage;
+      APropertyReadElement: IcbNamedClassElement = nil;
+      APropertyWriteElement: IcbNamedClassElement = nil);
     destructor Destroy; override;
     function GetElementName: String;
     procedure SetElementName(AName: String);
@@ -252,12 +314,19 @@ type
     property PropertyWriteElement: IcbNamedClassElement read fPropertyWriteElement write fPropertyWriteElement;
   end;
 
-  TcbClassPropertyList = class(specialize TFPGList<TcbClassProperty>);
+  { TcbClassPropertyList }
+
+  TcbClassPropertyList = class(specialize TFPGList<TcbClassProperty>)
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
 
   TcbClass = class(TcbComponent, IcbNamedElement)
   private
     fOwnerUnit: TcbUnit;
     fClassName: String;
+    fHasClassForwardDeclaration: Boolean;
     fExtendingClass: String;
     fImplementingInterfaces: TStringList;
     fClassVariableList: TcbClassVariableList;
@@ -265,7 +334,7 @@ type
     fClassPropertyList: TcbClassPropertyList;
     fClassElementList: TcbNamedClassElementList;
   public
-    constructor Create(AOwner: TcbUnit; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(AOwner: TcbUnit);
     destructor Destroy; override;
     function GetElementName: String;
     procedure SetElementName(AName: String);
@@ -277,9 +346,16 @@ type
     property ClassMethodList: TcbClassMethodList read fClassMethodList write fClassMethodList;
     property ClassPropertyList: TcbClassPropertyList read fClassPropertyList write fClassPropertyList;
     property ClassElementList: TcbNamedClassElementList read fClassElementList write fClassElementList;
+    property HasClassForwardDeclaration: Boolean read fHasClassForwardDeclaration write fHasClassForwardDeclaration;
   end;
 
-  TcbClassList = class(specialize TFPGList<TcbClass>);
+  { TcbClassList }
+
+  TcbClassList = class(specialize TFPGList<TcbClass>)
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
 
   { TcbUnit }
 
@@ -292,14 +368,14 @@ type
     fUnitInterfaceUsesList: TStringList;
     fUnitImplementationUsesList: TStringList;
     fUnitMethods: TcbMethodList;
-    fUnitVariabled: TcbVariableList;
+    fUnitVariables: TcbVariableList;
     fUnitInitialization: TStringList;
     fUnitFinalization: TStringList;
     fUnitClassList: TcbClassList;
     fUnitConstants: TStringList;
     // TODO -oAPL -cClassBuilder 5: Intefaces, records, constants, sets... and more?
   public
-    constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(AOwner: TcbComponent);
     destructor Destroy; override;
     function GetElementName: String;
     procedure SetElementName(AName: String);
@@ -311,14 +387,36 @@ type
     property UnitInterfaceUsesList: TStringList read fUnitInterfaceUsesList write fUnitInterfaceUsesList;
     property UnitImplementationUsesList: TStringList read fUnitImplementationUsesList write fUnitImplementationUsesList;
     property UnitMethods: TcbMethodList read fUnitMethods write fUnitMethods;
-    property UnitVariabled: TcbVariableList read fUnitVariabled write fUnitVariabled;
+    property UnitVariables: TcbVariableList read fUnitVariables write fUnitVariables;
     property UnitInitialization: TStringList read fUnitInitialization write fUnitInitialization;
     property UnitFinalization: TStringList read fUnitFinalization write fUnitFinalization;
     property UnitClassList: TcbClassList read fUnitClassList write fUnitClassList;
     property UnitConstants: TStringList read fUnitConstants write fUnitConstants;
   end;
 
-  TcbUnitList = class(specialize TFPGList<TcbUnit>);
+  { TcbUnitList }
+
+  TcbUnitList = class(specialize TFPGList<TcbUnit>)
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
+  IcbUnitWriter = interface(IInterface)
+    ['{595599B1-6832-4C71-9FC0-56BB768760DC}']
+    function WriteUnit(AUnit: TcbUnit): TStrings;
+  end;
+
+  { TcbUnitWriter }
+
+  TcbUnitWriter = class(TcbComponent, IcbUnitWriter)
+  private
+  public
+    constructor Create(AOwner: TcbComponent);
+    destructor Destroy; override;
+    function WriteUnit(AUnit: TcbUnit): TStrings;
+  end;
+
 
   { TcbCodeWriter }
 
@@ -326,13 +424,375 @@ type
   private
     fUnitList: TcbUnitList;
   public
-    constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(AOwner: TcbComponent);
     destructor Destroy; override;
 
     property UnitList: TcbUnitList read fUnitList write fUnitList;
   end;
 
+function MethodTypeToString(AMethodType: TcbMethodType): String;
+function MethodParameterModifierToString(AParameterModifier: TcbMethodParameterModifier): String;
+
 implementation
+
+function MethodTypeToString(AMethodType: TcbMethodType): String;
+begin
+  case AMethodType of
+    mtProcedure: Result := 'procedure';
+    mtFunction: Result := 'function';
+    mtConstructor: Result := 'constructor';
+    mtDestructor: Result := 'destructor';
+  end;
+end;
+
+{ TcbUnitList }
+
+constructor TcbUnitList.Create;
+begin
+  inherited Create;
+end;
+
+destructor TcbUnitList.Destroy;
+var
+  lUnit: TcbUnit;
+begin
+  for lUnit in Self do
+    if Assigned(lUnit) then
+      lUnit.Free;
+
+  Self.Clear;
+
+  inherited Destroy;
+end;
+
+{ TcbClassList }
+
+constructor TcbClassList.Create;
+begin
+  inherited Create;
+end;
+
+destructor TcbClassList.Destroy;
+var
+  lClass: TcbClass;
+begin
+  for lClass in Self do
+    if Assigned(lClass) then
+      lClass.Free;
+
+  Self.Clear;
+
+  inherited Destroy;
+end;
+
+{ TcbClassPropertyList }
+
+constructor TcbClassPropertyList.Create;
+begin
+  inherited Create;
+end;
+
+destructor TcbClassPropertyList.Destroy;
+var
+  lClassProperty: TcbClassProperty;
+begin
+  for lClassProperty in Self do
+    if Assigned(lClassProperty) then
+      lClassProperty.Free;
+
+  Self.Clear;
+
+  inherited Destroy;
+end;
+
+{ TcbClassVariableList }
+
+constructor TcbClassVariableList.Create;
+begin
+  inherited Create;
+end;
+
+destructor TcbClassVariableList.Destroy;
+var
+  lClassVariable: TcbClassVariable;
+begin
+  for lClassVariable in Self do
+    if Assigned(lClassVariable) then
+      lClassVariable.Free;
+
+  Self.Clear;
+
+  inherited Destroy;
+end;
+
+{ TcbVariableList }
+
+constructor TcbVariableList.Create;
+begin
+  inherited Create;
+end;
+
+destructor TcbVariableList.Destroy;
+var
+  lVariable: TcbVariable;
+begin
+  for lVariable in Self do
+    if Assigned(lVariable) then
+      lVariable.Free;
+
+  Self.Clear;
+
+  inherited Destroy;
+end;
+
+{ TcbClassMethodList }
+
+constructor TcbClassMethodList.Create;
+begin
+  inherited Create;
+end;
+
+destructor TcbClassMethodList.Destroy;
+var
+  lClassMethod: TcbClassMethod;
+begin
+  for lClassMethod in Self do
+    if Assigned(lClassMethod) then
+      lClassMethod.Free;
+
+  Self.Clear;
+
+  inherited Destroy;
+end;
+
+{ TcbMethodList }
+
+constructor TcbMethodList.Create;
+begin
+  inherited Create;
+end;
+
+destructor TcbMethodList.Destroy;
+var
+  lMethod: TcbMethod;
+begin
+  for lMethod in Self do
+    if Assigned(lMethod) then
+      lMethod.Free;
+
+  Self.Clear;
+
+  inherited Destroy;
+end;
+
+{ TcbComponentList }
+
+constructor TcbComponentList.Create;
+begin
+  inherited Create;
+end;
+
+destructor TcbComponentList.Destroy;
+var
+  lComponent: TcbComponent;
+begin
+  for lComponent in Self do
+    if Assigned(lComponent) then
+      lComponent.Free;
+
+  Self.Clear;
+
+  inherited Destroy;
+end;
+
+{ TcbMethodParameterList }
+
+constructor TcbMethodParameterList.Create;
+begin
+  inherited Create;
+end;
+
+destructor TcbMethodParameterList.Destroy;
+var
+  lMethodParameter: TcbMethodParameter;
+begin
+  for lMethodParameter in Self do
+    if Assigned(lMethodParameter) then
+      lMethodParameter.Free;
+
+  Self.Clear;
+
+  inherited Destroy;
+end;
+
+function TcbMethodParameterList.WriteMethodParameters: String;
+var
+  lMethodParameter: TcbMethodParameter;
+begin
+  Result := '';
+
+  if Count > 0 then
+    Result := '(';
+
+  for lMethodParameter in Self do
+    with lMethodParameter do
+    begin
+      // property ParameterModifier: TcbMethodParameterModifier read fParameterModifier write fParameterModifier;
+      Result := Result + MethodParameterModifierToString(ParameterModifier);
+      // property ParameterName: String read fParameterName write fParameterName;
+      Result := Result + ParameterName;
+      // property ParameterType: String read fParameterType write fParameterType;
+      Result := Result + ': ' + ParameterType;
+      // property ParameterDefault: String read fParameterDefault write fParameterDefault;
+      if ParameterDefault <> '' then
+        Result := Result + ' = ' + ParameterDefault;
+    end;
+
+  if Count > 0 then
+    Result := ')';
+end;
+
+{ TcbUnitWriter }
+
+constructor TcbUnitWriter.Create(AOwner: TcbComponent);
+begin
+  inherited Create(AOwner);
+end;
+
+destructor TcbUnitWriter.Destroy;
+begin
+
+end;
+
+function TcbUnitWriter.WriteUnit(AUnit: TcbUnit): TStrings;
+var
+  lIndex: Integer;
+  lUnitMethod: TcbMethod;
+  lClass: TcbClass;
+  lVariable: TcbVariable;
+begin
+  Result := TStringList.Create;
+
+  // property UnitFileName: String read fUnitFileName write fUnitFileName;
+
+  with Result, AUnit do
+  begin
+    // Write unit top comment
+    Add('(*');
+    AddStrings(UnitTopCommentBlock);
+    Add('*)');
+
+    // Write the unit name
+    Add('unit ' + UnitName);
+
+    // Write any unit top compiler directives
+    AddStrings(UnitTopCompilerDirectives);
+
+    // Write interface section
+    Add('interface');
+
+    // Write unit interface uses clause
+    if UnitInterfaceUsesList.Count > 0 then
+    begin
+      Add('uses');
+
+      for lIndex := 0 to UnitInterfaceUsesList.Count - 1 do
+        if lIndex < (UnitInterfaceUsesList.Count - 1) then
+          Add(UnitInterfaceUsesList.Strings[lIndex] + ',')
+        else
+          Add(UnitInterfaceUsesList.Strings[lIndex] + ';');
+    end;
+
+    // Write unit constants
+    if UnitConstants.Count > 0 then
+    begin
+      Add('const');
+      AddStrings(UnitConstants);
+    end;
+
+    // Write the type unit section
+    Add('type');
+
+    // Write forward class declarations
+    for lClass in UnitClassList do
+      if lClass.HasClassForwardDeclaration then
+        Add(lClass.ClassName + ' = class;');
+
+    // Write interfaces
+    // TODO -oAPL -cCodeBuilder 2: Write interfaces
+
+    // Write types
+    // TODO-oAPL -cCodeBuilder 1: Write types
+
+    // Write classless methods in the unit
+    if UnitMethods.Count > 0 then
+      for lUnitMethod in UnitMethods do
+        Add(lUnitMethod.WriteMethodPrototype);
+
+    // Write unit variables
+    if UnitVariables.Count > 0 then
+    begin
+      Add('var');
+
+      for lVariable in UnitVariables do
+        Add(lVariable.VariableName + ': ' + lVariable.VariableType);
+    end;
+
+    Add('implementation');
+
+    // Write unit interface uses clause
+    if UnitImplementationUsesList.Count > 0 then
+    begin
+      Add('uses');
+
+      for lIndex := 0 to UnitImplementationUsesList.Count - 1 do
+        if lIndex < (UnitImplementationUsesList.Count - 1) then
+          Add(UnitImplementationUsesList.Strings[lIndex] + ',')
+        else
+          Add(UnitImplementationUsesList.Strings[lIndex] + ';');
+    end;
+
+    // Write unit functions
+    if UnitMethods.Count > 0 then
+      for lUnitMethod in UnitMethods do
+      begin
+        Add(lUnitMethod.WriteMethodPrototype);
+
+        if lUnitMethod.ImplementationVars.Count > 0 then
+        begin
+          Add('var');
+
+          for lVariable in lUnitMethod.ImplementationVars do
+            Add(lVariable.fVariableName + ': ' + lVariable.VariableType + ';';
+        end;
+
+        Add('begin');
+        AddStrings(lUnitMethod.MethodImplementation);
+        Add('end;');
+      end;
+
+    // Write class implementations
+    // TODO-oAPL -cCodeBuilder 1: Write type implementations
+
+    // Write unit initialization section
+    if UnitInitialization.Count > 0 then
+    begin
+      Add('initialization');
+
+      for lIndex := 0 to UnitInitialization.Count - 1 do
+        Add(UnitImplementationUsesList.Strings[lIndex]);
+    end;
+
+    // Write unit finalization section
+    if UnitFinalization.Count > 0 then
+    begin
+      Add('finalization');
+
+      for lIndex := 0 to UnitFinalization.Count - 1 do
+        Add(UnitFinalization.Strings[lIndex]);
+    end;
+  end;
+end;
 
 { TcbCodeWriter }
 
@@ -473,10 +933,12 @@ end;
 
 { TcbVariable }
 
-constructor TcbVariable.Create(AOwner: TcbComponent; AConfig: TXMLConfig;
-  ALogger: TLogger);
+constructor TcbVariable.Create(AOwner: TcbComponent; AVariableName: String; AVariableType: String);
 begin
-  inherited;
+  inherited Create(AOwner);
+
+  fVariableName := AVariableName;
+  fVariableType := AVariableType;
 end;
 
 destructor TcbVariable.Destroy;
@@ -494,10 +956,15 @@ begin
   fVariableName := AName;
 end;
 
-constructor TcbMethod.Create(AOwner: TcbComponent; AConfig: TXMLConfig; ALogger: TLogger);
+constructor TcbMethod.Create(AOwner: TcbComponent; AMethodName: String; AMethodType: TcbMethodType; AMethodDirectives: TcbMethodDirectives; AReturnType: String
+  );
 begin
-  inherited;
+  inherited Create(AOwner);
 
+  fMethodType := AMethodType;
+  fMethodName := AMethodName;
+  fReturnType := AReturnType;
+  fMethodDirectives := AMethodDirectives;
   fParameterList := TcbMethodParameterList.Create;
   fImplementationVars := TcbVariableList.Create;
   fMethodImplementation := TStringList.Create;
@@ -525,11 +992,44 @@ begin
   fMethodName := AName;
 end;
 
+function TcbMethod.WriteMethodPrototype: String;
+begin
+  // fMethodType: TcbMethodType;
+  Result := MethodTypeToString(fMethodType) + ' ';
+  // fMethodName: String;
+  Result := Result + fMethodName;
+  // fParameterList: TcbMethodParameterList;
+  Result := Result + fParameterList.WriteMethodParameters;
+
+  if fMethodType = mtFunction then
+    Result := Result + ': ' + fReturnType;
+
+  Result := Result + ';';
+
+  if mdtOverride in fMethodDirectives then
+    Result := Result + ' override;';
+  if mdtOverload in fMethodDirectives then
+    Result := Result + ' overload;';
+  if mdtAbstract in fMethodDirectives then
+    Result := Result + ' abstract;';
+  if mdtVirtual in fMethodDirectives then
+    Result := Result + ' virtual;'
+  else if mdtDynamic in fMethodDirectives then
+    Result := Result + ' dynamic;';
+
+end;
+
 { TcbMethodParameter }
 
-constructor TcbMethodParameter.Create(AOwner: TcbComponent; AConfig: TXMLConfig; ALogger: TLogger);
+constructor TcbMethodParameter.Create(AOwner: TcbComponent; AParameterName: String; AParameterType: String; AParameterModifier: TcbMethodParameterModifier;
+  AParameterDefault: String);
 begin
-  inherited;
+  inherited Create(AOwner);
+
+  fParameterName := AParameterName;
+  fParameterType := AParameterType;
+  fParameterDefault := AParameterDefault;
+  fParameterModifier := AParameterModifier;
 end;
 
 destructor TcbMethodParameter.Destroy;
@@ -613,11 +1113,17 @@ begin
   fOwnerClass := AOwnerClass;
 end;
 
-constructor TcbClassProperty.Create(AOwner: TcbClass; AConfig: TXMLConfig; ALogger: TLogger);
+constructor TcbClassProperty.Create(AOwner: TcbClass; APropertyName: String; APropertyType: String; AClassSection: TcbClassSection;
+  APropertyReadElement: IcbNamedClassElement; APropertyWriteElement: IcbNamedClassElement);
 begin
-  inherited Create(AOwner, AConfig, ALogger);
+  inherited Create(AOwner);
 
   fOwnerClass := AOwner;
+  fPropertyName := APropertyName;
+  fPropertyType := APropertyType;
+  fClassSection := AClassSection;
+  fPropertyReadElement := APropertyReadElement;
+  fPropertyWriteElement := APropertyWriteElement;
 end;
 
 destructor TcbClassProperty.Destroy;
@@ -642,9 +1148,9 @@ begin
   fOwnerClass := AOwnerClass;
 end;
 
-constructor TcbClassVariable.Create(AOwner: TcbClass; AConfig: TXMLConfig; ALogger: TLogger);
+constructor TcbClassVariable.Create(AOwner: TcbClass);
 begin
-  inherited Create(AOwner, AConfig, ALogger);
+  inherited Create(AOwner);
 
   fOwnerClass := AOwner;
 end;
@@ -671,9 +1177,9 @@ begin
   fOwnerClass := AOwnerClass;
 end;
 
-constructor TcbClassMethod.Create(AOwner: TcbClass; AConfig: TXMLConfig; ALogger: TLogger);
+constructor TcbClassMethod.Create(AOwner: TcbClass);
 begin
-  inherited Create(AOwner, AConfig, ALogger);
+  inherited Create(AOwner);
 
   fOwnerClass := AOwner;
 end;
