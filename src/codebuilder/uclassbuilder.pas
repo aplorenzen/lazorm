@@ -41,6 +41,7 @@ type
     csProtected,
     csPublished);
 
+  TcbComponent = class;
   TcbClass = class;
   TcbClassList = class;
   TcbMethodParameter = class;
@@ -59,6 +60,13 @@ type
   TcbUnitList = class;
 
   // TcbCodeBuilderConfiguration
+
+  IcbClassElement = interface(IInterface)
+    ['{161FD953-6C66-472A-873B-C4167CE45A60}']
+    function GetOwnerClass: TcbClass;
+    procedure SetOwnerClass(AOwnerClass: TcbClass);
+    property OwnerClass: TcbClass read GetOwnerClass write SetOwnerClass;
+  end;
 
   IcbNamedElement = interface(IInterface)
     ['{035C5796-ABB1-4523-A20A-4A7AC382CF47}']
@@ -91,10 +99,18 @@ type
     property Config: TXMLConfig read GetConfig write SetConfig;
   end;
 
+  IcbComponent = interface(IInterface)
+    ['{1C9D78EE-A564-4EBF-88BF-841D4EBFB389}']
+    procedure SetOwnerComponent(AOwnerComponent: TcbComponent);
+    function GetOwnerComponent: TcbComponent;
+    property OwnerComponent: TcbComponent read GetOwnerComponent write SetOwnerComponent;
+  end;
+
   { TcbComponent }
 
-  TcbComponent = class(TInterfacedPersistent, IcbXMLConfigConsumer, IcbLoggerConsumer)
+  TcbComponent = class(TInterfacedPersistent, IcbComponent, IcbXMLConfigConsumer, IcbLoggerConsumer)
   private
+    fOwnerComponent: TcbComponent;
     fLogger: TLogger;
     fConfig: TXMLConfig;
   public
@@ -105,6 +121,8 @@ type
     function GetLogger: TLogger;
     procedure SetConfig(AConfig: TXMLConfig);
     function GetConfig: TXMLConfig;
+    procedure SetOwnerComponent(AOwnerComponent: TcbComponent); virtual;
+    function GetOwnerComponent: TcbComponent; virtual;
   end;
 
   { TcbMethodParameter }
@@ -155,16 +173,17 @@ type
 
   { TcbClassMethod }
 
-  TcbClassMethod = class(TcbMethod, IcbNamedClassElement)
+  TcbClassMethod = class(TcbMethod, IcbClassElement, IcbNamedClassElement)
   private
     fOwnerClass: TcbClass;
     fClassSection : TcbClassSection;
   public
-    constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(AOwner: TcbClass; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
     destructor Destroy; override;
     function GetClassDeclaration: String;
+    function GetOwnerClass: TcbClass;
+    procedure SetOwnerClass(AOwnerClass: TcbClass);
   published
-    property OwnerClass: TcbClass read fOwnerClass write fOwnerClass;
     property ClassSection: TcbClassSection read fClassSection  write fClassSection ;
   end;
 
@@ -195,9 +214,11 @@ type
     fOwnerClass: TcbClass;
     fClassSection : TcbClassSection;
   public
-    constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(AOwner: TcbClass; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
     destructor Destroy; override;
     function GetClassDeclaration: String;
+    function GetOwnerClass: TcbClass;
+    procedure SetOwnerClass(AOwnerClass: TcbClass);
   published
     property OwnerClass: TcbClass read fOwnerClass write fOwnerClass;
     property ClassSection : TcbClassSection read fClassSection  write fClassSection ;
@@ -216,13 +237,14 @@ type
     fPropertyReadElement: IcbNamedClassElement;
     fPropertyWriteElement: IcbNamedClassElement;
   public
-    constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(AOwner: TcbClass; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
     destructor Destroy; override;
     function GetElementName: String;
     procedure SetElementName(AName: String);
     function GetClassDeclaration: String;
+    function GetOwnerClass: TcbClass;
+    procedure SetOwnerClass(AOwnerClass: TcbClass);
   published
-    property OwnerClass: TcbClass read fOwnerClass write fOwnerClass;
     property ClassSection : TcbClassSection read fClassSection  write fClassSection ;
     property PropertyName: String read fPropertyName write fPropertyName;
     property PropertyType: String read fPropertyType write fPropertyType;
@@ -234,6 +256,7 @@ type
 
   TcbClass = class(TcbComponent, IcbNamedElement)
   private
+    fOwnerUnit: TcbUnit;
     fClassName: String;
     fExtendingClass: String;
     fImplementingInterfaces: TStringList;
@@ -242,7 +265,7 @@ type
     fClassPropertyList: TcbClassPropertyList;
     fClassElementList: TcbNamedClassElementList;
   public
-    constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(AOwner: TcbUnit; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
     destructor Destroy; override;
     function GetElementName: String;
     procedure SetElementName(AName: String);
@@ -274,7 +297,7 @@ type
     fUnitFinalization: TStringList;
     fUnitClassList: TcbClassList;
     fUnitConstants: TStringList;
-    // TODO -oAPL -cClassBuilders 5: Intefaces, records, constants, sets... and more?
+    // TODO -oAPL -cClassBuilder 5: Intefaces, records, constants, sets... and more?
   public
     constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
     destructor Destroy; override;
@@ -305,6 +328,8 @@ type
   public
     constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
     destructor Destroy; override;
+
+    property UnitList: TcbUnitList read fUnitList write fUnitList;
   end;
 
 implementation
@@ -315,10 +340,15 @@ constructor TcbCodeWriter.Create(AOwner: TcbComponent; AConfig: TXMLConfig;
   ALogger: TLogger);
 begin
   inherited;
+
+  fUnitList := TcbUnitList.Create;
 end;
 
 destructor TcbCodeWriter.Destroy;
 begin
+  if Assigned(fUnitList) then
+    fUnitList.Free;
+
   inherited Destroy;
 end;
 
@@ -330,6 +360,8 @@ var
   lLoggerConsumer: IcbLoggerConsumer;
 begin
   inherited Create;
+
+  fOwnerComponent := AOwner;
 
   // Assign the specified config locally, or take from AOwner component if
   // possible
@@ -350,7 +382,7 @@ end;
 
 destructor TcbComponent.Destroy;
 begin
-  inherited Destroy;
+  inherited;
 end;
 
 procedure TcbComponent.SetLogger(ALogger: TLogger);
@@ -375,17 +407,58 @@ begin
   Result := fConfig;
 end;
 
+procedure TcbComponent.SetOwnerComponent(AOwnerComponent: TcbComponent);
+begin
+  fOwnerComponent := AOwnerComponent;
+end;
+
+function TcbComponent.GetOwnerComponent: TcbComponent;
+begin
+  Result := fOwnerComponent;
+end;
+
 { TcbUnit }
 
-constructor TcbUnit.Create(AOwner: TcbComponent; AConfig: TXMLConfig;
-  ALogger: TLogger);
+constructor TcbUnit.Create(AOwner: TcbComponent; AConfig: TXMLConfig; ALogger: TLogger);
 begin
   inherited;
+
+  fUnitTopCommentBlock := TStringList.Create;
+  fUnitTopCompilerDirectives := TStringList.Create;
+  fUnitInterfaceUsesList := TStringList.Create;
+  fUnitImplementationUsesList := TStringList.Create;
+  fUnitMethods := TcbMethodList.Create;
+  fUnitVariabled := TcbVariableList.Create;
+  fUnitInitialization := TStringList.Create;
+  fUnitFinalization := TStringList.Create;
+  fUnitClassList := TcbClassList.Create;
+  fUnitConstants := TStringList.Create;
 end;
 
 destructor TcbUnit.Destroy;
 begin
-  inherited Destroy;
+  if Assigned(fUnitTopCommentBlock) then
+    fUnitTopCommentBlock.Free;
+  if Assigned(fUnitTopCompilerDirectives) then
+    fUnitTopCompilerDirectives.Free;
+  if Assigned(fUnitInterfaceUsesList) then
+    fUnitInterfaceUsesList.Free;
+  if Assigned(fUnitImplementationUsesList) then
+    fUnitImplementationUsesList.Free;
+  if Assigned(fUnitMethods) then
+    fUnitMethods.Free;
+  if Assigned(fUnitVariabled) then
+    fUnitVariabled.Free;
+  if Assigned(fUnitInitialization) then
+    fUnitInitialization.Free;
+  if Assigned(fUnitFinalization) then
+    fUnitFinalization.Free;
+  if Assigned(fUnitClassList) then
+    fUnitClassList.Free;
+  if Assigned(fUnitConstants) then
+    fUnitConstants.Free;
+
+  inherited;
 end;
 
 function TcbUnit.GetElementName: String;
@@ -408,7 +481,7 @@ end;
 
 destructor TcbVariable.Destroy;
 begin
-  inherited Destroy;
+  inherited;
 end;
 
 function TcbVariable.GetElementName: String;
@@ -421,14 +494,24 @@ begin
   fVariableName := AName;
 end;
 
-constructor TcbMethod.Create(AOwner: TcbComponent; AConfig: TXMLConfig;
-  ALogger: TLogger);
+constructor TcbMethod.Create(AOwner: TcbComponent; AConfig: TXMLConfig; ALogger: TLogger);
 begin
   inherited;
+
+  fParameterList := TcbMethodParameterList.Create;
+  fImplementationVars := TcbVariableList.Create;
+  fMethodImplementation := TStringList.Create;
 end;
 
 destructor TcbMethod.Destroy;
 begin
+  if Assigned(fParameterList) then
+    fParameterList.Free;
+  if Assigned(fImplementationVars) then
+    fImplementationVars.Free;
+  if Assigned(fMethodImplementation) then
+    fMethodImplementation.Free;
+
   inherited Destroy;
 end;
 
@@ -444,15 +527,14 @@ end;
 
 { TcbMethodParameter }
 
-constructor TcbMethodParameter.Create(AOwner: TcbComponent; AConfig: TXMLConfig;
-  ALogger: TLogger);
+constructor TcbMethodParameter.Create(AOwner: TcbComponent; AConfig: TXMLConfig; ALogger: TLogger);
 begin
   inherited;
 end;
 
 destructor TcbMethodParameter.Destroy;
 begin
-  inherited Destroy;
+  inherited;
 end;
 
 function TcbMethodParameter.GetElementName: String;
@@ -465,15 +547,33 @@ begin
   fParameterName := AName;
 end;
 
-constructor TcbClass.Create(AOwner: TcbComponent; AConfig: TXMLConfig;
-  ALogger: TLogger);
+constructor TcbClass.Create(AOwner: TcbUnit; AConfig: TXMLConfig; ALogger: TLogger);
 begin
-  inherited;
+  inherited Create(AOwner, AConfig, ALogger);
+
+  fOwnerUnit := AOwner;
+
+  fImplementingInterfaces := TStringList.Create;
+  fClassVariableList := TcbClassVariableList.Create;
+  fClassMethodList := TcbClassMethodList.Create;
+  fClassPropertyList := TcbClassPropertyList.Create;
+  fClassElementList := TcbNamedClassElementList.Create;
 end;
 
 destructor TcbClass.Destroy;
 begin
-  inherited Destroy;
+  if Assigned(fImplementingInterfaces) then
+    fImplementingInterfaces.Free;
+  if Assigned(fClassVariableList) then
+    fClassVariableList.Free;
+  if Assigned(fClassMethodList) then
+    fClassMethodList.Free;
+  if Assigned(fClassPropertyList) then
+    fClassPropertyList.Free;
+  if Assigned(fClassElementList) then
+    fClassElementList.Free;
+
+  inherited;
 end;
 
 function TcbClass.GetElementName: String;
@@ -503,15 +603,26 @@ begin
   // TODO: Make code taht generates the property class code
 end;
 
-constructor TcbClassProperty.Create(AOwner: TcbComponent; AConfig: TXMLConfig;
-  ALogger: TLogger);
+function TcbClassProperty.GetOwnerClass: TcbClass;
 begin
-  inherited;
+  Result := fOwnerClass;
+end;
+
+procedure TcbClassProperty.SetOwnerClass(AOwnerClass: TcbClass);
+begin
+  fOwnerClass := AOwnerClass;
+end;
+
+constructor TcbClassProperty.Create(AOwner: TcbClass; AConfig: TXMLConfig; ALogger: TLogger);
+begin
+  inherited Create(AOwner, AConfig, ALogger);
+
+  fOwnerClass := AOwner;
 end;
 
 destructor TcbClassProperty.Destroy;
 begin
-  inherited Destroy;
+  inherited;
 end;
 
 { TcbClassVariable }
@@ -521,15 +632,26 @@ begin
   // TODO: Make code that generates the declaration
 end;
 
-constructor TcbClassVariable.Create(AOwner: TcbComponent; AConfig: TXMLConfig;
-  ALogger: TLogger);
+function TcbClassVariable.GetOwnerClass: TcbClass;
 begin
-  inherited;
+  Result := fOwnerClass;
+end;
+
+procedure TcbClassVariable.SetOwnerClass(AOwnerClass: TcbClass);
+begin
+  fOwnerClass := AOwnerClass;
+end;
+
+constructor TcbClassVariable.Create(AOwner: TcbClass; AConfig: TXMLConfig; ALogger: TLogger);
+begin
+  inherited Create(AOwner, AConfig, ALogger);
+
+  fOwnerClass := AOwner;
 end;
 
 destructor TcbClassVariable.Destroy;
 begin
-  inherited Destroy;
+  inherited;
 end;
 
 { TcbClassMethod }
@@ -539,17 +661,26 @@ begin
   // TODO: Write code that generates the declaration, the prototype
 end;
 
-constructor TcbClassMethod.Create(AOwner: TcbComponent; AConfig: TXMLConfig;
-  ALogger: TLogger);
+function TcbClassMethod.GetOwnerClass: TcbClass;
 begin
-  inherited;
+  Result := fOwnerClass;
+end;
 
+procedure TcbClassMethod.SetOwnerClass(AOwnerClass: TcbClass);
+begin
+  fOwnerClass := AOwnerClass;
+end;
+
+constructor TcbClassMethod.Create(AOwner: TcbClass; AConfig: TXMLConfig; ALogger: TLogger);
+begin
+  inherited Create(AOwner, AConfig, ALogger);
+
+  fOwnerClass := AOwner;
 end;
 
 destructor TcbClassMethod.Destroy;
 begin
-
-  inherited Destroy;
+  inherited;
 end;
 
 end.

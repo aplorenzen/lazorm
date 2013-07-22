@@ -176,7 +176,7 @@ object loNewModelForm: TloNewModelForm
       TabOrder = 1
       object TitleLabel: TLabel
         Left = 8
-        Height = 29
+        Height = 33
         Top = 8
         Width = 439
         Align = alTop
@@ -188,8 +188,8 @@ object loNewModelForm: TloNewModelForm
       end
       object DescriptionLabel: TLabel
         Left = 8
-        Height = 43
-        Top = 45
+        Height = 39
+        Top = 49
         Width = 439
         Align = alClient
         BorderSpacing.Around = 8
@@ -268,42 +268,42 @@ object loNewModelForm: TloNewModelForm
       Options = [nboHidePageListPopup]
       object Step1TabSheet: TTabSheet
         Caption = 'Step1TabSheet'
-        ClientHeight = 276
-        ClientWidth = 547
+        ClientHeight = 279
+        ClientWidth = 543
         object Panel1: TPanel
           Left = 0
-          Height = 276
+          Height = 279
           Top = 0
-          Width = 547
+          Width = 543
           Align = alClient
           BevelOuter = bvNone
-          ClientHeight = 276
-          ClientWidth = 547
+          ClientHeight = 279
+          ClientWidth = 543
           TabOrder = 0
           object DatabaseTypeLabel: TLabel
             Left = 12
-            Height = 18
+            Height = 16
             Top = 17
-            Width = 65
+            Width = 49
             Caption = 'Database'
             ParentColor = False
           end
           object DatabaseTypeComboBox: TComboBox
             Left = 180
-            Height = 31
+            Height = 23
             Top = 11
-            Width = 352
+            Width = 348
             Align = alCustom
             Anchors = [akTop, akLeft, akRight]
-            ItemHeight = 0
+            ItemHeight = 15
             Style = csDropDownList
             TabOrder = 0
           end
           object HostnameLabel: TLabel
             Left = 12
-            Height = 18
+            Height = 16
             Top = 55
-            Width = 146
+            Width = 114
             Caption = 'Hostname/IP address'
             ParentColor = False
           end
@@ -311,7 +311,7 @@ object loNewModelForm: TloNewModelForm
             Left = 180
             Height = 27
             Top = 51
-            Width = 352
+            Width = 348
             Align = alCustom
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False
@@ -321,7 +321,7 @@ object loNewModelForm: TloNewModelForm
             Left = 180
             Height = 27
             Top = 83
-            Width = 352
+            Width = 348
             Align = alCustom
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False
@@ -331,7 +331,7 @@ object loNewModelForm: TloNewModelForm
             Left = 180
             Height = 27
             Top = 115
-            Width = 352
+            Width = 348
             Align = alCustom
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False
@@ -339,25 +339,25 @@ object loNewModelForm: TloNewModelForm
           end
           object HostportLabel: TLabel
             Left = 12
-            Height = 18
+            Height = 16
             Top = 87
-            Width = 66
+            Width = 51
             Caption = 'Host port'
             ParentColor = False
           end
           object LoginLabel: TLabel
             Left = 12
-            Height = 18
+            Height = 16
             Top = 119
-            Width = 38
+            Width = 31
             Caption = 'Login'
             ParentColor = False
           end
           object PasswordLabel: TLabel
             Left = 12
-            Height = 18
+            Height = 16
             Top = 151
-            Width = 67
+            Width = 51
             Caption = 'Password'
             ParentColor = False
           end
@@ -365,7 +365,7 @@ object loNewModelForm: TloNewModelForm
             Left = 180
             Height = 27
             Top = 147
-            Width = 352
+            Width = 348
             Align = alCustom
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False
@@ -384,9 +384,9 @@ object loNewModelForm: TloNewModelForm
           end
           object CatalogLabel: TLabel
             Left = 12
-            Height = 18
+            Height = 16
             Top = 183
-            Width = 92
+            Width = 72
             Caption = 'Initial catalog'
             ParentColor = False
           end
@@ -394,7 +394,7 @@ object loNewModelForm: TloNewModelForm
             Left = 180
             Height = 27
             Top = 179
-            Width = 352
+            Width = 348
             Align = alCustom
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False

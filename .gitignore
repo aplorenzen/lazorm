@@ -1,5 +1,6 @@
 # Ignore backup directories
 backup
 /src/lib
+/lib
 .*~
 

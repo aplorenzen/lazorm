@@ -6,9 +6,15 @@ interface
 
 uses
   Classes, SysUtils, sqldb, IBConnection, sqlite3conn, mysql40conn, mysql41conn,
-  mysql50conn, mysql51conn, mysql55conn, odbcconn, oracleconnection,
+  mysql50conn, mysql51conn, mysql55conn, odbcconn,
+  // NOTE: Currently no Oracle Win64 support
+  {$IFNDEF WIN64}
+  oracleconnection,
+  {$ENDIF}
   pqconnection, mssqlconn, FileUtil, Forms, Controls, Graphics, Dialogs,
   ExtCtrls, StdCtrls, ComCtrls, LCLProc, LazIDEIntf, ProjectIntf,
+
+
 
   ulazormtypes,
   ulazormutils;
@@ -28,16 +34,7 @@ type
     DescriptionLabel: TLabel;
     HostnameEdit: TEdit;
     HostportEdit: TEdit;
-    IBConnection1: TIBConnection;
     LoginEdit: TEdit;
-    MSSQLConnection1: TMSSQLConnection;
-    MySQL40Connection1: TMySQL40Connection;
-    MySQL41Connection1: TMySQL41Connection;
-    MySQL50Connection1: TMySQL50Connection;
-    MySQL51Connection1: TMySQL51Connection;
-    MySQL55Connection1: TMySQL55Connection;
-    ODBCConnection1: TODBCConnection;
-    OracleConnection1: TOracleConnection;
     PasswordEdit: TEdit;
     Image1: TImage;
     DatabaseTypeLabel: TLabel;
@@ -52,13 +49,9 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     CatalogLabel: TLabel;
-    PQConnection1: TPQConnection;
-    SQLConnector1: TSQLConnector;
-    SQLite3Connection1: TSQLite3Connection;
     Step1TabSheet: TTabSheet;
     Step2TabSheet: TTabSheet;
     Step3TabSheet: TTabSheet;
-    SybaseConnection1: TSybaseConnection;
     TitleLabel: TLabel;
     TopLeftPanel: TPanel;
     TopRightPanel: TPanel;
@@ -127,7 +120,10 @@ begin
     Add(mysql51conn.TMySQLConnectionDef.Create());
     Add(mysql55conn.TMySQLConnectionDef.Create());
     Add(TODBCConnectionDef.Create());
+    // NOTE: Currently no Oracle Win64 support
+    {$IFNDEF WIN64}
     Add(TOracleConnectionDef.Create());
+    {$ENDIF}
     Add(TPQConnectionDef.Create());
   end;
 

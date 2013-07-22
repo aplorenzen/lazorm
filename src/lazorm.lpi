@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="5"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="13"/>
+      <BuildNr Value="21"/>
       <StringTable ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -94,7 +94,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <Libraries Value="/usr/local/lib/;/usr/lib/"/>
+      <Libraries Value="/usr/local/lib;/usr/lib"/>
       <OtherUnitFiles Value="common;codebuilder;ui"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
