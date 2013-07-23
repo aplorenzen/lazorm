@@ -119,9 +119,8 @@ type
 
   IcbComponent = interface(IInterface)
     ['{1C9D78EE-A564-4EBF-88BF-841D4EBFB389}']
-    procedure SetOwnerComponent(AOwnerComponent: TcbComponent);
     function GetOwnerComponent: TcbComponent;
-    property OwnerComponent: TcbComponent read GetOwnerComponent write SetOwnerComponent;
+    property OwnerComponent: TcbComponent read GetOwnerComponent;
   end;
 
   { TcbComponent }
@@ -131,6 +130,7 @@ type
     fOwnerComponent: TcbComponent;
     fLogger: TLogger;
     fConfig: TXMLConfig;
+    fNamedItemList: TcbNamedElementList;
   public
     constructor Create(AOwner: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
     destructor Destroy; override;
@@ -139,16 +139,19 @@ type
     function GetLogger: TLogger;
     procedure SetConfig(AConfig: TXMLConfig);
     function GetConfig: TXMLConfig;
-    procedure SetOwnerComponent(AOwnerComponent: TcbComponent); virtual;
     function GetOwnerComponent: TcbComponent; virtual;
+    property NamedItemList: TcbNamedElementList read fNamedItemList write fNamedItemList;
   end;
 
   { TcbComponentList }
 
   TcbComponentList = class(specialize TFPGList<TcbComponent>)
+  private
+    fOwner: TcbComponent;
   public
-    constructor Create;
+    constructor Create(AOwner: TcbComponent);
     destructor Destroy; override;
+    property Owner: TcbComponent read fOwner;
   end;
 
   { TcbSourceCodeComponent }
@@ -172,6 +175,7 @@ type
      constructor Create(AOwner: TcbComponent);
      destructor Destroy; override;
      function WriteSourceCode: TStringList; virtual;
+     property Owner: TcbComponent read fOwner;
    end;
 
   { TcbSourceComment }
@@ -282,7 +286,6 @@ type
     fParameterList: TcbMethodParameterList;
     fImplementationVars: TcbVariableList;
     fMethodImplementation: TcbCodeBlock;
-
     function WriteImplementationPrototype: String;
   public
     constructor Create(
@@ -323,16 +326,19 @@ type
   TcbMethodList = class(specialize TFPGList<TcbMethod>)
   private
     fOwner: TcbComponent;
+    fPrototypeCodeStrings: TStringList;
+    fImplementationCodeStrings: TStringList;
   public
-    constructor Create;
+    constructor Create(AOwner: TcbComponent);
     destructor Destroy; override;
     procedure Add(
       AMethodName: String;
       AMethodType: TcbMethodType = mtProcedure;
       ALeadingCommentBlock: TcbSourceCommentBlock = nil;
       AMethodDirectives: TcbMethodDirectives = [];
-      AReturnType: String = '');
-
+      AReturnType: String = ''); overload;
+    function WritePrototypes: TStringList;
+    function WriteImplementations: TStringList;
   end;
 
   { TcbClassMethod }
@@ -341,27 +347,46 @@ type
   private
     fOwnerClass: TcbClass;
     fClassSection : TcbClassSection;
+    fPrototypeCodeStrings: TStringList;
+    fImplementationCodeStrings: TStringList;
+    function WriteImplementationPrototype: String;
   public
     constructor Create(
       AOwnerClass: TcbClass;
       AMethodName: String;
-      AClassSection : TcbClassSection;
       AMethodType: TcbMethodType = mtProcedure;
+      ALeadingCommentBlock: TcbSourceCommentBlock = nil;
+      AClassSection : TcbClassSection = csPackage;
       AMethodDirectives: TcbMethodDirectives = [];
       AReturnType: String = '');
     destructor Destroy; override;
     function GetOwnerClass: TcbClass;
     procedure SetOwnerClass(AOwnerClass: TcbClass);
+    function WriteImplementation: TStringList; override;
   published
-    property ClassSection: TcbClassSection read fClassSection  write fClassSection ;
+    property ClassSection: TcbClassSection read fClassSection  write fClassSection;
   end;
 
   { TcbClassMethodList }
 
   TcbClassMethodList = class(specialize TFPGList<TcbClassMethod>)
+  private
+    fOwner: TcbClass;
+    fPrototypeCodeStrings: array [TcbClassSection] of TStringList;
+    fImplementationCodeStrings: TStringList;
   public
-    constructor Create;
+    constructor Create(AOwner: TcbClass);
     destructor Destroy; override;
+    procedure Add(
+      AMethodName: String;
+      AMethodType: TcbMethodType = mtProcedure;
+      ALeadingCommentBlock: TcbSourceCommentBlock = nil;
+      AClassSection : TcbClassSection = csPackage;
+      AMethodDirectives: TcbMethodDirectives = [];
+      AReturnType: String = ''); overload;
+    procedure Add(AClassMethod: TcbClassMethod); overload;
+    function WritePrototypes(ASection: TcbClassSection): TStringList;
+    function WriteImplementations: TStringList;
   end;
 
   { TcbVariable }
@@ -378,7 +403,7 @@ type
       destructor Destroy; override;
     function GetElementName: String;
     procedure SetElementName(AName: String);
-    function WriteVariable: String;
+    function WriteVariable: String; virtual;
   published
     property VariableName: String read fVariableName write fVariableName;
     property VariableType: String read fVariableType write fVariableType;
@@ -412,7 +437,6 @@ type
       AVariableType: String;
       AClassSection : TcbClassSection = csPackage);
     destructor Destroy; override;
-    function GetClassDeclaration: String;
     function GetOwnerClass: TcbClass;
     procedure SetOwnerClass(AOwnerClass: TcbClass);
   published
@@ -423,9 +447,17 @@ type
   { TcbClassVariableList }
 
   TcbClassVariableList = class(specialize TFPGList<TcbClassVariable>)
+  private
+    fOwner: TcbClass;
+    fVariabletrings: array [TcbClassSection] of TStringList;
   public
-    constructor Create;
+    constructor Create(AOwner: TcbClass);
     destructor Destroy; override;
+    function WriteVariables(ASection: TcbClassSection): TStringList;
+    procedure Add(
+      AVariableName: String;
+      AVariableType: String;
+      AClassSection : TcbClassSection = csPackage);
   end;
 
   { TcbInterfaceProperty }
@@ -451,7 +483,6 @@ type
     procedure SetElementName(AName: String);
     function GetOwnerInterface: TcbInterface;
     procedure SetOwnerInterface(AOwnerInterface: TcbInterface);
-    function WritePropertyDeclaration: String;
   published
     property ClassSection : TcbClassSection read fClassSection  write fClassSection ;
     property PropertyName: String read fPropertyName write fPropertyName;
@@ -489,7 +520,6 @@ type
     destructor Destroy; override;
     function GetElementName: String;
     procedure SetElementName(AName: String);
-    function GetClassDeclaration: String;
     function GetOwnerClass: TcbClass;
     procedure SetOwnerClass(AOwnerClass: TcbClass);
   published
@@ -511,7 +541,7 @@ type
   TcbClass = class(TcbComponent, IcbNamedElement)
   private
     fOwnerUnit: TcbUnit;
-    fClassName: String;
+    fClassTypeName: String;
     fHasClassForwardDeclaration: Boolean;
     fExtendingClass: String;
     fImplementingInterfaces: TStringList;
@@ -525,7 +555,7 @@ type
     function GetElementName: String;
     procedure SetElementName(AName: String);
   published
-    property ClassName: String read fClassName write fClassName;
+    property ClassTypeName: String read fClassTypeName write fClassTypeName;
     property ExtendingClass: String read fExtendingClass write fExtendingClass;
     property ImplementingInterfaces: TStringList read fImplementingInterfaces write fImplementingInterfaces;
     property ClassVariableList: TcbClassVariableList read fClassVariableList write fClassVariableList;
@@ -901,7 +931,7 @@ begin
   fInterfaceExtends := AInterfaceExtends;
   if GUIDToString(AInterfaceGUID) = GUIDToString(EMPTY_GUID) then
     CreateGUID(fInterfaceGUID);
-  fInterfaceMethodList := TcbMethodList.Create;
+  fInterfaceMethodList := TcbMethodList.Create(Self);
   fInterfacePropertyList := TcbInterfacePropertyList.Create;
   fTypeDeclaration := TStringList.Create;
 end;
@@ -1020,7 +1050,6 @@ end;
 
 procedure TcbInterfaceProperty.SetOwnerInterface(AOwnerInterface: TcbInterface);
 begin
-  SetOwnerComponent(AOwnerInterface);
   fOwnerInterface := AOwnerInterface;
 end;
 
@@ -1086,15 +1115,34 @@ end;
 
 { TcbClassVariableList }
 
-constructor TcbClassVariableList.Create;
+constructor TcbClassVariableList.Create(AOwner: TcbClass);
 begin
   inherited Create;
+
+  fOwner := AOwner;
+  fVariabletrings[csPackage] := TStringList.Create;
+  fVariabletrings[csPrivate] := TStringList.Create;
+  fVariabletrings[csProtected] := TStringList.Create;
+  fVariabletrings[csPublic] := TStringList.Create;
+  fVariabletrings[csPublished] := TStringList.Create;
 end;
 
 destructor TcbClassVariableList.Destroy;
 var
   lClassVariable: TcbClassVariable;
 begin
+  if Assigned(fVariabletrings[csPackage]) then
+    fVariabletrings[csPackage].Free;
+  if Assigned(fVariabletrings[csPrivate]) then
+    fVariabletrings[csPrivate].Free;
+  if Assigned(fVariabletrings[csProtected]) then
+    fVariabletrings[csProtected].Free;
+  if Assigned(fVariabletrings[csPublic]) then
+    fVariabletrings[csPublic].Free;
+  if Assigned(fVariabletrings[csPublished]) then
+    fVariabletrings[csPublished].Free;
+
+
   for lClassVariable in Self do
     if Assigned(lClassVariable) then
       lClassVariable.Free;
@@ -1102,6 +1150,32 @@ begin
   Self.Clear;
 
   inherited Destroy;
+end;
+
+function TcbClassVariableList.WriteVariables(ASection: TcbClassSection): TStringList;
+var
+  lClassVariable: TcbClassVariable;
+begin
+  fVariabletrings[ASection].Clear;
+
+  for lClassVariable in Self do
+    if lClassVariable.ClassSection = ASection then
+      fVariabletrings[ASection].Add(lClassVariable.WriteVariable);
+
+  Result := fVariabletrings[ASection];
+end;
+
+procedure TcbClassVariableList.Add(AVariableName: String; AVariableType: String; AClassSection: TcbClassSection);
+var
+  lClassVariable: TcbClassVariable;
+begin
+  lClassVariable := TcbClassVariable.Create(
+    fOwner,
+    AVariableName,
+    AVariableType,
+    AClassSection);
+
+  inherited Add(lClassVariable);
 end;
 
 { TcbVariableList }
@@ -1161,15 +1235,38 @@ end;
 
 { TcbClassMethodList }
 
-constructor TcbClassMethodList.Create;
+constructor TcbClassMethodList.Create(AOwner: TcbClass);
 begin
   inherited Create;
+
+  fOwner := AOwner;
+
+  fPrototypeCodeStrings[csPackage] := TStringList.Create;
+  fPrototypeCodeStrings[csPrivate] := TStringList.Create;
+  fPrototypeCodeStrings[csPublic] := TStringList.Create;
+  fPrototypeCodeStrings[csProtected] := TStringList.Create;
+  fPrototypeCodeStrings[csPublished] := TStringList.Create;
+  fImplementationCodeStrings := TStringList.Create;
 end;
 
 destructor TcbClassMethodList.Destroy;
 var
   lClassMethod: TcbClassMethod;
 begin
+  if Assigned(fPrototypeCodeStrings[csPackage]) then
+    fPrototypeCodeStrings[csPackage].Free;
+  if Assigned(fPrototypeCodeStrings[csPrivate]) then
+    fPrototypeCodeStrings[csPrivate].Free;
+  if Assigned(fPrototypeCodeStrings[csPublic]) then
+    fPrototypeCodeStrings[csPublic].Free;
+  if Assigned(fPrototypeCodeStrings[csProtected]) then
+    fPrototypeCodeStrings[csProtected].Free;
+  if Assigned(fPrototypeCodeStrings[csPublished]) then
+    fPrototypeCodeStrings[csPublished].Free;
+
+  if Assigned(fImplementationCodeStrings) then
+    fImplementationCodeStrings.Free;
+
   for lClassMethod in Self do
     if Assigned(lClassMethod) then
       lClassMethod.Free;
@@ -1179,17 +1276,77 @@ begin
   inherited Destroy;
 end;
 
+procedure TcbClassMethodList.Add(AMethodName: String; AMethodType: TcbMethodType; ALeadingCommentBlock: TcbSourceCommentBlock; AClassSection: TcbClassSection;
+  AMethodDirectives: TcbMethodDirectives; AReturnType: String);
+var
+  lClassMethod: TcbClassMethod;
+begin
+  lClassMethod := TcbClassMethod.Create(
+    fOwner,
+    AMethodName,
+    AMethodType,
+    ALeadingCommentBlock,
+    AClassSection,
+    AMethodDirectives,
+    AReturnType);
+
+  fOwner.ClassElementList.Add(lClassMethod);
+
+  inherited Add(lClassMethod);
+end;
+
+procedure TcbClassMethodList.Add(AClassMethod: TcbClassMethod);
+begin
+  fOwner.ClassElementList.Add(AClassMethod);
+  inherited Add(AClassMethod);
+end;
+
+function TcbClassMethodList.WritePrototypes(ASection: TcbClassSection): TStringList;
+var
+  lMethod: TcbClassMethod;
+begin
+  fPrototypeCodeStrings[ASection].Clear;
+
+  for lMethod in Self do
+    if lMethod.ClassSection = ASection then
+      fPrototypeCodeStrings[ASection].Add(lMethod.WritePrototype);
+
+  Result := fPrototypeCodeStrings[ASection];
+end;
+
+function TcbClassMethodList.WriteImplementations: TStringList;
+var
+  lMethod: TcbClassMethod;
+begin
+  fImplementationCodeStrings.Clear;
+
+  for lMethod in Self do
+    fImplementationCodeStrings.AddStrings(lMethod.WriteImplementation);
+
+  Result := fImplementationCodeStrings;
+end;
+
 { TcbMethodList }
 
-constructor TcbMethodList.Create;
+constructor TcbMethodList.Create(AOwner: TcbComponent);
 begin
   inherited Create;
+
+  fOwner := AOwner;
+  fPrototypeCodeStrings := TStringList.Create;
+  fImplementationCodeStrings := TStringList.Create;
 end;
 
 destructor TcbMethodList.Destroy;
 var
   lMethod: TcbMethod;
 begin
+  if Assigned(fPrototypeCodeStrings) then
+    fPrototypeCodeStrings.Free;
+
+  if Assigned(fImplementationCodeStrings) then
+    fImplementationCodeStrings.Free;
+
   for lMethod in Self do
     if Assigned(lMethod) then
       lMethod.Free;
@@ -1199,11 +1356,53 @@ begin
   inherited Destroy;
 end;
 
+procedure TcbMethodList.Add(AMethodName: String; AMethodType: TcbMethodType; ALeadingCommentBlock: TcbSourceCommentBlock;
+  AMethodDirectives: TcbMethodDirectives; AReturnType: String);
+var
+  lMethod: TcbMethod;
+begin
+  lMethod := TcbMethod.Create(
+    fOwner,
+    AMethodName,
+    AMethodType,
+    ALeadingCommentBlock,
+    AMethodDirectives,
+    AReturnType);
+
+  inherited Add(lMethod);
+end;
+
+function TcbMethodList.WritePrototypes: TStringList;
+var
+  lMethod: TcbMethod;
+begin
+  fPrototypeCodeStrings.Clear;
+
+  for lMethod in Self do
+    fPrototypeCodeStrings.Add(lMethod.WritePrototype);
+
+  Result := fPrototypeCodeStrings;
+end;
+
+function TcbMethodList.WriteImplementations: TStringList;
+var
+  lMethod: TcbMethod;
+begin
+  fImplementationCodeStrings.Clear;
+
+  for lMethod in Self do
+    fImplementationCodeStrings.AddStrings(lMethod.WriteImplementation);
+
+  Result := fImplementationCodeStrings;
+end;
+
 { TcbComponentList }
 
-constructor TcbComponentList.Create;
+constructor TcbComponentList.Create(AOwner: TcbComponent);
 begin
   inherited Create;
+
+  fOwner := AOwner;
 end;
 
 destructor TcbComponentList.Destroy;
@@ -1394,7 +1593,7 @@ begin
         end;
 
         Add('begin');
-        AddStrings(lUnitMethod.MethodImplementation);
+        AddStrings(lUnitMethod.WriteImplementation);
         Add('end;');
       end;
 
@@ -1449,6 +1648,8 @@ begin
 
   fOwnerComponent := AOwner;
 
+  fNamedItemList := TcbNamedElementList.Create;
+
   // Assign the specified config locally, or take from AOwner component if
   // possible
    if Assigned(AConfig) then
@@ -1468,6 +1669,9 @@ end;
 
 destructor TcbComponent.Destroy;
 begin
+  if Assigned(fNamedItemList) then
+    fNamedItemList.Free;
+
   inherited;
 end;
 
@@ -1493,11 +1697,6 @@ begin
   Result := fConfig;
 end;
 
-procedure TcbComponent.SetOwnerComponent(AOwnerComponent: TcbComponent);
-begin
-  fOwnerComponent := AOwnerComponent;
-end;
-
 function TcbComponent.GetOwnerComponent: TcbComponent;
 begin
   Result := fOwnerComponent;
@@ -1513,8 +1712,8 @@ begin
   fUnitTopCompilerDirectives := TStringList.Create;
   fUnitInterfaceUsesList := TStringList.Create;
   fUnitImplementationUsesList := TStringList.Create;
-  fUnitMethods := TcbMethodList.Create;
-  fUnitVariables := TcbVariableList.Create;
+  fUnitMethods := TcbMethodList.Create(Self);
+  fUnitVariables := TcbVariableList.Create(Self);
   fUnitInitialization := TStringList.Create;
   fUnitFinalization := TStringList.Create;
   fUnitClassList := TcbClassList.Create;
@@ -1630,11 +1829,14 @@ begin
   fMethodType := AMethodType;
   fMethodName := AMethodName;
   fReturnType := AReturnType;
+  fLeadingCommentBlock := ALeadingCommentBlock;
   fMethodDirectives := AMethodDirectives;
   fParameterList := TcbMethodParameterList.Create(Self);
   fImplementationVars := TcbVariableList.Create(Self);
-  fMethodImplementation := TStringList.Create;
-  fLeadingCommentBlock := TcbSourceCommentBlock.Create(Self);
+  fMethodImplementation := TcbCodeBlock.Create(Self);
+
+  if not Assigned(fLeadingCommentBlock) then
+    fLeadingCommentBlock := TcbSourceCommentBlock.Create(Self);
 end;
 
 destructor TcbMethod.Destroy;
@@ -1662,8 +1864,6 @@ begin
 end;
 
 function TcbMethod.WriteImplementation: TStringList;
-var
-  lPrototype: String;
 begin
   Result := inherited WriteSourceCode;
 
@@ -1674,9 +1874,9 @@ begin
     // Write the implementation prototype
     Add(WriteImplementationPrototype);
     // Write the local vars
-    Add(ImplementationVars.WriteVariables);
+    AddStrings(ImplementationVars.WriteVariables);
     // Write the implementation
-    Add(MethodImplementation.WriteSourceCode);
+    AddStrings(MethodImplementation.WriteSourceCode);
   end;
 end;
 
@@ -1713,7 +1913,7 @@ begin
   // fMethodName: String;
   Result := Result + fMethodName;
   // fParameterList: TcbMethodParameterList;
-  Result := Result + fParameterList.WriteMethodParameters;
+  Result := Result + fParameterList.WriteParameters;
 
   if fMethodType = mtFunction then
     Result := Result + ': ' + fReturnType;
@@ -1783,10 +1983,10 @@ begin
   fOwnerUnit := AOwner;
 
   fImplementingInterfaces := TStringList.Create;
-  fClassVariableList := TcbClassVariableList.Create;
-  fClassMethodList := TcbClassMethodList.Create;
+  fClassVariableList := TcbClassVariableList.Create(Self);
+  fClassMethodList := TcbClassMethodList.Create(Self);
   fClassPropertyList := TcbClassPropertyList.Create;
-  fClassElementList := TcbNamedClassElementList.Create;
+  fClassElementList := TcbClassElementList.Create;
 end;
 
 destructor TcbClass.Destroy;
@@ -1807,12 +2007,12 @@ end;
 
 function TcbClass.GetElementName: String;
 begin
-  Result := fClassName;
+  Result := fClassTypeName;
 end;
 
 procedure TcbClass.SetElementName(AName: String);
 begin
-  fClassName := AName;
+  fClassTypeName := AName;
 end;
 
 { TcbClassProperty }
@@ -1827,11 +2027,6 @@ begin
   fPropertyName := AName;
 end;
 
-function TcbClassProperty.GetClassDeclaration: String;
-begin
-  // TODO -oAPL -cCodeBuilder 2: Make code that generates the property class code
-end;
-
 function TcbClassProperty.GetOwnerClass: TcbClass;
 begin
   Result := fOwnerClass;
@@ -1843,7 +2038,7 @@ begin
 end;
 
 constructor TcbClassProperty.Create(AOwner: TcbClass; APropertyName: String; APropertyType: String; AClassSection: TcbClassSection;
-  APropertyReadElement: IcbNamedClassElement; APropertyWriteElement: IcbNamedClassElement);
+  APropertyReadElement: IcbClassElement; APropertyWriteElement: IcbClassElement);
 begin
   inherited Create(AOwner);
 
@@ -1861,11 +2056,6 @@ begin
 end;
 
 { TcbClassVariable }
-
-function TcbClassVariable.GetClassDeclaration: String;
-begin
-  // TODO -oAPL -cCodeBuilder 2: Make code that generates the declaration
-end;
 
 function TcbClassVariable.GetOwnerClass: TcbClass;
 begin
@@ -1892,9 +2082,38 @@ end;
 
 { TcbClassMethod }
 
-function TcbClassMethod.GetClassDeclaration: String;
+function TcbClassMethod.WriteImplementationPrototype: String;
 begin
-  // TODO -oAPL -cCodeBuilder 2: Write code that generates the declaration, the prototype
+  // DONE -oAPL -cCodeBuilder 2: Write code that generates the declaration, the prototype
+
+  Result := '';
+
+  // Write method type
+  Result := MethodTypeToString(fMethodType) + ' ';
+  // Write the classname
+  Result := Result + fOwnerClass.ClassTypeName + '.';
+  // Write methodname
+  Result := Result + fMethodName;
+  // Write parameters
+  Result := Result + fParameterList.WriteParameters;
+  // Write returntype, if this is a function
+  if fMethodType = mtFunction then
+    Result := Result + ': ' + fReturnType;
+
+  // End the header
+  Result := Result + ';';
+
+  // Write method directives
+  if mdtOverride in fMethodDirectives then
+    Result := Result + ' override;';
+  if mdtOverload in fMethodDirectives then
+    Result := Result + ' overload;';
+  if mdtAbstract in fMethodDirectives then
+    Result := Result + ' abstract;';
+  if mdtVirtual in fMethodDirectives then
+    Result := Result + ' virtual;'
+  else if mdtDynamic in fMethodDirectives then
+    Result := Result + ' dynamic;';
 end;
 
 function TcbClassMethod.GetOwnerClass: TcbClass;
@@ -1907,17 +2126,48 @@ begin
   fOwnerClass := AOwnerClass;
 end;
 
-constructor TcbClassMethod.Create(AOwnerClass: TcbClass; AMethodName: String; AClassSection: TcbClassSection; AMethodType: TcbMethodType;
-  AMethodDirectives: TcbMethodDirectives; AReturnType: String);
+function TcbClassMethod.WriteImplementation: TStringList;
 begin
-  inherited Create(AOwnerClass, AMethodName, AMethodType, AMethodDirectives, AReturnType);
+  Result := inherited WriteSourceCode;
+
+  with Result do
+  begin
+    // Write the leading comment block
+    AddStrings(fLeadingCommentBlock.WriteSourceCode);
+    // Write the implementation prototype
+    Add(WriteImplementationPrototype);
+    // Write the local vars
+    AddStrings(ImplementationVars.WriteVariables);
+    // Write the implementation
+    AddStrings(MethodImplementation.WriteSourceCode);
+  end;
+end;
+
+constructor TcbClassMethod.Create(AOwnerClass: TcbClass; AMethodName: String; AMethodType: TcbMethodType; ALeadingCommentBlock: TcbSourceCommentBlock;
+  AClassSection: TcbClassSection; AMethodDirectives: TcbMethodDirectives; AReturnType: String);
+begin
+  inherited Create(
+    AOwnerClass,
+    AMethodName,
+    AMethodType,
+    ALeadingCommentBlock,
+    AMethodDirectives,
+    AReturnType);
 
   fOwnerClass := AOwnerClass;
   fClassSection := AClassSection;
+  fPrototypeCodeStrings := TStringList.Create;
+  fImplementationCodeStrings := TStringList.Create;
 end;
 
 destructor TcbClassMethod.Destroy;
 begin
+  if Assigned(fPrototypeCodeStrings) then
+    fPrototypeCodeStrings.Free;
+
+  if Assigned(fImplementationCodeStrings) then
+    fImplementationCodeStrings.Free;
+
   inherited;
 end;
 
