@@ -103,7 +103,7 @@ var
   lConnectionDefList: TConnectionDefList;
   lConnectionDef: TConnectionDef;
 begin
-  // DONE: Add implementations here with their respective configurations as objects
+  // DONE -oAPL -cWizard 3: Add implementations here with their respective configurations as objects
 
   // initialize all connection types
   lConnectionDefList := TConnectionDefList.Create;
@@ -137,7 +137,7 @@ end;
 
 procedure TloNewModelForm.BackButtonClick(Sender: TObject);
 begin
-  // TODO: Progress to next state
+  // -oAPL -cWizard 3: Progress to next state
   case Stage of
     lsStep2: Stage := lsStep1;
     lsStep3: Stage := lsStep2;
@@ -167,7 +167,7 @@ begin
 
       except on e:Exception do
       begin
-        // TODO: How to handle exceptions durring the wizard?
+        // TODO -oAPL -cWizard 2: How to handle exceptions durring the wizard?
         ShowMessage(e.Message);
       end;
     end;
@@ -185,7 +185,7 @@ end;
 
 procedure TloNewModelForm.NextButtonClick(Sender: TObject);
 begin
-  // TODO: Progress to next state
+  // DONE -oAPL -cWizard 4: Progress to next state
   case Stage of
     lsStep1: Stage := lsStep2;
     lsStep2: Stage := lsStep3;
@@ -277,8 +277,8 @@ begin
   case Stage of
     lsStep1:
     begin
-      // TODO: check if connection was established
-      // TODO: Enable the next button
+      // TODO -oAPL -cWizard 4: check if connection was established
+      // TODO -oAPL -cWizard 4: Enable the next button
       Result := True;
       EnableNextButton();
     end;

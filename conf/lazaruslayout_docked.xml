@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CONFIG>
+  <MainConfig>
+    <Nodes ChildCount="1">
+      <Item1 Name="MainIDE" Type="CustomSite" ChildCount="1" WindowState="Maximized">
+        <Bounds Top="-8" Left="-8" Width="1680" Height="998">
+          <WorkArea>
+            <Rect Right="1680" Bottom="1020"/>
+          </WorkArea>
+        </Bounds>
+        <Item1 Name="AnchorDockSite4" Type="Layout" ChildCount="5">
+          <Bounds Top="33" Width="1680" Height="945" SplitterPos="29"/>
+          <Anchors Align="Bottom"/>
+          <Item1 Name="SourceNotebook" Type="Control">
+            <Bounds Left="399" Width="1281" Height="575"/>
+            <Anchors Left="AnchorDockSplitter3" Bottom="AnchorDockSplitter2"/>
+            <Header Position="left"/>
+          </Item1>
+          <Item2 Name="AnchorDockSplitter2" Type="SplitterHorizontal">
+            <Bounds Top="575" Left="399" Width="1281" Height="4"/>
+            <Anchors Left="AnchorDockSplitter3"/>
+          </Item2>
+          <Item3 Name="AnchorDockSplitter3" Type="SplitterVertical">
+            <Bounds Left="395" Width="4" Height="945"/>
+          </Item3>
+          <Item4 Name="ProjectInspector" Type="Control">
+            <Bounds Width="395" Height="945"/>
+            <Anchors Right="AnchorDockSplitter3"/>
+          </Item4>
+          <Item5 Name="IDETodoWindow" Type="Control">
+            <Bounds Top="579" Left="399" Width="1273" Height="338"/>
+            <Anchors Top="AnchorDockSplitter2" Left="AnchorDockSplitter3" Align="Client"/>
+          </Item5>
+        </Item1>
+      </Item1>
+    </Nodes>
+  </MainConfig>
+</CONFIG>
