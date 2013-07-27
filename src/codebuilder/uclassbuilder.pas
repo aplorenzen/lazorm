@@ -1,13 +1,12 @@
-Jeg er ved at ændre TcbMethod til de nye method types
-Og er ved at finde ud af om sourcecodeblock typen der bruges i metode bodies kan indeholde kommentarer
-
 // TODO -oAPL -cClassBuilder 2: Find some way to implement generics
-// TODO -oAPL -cClassBuilder 1: Clean up the interface named element on properties
+// TODO -oAPL -cClassBuilder 3: Clean up the interface named element on properties
 // TODO -oAPL -cClassBuilder 3: Handle non prototyped functions
 // TODO -oAPL -cClassBuilder 3: Handle method level constants
 // TODO -oAPL -cClassBuilder 2: Make logic that makes sure that things are written in the right order, forward declarations solve some things, but constants and variables are not handled
 // TODO -oAPL -cClassBuilder 5: Perhaps clean up the unused list types
 // TODO -oAPL -cClassBuilder 3: Make logic that inspects all types used in a unit, to compose the uses clause for the implementation and the interface sections. Need to associate all types with an origin unit in this case
+// TODO -oAPL -cClassBuilder 1: Change the use of TMethod to the other Method types.
+// TODO -oAPL -cClassBuidler 1: Change it so that the sourcecode block used in the method bodies can contain comments
 
 unit uclassbuilder;
 
@@ -42,10 +41,11 @@ type
     mdtOverload,
     mdtAbstract,
     mdtVirtual,
-    mdtDynamic);
-
+    mdtDynamic,
+    mdtReintroduce);
+type
   TcbMethodDirectives = set of TcbMethodDirectiveTypes;
-
+type
   TcbMethodType = (
     mtProcedure,
     mtFunction,
@@ -53,7 +53,7 @@ type
     mtDestructor);
 
   TcbClassSection = (
-    csPackage,
+    csDefault,
     csPrivate,
     csPublic,
     csProtected,
@@ -66,6 +66,7 @@ type
 
   // TODO -oAPL -cClassBuilder 5: Assert that all classes are forward delared... not very important, perhaps not even a good idea
   TcbComponent = class;
+  TcbComponentList = class;
   TcbSourceComment = class;
   TcbSourceCommentBlock = class;
   TcbCodeLine = class;
@@ -329,15 +330,11 @@ type
   { TcbSourceCodeMethodBody }
 
   TcbSourceCodeMethodBody = class(TcbSourceCodeBeginEndBlock)
-  private
-    fOwnerComponent: TcbComponent;
   public
-    constructor Create(AOwnerMethod: TcbMethod);
+    constructor Create(AOwnerComponent: TcbComponent);
     destructor Destroy; override;
     procedure Add(ACodeString: String; AComment: TcbSourceComment = nil); overload;
     procedure Add(ACodeString: String; ASourceComment: String = ''; ACommentStyle: TcbCodeCommentStyle = ccsSlashes); overload;
-  published
-    property OwnerMethod: TcbMethod read fOwnerMethod;
   end;
 
   { TcbMethodParameter }
@@ -398,6 +395,8 @@ type
       AConstantType: IcbType = nil);
     destructor Destroy; override;
     function WriteSourceCode: TStringList; override;
+    function GetElementName: String;
+    procedure SetElementName(AName: String);
   published
     property ConstantName: String read fConstantName write fConstantName;
     property ConstantType: IcbType read fConstantType write fConstantType;
@@ -650,7 +649,7 @@ type
       AMethodType: TcbMethodType = mtProcedure;
       AMethodImplementation: TcbSourceCodeMethodBody = nil;
       ALeadingCommentBlock: TcbSourceCommentBlock = nil;
-      AClassSection : TcbClassSection = csPackage;
+      AClassSection : TcbClassSection = csDefault;
       AMethodDirectives: TcbMethodDirectives = [];
       AReturnType: IcbType = nil);
     destructor Destroy; override;
@@ -676,7 +675,7 @@ type
       AMethodType: TcbMethodType = mtProcedure;
       AMethodImplementation: TcbSourceCodeMethodBody = nil;
       ALeadingCommentBlock: TcbSourceCommentBlock = nil;
-      AClassSection : TcbClassSection = csPackage;
+      AClassSection : TcbClassSection = csDefault;
       AMethodDirectives: TcbMethodDirectives = [];
       AReturnType: IcbType = nil); overload;
     procedure Add(AClassMethod: TcbClassMethod); overload;
@@ -737,7 +736,7 @@ type
       AOwnerClass: TcbClass;
       AVariableName: String;
       AVariableType: IcbType;
-      AClassSection : TcbClassSection = csPackage);
+      AClassSection : TcbClassSection = csDefault);
     destructor Destroy; override;
     function GetOwnerClass: TcbClass;
     function GetClassSection: TcbClassSection;
@@ -759,7 +758,7 @@ type
     procedure Add(
       AVariableName: String;
       AVariableType: IcbType;
-      AClassSection : TcbClassSection = csPackage); overload;
+      AClassSection : TcbClassSection = csDefault); overload;
     procedure Add(AClassVariable: TcbClassVariable); overload;
     function HasElementsInSection(ASection: TcbClassSection): Boolean;
   published
@@ -832,7 +831,7 @@ type
       AOwnerClass: TcbClass;
       APropertyName: String;
       APropertyType: IcbType;
-      AClassSection: TcbClassSection = csPackage;
+      AClassSection: TcbClassSection = csDefault;
       APropertyReadElement: IcbClassElement = nil;
       APropertyWriteElement: IcbClassElement = nil;
       AComment: TcbSourceComment = nil);
@@ -864,7 +863,7 @@ type
     procedure Add(
       APropertyName: String;
       APropertyType: IcbType;
-      AClassSection: TcbClassSection = csPackage;
+      AClassSection: TcbClassSection = csDefault;
       APropertyReadElement: IcbClassElement = nil;
       APropertyWriteElement: IcbClassElement = nil;
       AComment: TcbSourceComment = nil); overload;
@@ -906,21 +905,21 @@ type
     procedure AddVariable(
       AVariableName: String;
       AVariableType: IcbType;
-      AClassSection : TcbClassSection = csPackage); overload;
+      AClassSection : TcbClassSection = csDefault); overload;
     procedure AddMethod(AMethod: TcbClassMethod); overload;
     procedure AddMethod(
       AMethodName: String;
       AMethodType: TcbMethodType = mtProcedure;
       AMethodImplementation: TcbSourceCodeMethodBody = nil;
       ALeadingCommentBlock: TcbSourceCommentBlock = nil;
-      AClassSection: TcbClassSection = csPackage;
+      AClassSection: TcbClassSection = csDefault;
       AMethodDirectives: TcbMethodDirectives = [];
       AReturnType: IcbType = nil); overload;
     procedure AddProperty(AProperty: TcbClassProperty); overload;
     procedure AddProperty(
       APropertyName: String;
       APropertyType: IcbType;
-      AClassSection: TcbClassSection = csPackage;
+      AClassSection: TcbClassSection = csDefault;
       APropertyReadElement: IcbClassElement = nil;
       APropertyWriteElement: IcbClassElement = nil;
       AComment: TcbSourceComment = nil); overload;
@@ -1087,7 +1086,7 @@ implementation
 function ClassSectionToString(AClassSection: TcbClassSection): String;
 begin
   case AClassSection of
-    csPackage: Result := '';
+    csDefault: Result := '';
     csPrivate: Result := 'private';
     csPublic: Result := 'public';
     csProtected: Result := 'protected';
@@ -1189,6 +1188,16 @@ begin
     lString := lString + ': ' + fConstantType.GetTypeName;
   lString := lString + ' = ' + fConstantValue;
   Result.Add(lString);
+end;
+
+function TcbConstant.GetElementName: String;
+begin
+  Result := fConstantName;
+end;
+
+procedure TcbConstant.SetElementName(AName: String);
+begin
+  fConstantName := AName;
 end;
 
 { TcbPrototypedUnitMethod }
@@ -1477,8 +1486,6 @@ end;
 constructor TcbSourceCodeMethodBody.Create(AOwnerMethod: TcbMethod);
 begin
   inherited Create(AOwnerMethod);
-
-  fOwnerMethod := AOwnerMethod;
 end;
 
 destructor TcbSourceCodeMethodBody.Destroy;
@@ -2013,7 +2020,7 @@ begin
 
   fOwnerClass := AOwnerClass;
 
-  fPropertyStrings[csPackage] := TStringList.Create;
+  fPropertyStrings[csDefault] := TStringList.Create;
   fPropertyStrings[csPrivate] := TStringList.Create;
   fPropertyStrings[csProtected] := TStringList.Create;
   fPropertyStrings[csPublic] := TStringList.Create;
@@ -2024,8 +2031,8 @@ destructor TcbClassPropertyList.Destroy;
 var
   lClassProperty: TcbClassProperty;
 begin
-  if Assigned(fPropertyStrings[csPackage]) then
-    fPropertyStrings[csPackage].Free;
+  if Assigned(fPropertyStrings[csDefault]) then
+    fPropertyStrings[csDefault].Free;
   if Assigned(fPropertyStrings[csPrivate]) then
     fPropertyStrings[csPrivate].Free;
   if Assigned(fPropertyStrings[csProtected]) then
@@ -2100,7 +2107,7 @@ begin
   inherited Create;
 
   fOwnerClass := AOwnerClass;
-  fVariableStrings[csPackage] := TStringList.Create;
+  fVariableStrings[csDefault] := TStringList.Create;
   fVariableStrings[csPrivate] := TStringList.Create;
   fVariableStrings[csProtected] := TStringList.Create;
   fVariableStrings[csPublic] := TStringList.Create;
@@ -2111,8 +2118,8 @@ destructor TcbClassVariableList.Destroy;
 var
   lClassVariable: TcbClassVariable;
 begin
-  if Assigned(fVariableStrings[csPackage]) then
-    fVariableStrings[csPackage].Free;
+  if Assigned(fVariableStrings[csDefault]) then
+    fVariableStrings[csDefault].Free;
   if Assigned(fVariableStrings[csPrivate]) then
     fVariableStrings[csPrivate].Free;
   if Assigned(fVariableStrings[csProtected]) then
@@ -2245,7 +2252,7 @@ begin
 
   fOwnerClass := AOwnerClass;
 
-  fPrototypeCodeStrings[csPackage] := TStringList.Create;
+  fPrototypeCodeStrings[csDefault] := TStringList.Create;
   fPrototypeCodeStrings[csPrivate] := TStringList.Create;
   fPrototypeCodeStrings[csPublic] := TStringList.Create;
   fPrototypeCodeStrings[csProtected] := TStringList.Create;
@@ -2257,8 +2264,8 @@ destructor TcbClassMethodList.Destroy;
 var
   lClassMethod: TcbClassMethod;
 begin
-  if Assigned(fPrototypeCodeStrings[csPackage]) then
-    fPrototypeCodeStrings[csPackage].Free;
+  if Assigned(fPrototypeCodeStrings[csDefault]) then
+    fPrototypeCodeStrings[csDefault].Free;
   if Assigned(fPrototypeCodeStrings[csPrivate]) then
     fPrototypeCodeStrings[csPrivate].Free;
   if Assigned(fPrototypeCodeStrings[csPublic]) then
@@ -2737,6 +2744,11 @@ begin
   Result := fOwnerComponent;
 end;
 
+procedure TcbComponent.RegisterChild(AComponent: TcbComponent);
+begin
+  fChildComponents.Add(AComponent):
+end;
+
 { TcbUnit }
 
 constructor TcbUnit.Create(AOwner: TcbComponent);
@@ -3083,7 +3095,7 @@ begin
   fClassElementList := TcbClassElementList.Create(Self);
 
   fPrototypeClassSections[csPrivate] := TStringList.Create;
-  fPrototypeClassSections[csPackage] := TStringList.Create;
+  fPrototypeClassSections[csDefault] := TStringList.Create;
   fPrototypeClassSections[csProtected] := TStringList.Create;
   fPrototypeClassSections[csPublic] := TStringList.Create;
   fPrototypeClassSections[csPublished] := TStringList.Create;
@@ -3104,8 +3116,8 @@ begin
 
   if Assigned(fPrototypeClassSections[csPrivate]) then
     fPrototypeClassSections[csPrivate].Free;
-  if Assigned(fPrototypeClassSections[csPackage]) then
-    fPrototypeClassSections[csPackage].Free;
+  if Assigned(fPrototypeClassSections[csDefault]) then
+    fPrototypeClassSections[csDefault].Free;
   if Assigned(fPrototypeClassSections[csProtected]) then
     fPrototypeClassSections[csProtected].Free;
   if Assigned(fPrototypeClassSections[csPublic]) then
@@ -3170,7 +3182,7 @@ begin
     Add(lClassDeclaration);
 
     // Write package section
-    AddStrings(WritePrototypeSection(csPackage));
+    AddStrings(WritePrototypeSection(csDefault));
 
     // Write private section
     if HasElementsInSection(csPrivate) then

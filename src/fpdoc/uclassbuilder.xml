@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
-<fpdoc-descriptions><package name="LazORM"><module name="uClassBuilder"/>
+<fpdoc-descriptions><package name="LazORM"><module name="uClassBuilder"><element name="IcbType"><short>Interface that identifies that an implementing object is a type.</short><descr>All objects implementing this, can be assigned as types for elements such as variables, method parameters and constants and such.</descr>
+      </element><element name="TcbComponent"><short>The TcbComponent object is the root object of all code generating objects in the ClassBuilder framework.</short><descr><p>The object provides access to an optional Logger (specifically the log4fpc TLogger type), and a TXMLConfig object for passing any configuration to the code generating classes. Also a list of child components are being stored in the object, and the constructor ensures that any decendant will register itself with it's owner as a child.</p><p><remark>Perhaps I could consider making an interface for the TLogger class an making a decendant that implements it - in order for people with other logging suits to be able to switch the logger - dependancy injection.</remark>
+          </p>
+        </descr>
+      </element>
+    </module>
   </package>
 </fpdoc-descriptions>
