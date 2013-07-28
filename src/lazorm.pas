@@ -12,14 +12,14 @@ uses
   flazormnewmodelwizard,
   ulazormtypes,
   ulazormutils,
-  ulazormconstants, uclassbuilder;
+  ulazormconstants, uclassbuilder, frmDevTestForm;
 
 {$R *.res}
 
 begin
   RequireDerivedFormResource := True;
   Application.Initialize;
-  Application.CreateForm(TloNewModelForm, loNewModelForm);
+  Application.CreateForm(TForm1, Form1);
   Application.Run;
 end.
 

@@ -3,16 +3,16 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="20">
+    <Units Count="22">
       <Unit0>
         <Filename Value="lazorm.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="lazorm"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="16"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="40" Y="5"/>
-        <UsageCount Value="184"/>
+        <UsageCount Value="197"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -22,11 +22,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="flazormnewmodelwizard"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="174"/>
         <CursorPos X="10" Y="188"/>
-        <UsageCount Value="184"/>
+        <UsageCount Value="197"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -34,22 +34,22 @@
         <Filename Value="common/ulazormtypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ulazormtypes"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="18" Y="1"/>
-        <UsageCount Value="184"/>
+        <UsageCount Value="197"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="common/ulazormutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ulazormutils"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="19" Y="12"/>
-        <UsageCount Value="181"/>
+        <UsageCount Value="194"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
@@ -60,7 +60,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="9"/>
-        <UsageCount Value="180"/>
+        <UsageCount Value="193"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -70,22 +70,22 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="3607"/>
-        <CursorPos X="35" Y="3620"/>
-        <UsageCount Value="178"/>
+        <TopLine Value="3375"/>
+        <CursorPos X="35" Y="3382"/>
+        <UsageCount Value="191"/>
         <Bookmarks Count="1">
-          <Item0 X="1" Y="696" ID="1"/>
+          <Item0 X="5" Y="3382" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="../.gitignore"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="175"/>
+        <UsageCount Value="188"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit6>
@@ -95,7 +95,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="193"/>
         <CursorPos X="3" Y="31"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit7>
       <Unit8>
         <Filename Value="../unit1.pas"/>
@@ -106,230 +106,257 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit8>
       <Unit9>
         <Filename Value="../../lorm/ide/frmlormnewmodel.lfm"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit9>
       <Unit10>
-        <Filename Value="/usr/share/fpcsrc/2.6.2/rtl/objpas/classes/classesh.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1658"/>
-        <CursorPos X="3" Y="1670"/>
-        <UsageCount Value="0"/>
-      </Unit10>
-      <Unit11>
         <Filename Value="common/ulazormloggerconsumer.pas"/>
         <UnitName Value="ulazormloggerconsumer"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="11"/>
-        <UsageCount Value="7"/>
-      </Unit11>
-      <Unit12>
+        <UsageCount Value="6"/>
+      </Unit10>
+      <Unit11>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/postgres/pqconnection.pp"/>
         <UnitName Value="pqconnection"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="14"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="90"/>
+        <Loaded Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <UnitName Value="sqldb"/>
+        <EditorIndex Value="13"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="90"/>
         <Loaded Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
-        <UnitName Value="sqldb"/>
-        <EditorIndex Value="10"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/inc/objpash.inc"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="83"/>
+        <TopLine Value="180"/>
+        <CursorPos X="8" Y="201"/>
+        <UsageCount Value="86"/>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/inc/objpash.inc"/>
-        <EditorIndex Value="4"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/win64/classes.pp"/>
+        <UnitName Value="Classes"/>
+        <EditorIndex Value="15"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="176"/>
-        <CursorPos X="23" Y="192"/>
-        <UsageCount Value="79"/>
+        <TopLine Value="17"/>
+        <CursorPos X="29" Y="28"/>
+        <UsageCount Value="89"/>
         <Loaded Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/win64/classes.pp"/>
-        <UnitName Value="Classes"/>
-        <EditorIndex Value="12"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/fgl.pp"/>
+        <UnitName Value="fgl"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="3" Y="1"/>
-        <UsageCount Value="82"/>
+        <TopLine Value="114"/>
+        <CursorPos X="14" Y="128"/>
+        <UsageCount Value="88"/>
         <Loaded Value="True"/>
       </Unit15>
       <Unit16>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/fgl.pp"/>
-        <UnitName Value="fgl"/>
-        <EditorIndex Value="5"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="85"/>
-        <CursorPos X="14" Y="92"/>
-        <UsageCount Value="81"/>
-        <Loaded Value="True"/>
-      </Unit16>
-      <Unit17>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/sysutils/intfh.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="6"/>
         <CursorPos X="3" Y="24"/>
-        <UsageCount Value="4"/>
-      </Unit17>
-      <Unit18>
+        <UsageCount Value="3"/>
+      </Unit16>
+      <Unit17>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/win/wininc/struct.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="5012"/>
         <CursorPos X="6" Y="5030"/>
-        <UsageCount Value="68"/>
+        <UsageCount Value="75"/>
         <Loaded Value="True"/>
-      </Unit18>
-      <Unit19>
+      </Unit17>
+      <Unit18>
         <Filename Value="fpdoc/uclassbuilder.xml"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="43"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="XML"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="frmDevTestForm"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="35"/>
+        <CursorPos X="1" Y="54"/>
+        <UsageCount Value="26"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit19>
+      <Unit20>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/win/sysutils.pp"/>
+        <UnitName Value="sysutils"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="23" Y="16"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="../lib/log4delphi-0.7/src/delphi/tloggerunit.pas"/>
+        <UnitName Value="TLoggerUnit"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="67"/>
+        <CursorPos X="17" Y="92"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit21>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3615" Column="3" TopLine="3598"/>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <Caret Line="54" Column="1" TopLine="34"/>
       </Position1>
       <Position2>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="643" Column="14" TopLine="640"/>
+        <Caret Line="1372" Column="16" TopLine="1345"/>
       </Position2>
       <Position3>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="2676" Column="19" TopLine="2667"/>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <Caret Line="54" Column="1" TopLine="34"/>
       </Position3>
       <Position4>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="891" Column="8" TopLine="880"/>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <Caret Line="55" Column="1" TopLine="34"/>
       </Position4>
       <Position5>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3440" Column="14" TopLine="3427"/>
+        <Caret Line="874" Column="14" TopLine="866"/>
       </Position5>
       <Position6>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="919" Column="38" TopLine="899"/>
+        <Caret Line="3669" Column="3" TopLine="3664"/>
       </Position6>
       <Position7>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="921" Column="14" TopLine="907"/>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <Caret Line="54" Column="1" TopLine="34"/>
       </Position7>
       <Position8>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="927" Column="69" TopLine="914"/>
+        <Caret Line="1341" Column="13" TopLine="1337"/>
       </Position8>
       <Position9>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3433" Column="4" TopLine="3428"/>
+        <Caret Line="2333" Column="3" TopLine="2329"/>
       </Position9>
       <Position10>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="919" Column="80" TopLine="909"/>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <Caret Line="54" Column="1" TopLine="34"/>
       </Position10>
       <Position11>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3419" Column="13" TopLine="3415"/>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <Caret Line="55" Column="1" TopLine="34"/>
       </Position11>
       <Position12>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="2532" Column="1" TopLine="2532"/>
+        <Caret Line="3673" Column="1" TopLine="3658"/>
       </Position12>
       <Position13>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="773" Column="5" TopLine="759"/>
+        <Caret Line="3680" Column="1" TopLine="3658"/>
       </Position13>
       <Position14>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3496" Column="94" TopLine="3482"/>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <Caret Line="58" Column="1" TopLine="34"/>
       </Position14>
       <Position15>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="842" Column="17" TopLine="841"/>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <Caret Line="60" Column="1" TopLine="35"/>
       </Position15>
       <Position16>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3527" Column="33" TopLine="3514"/>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <Caret Line="61" Column="1" TopLine="35"/>
       </Position16>
       <Position17>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="701" Column="19" TopLine="687"/>
+        <Caret Line="3669" Column="24" TopLine="3658"/>
       </Position17>
       <Position18>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3153" Column="51" TopLine="3151"/>
+        <Caret Line="2209" Column="19" TopLine="2205"/>
       </Position18>
       <Position19>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3527" Column="61" TopLine="3513"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position19>
       <Position20>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="736" Column="3" TopLine="728"/>
+        <Caret Line="426" Column="14" TopLine="411"/>
       </Position20>
       <Position21>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="716" Column="40" TopLine="691"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position21>
       <Position22>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/fgl.pp"/>
-        <Caret Line="106" Column="11" TopLine="91"/>
+        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Caret Line="81" Column="20" TopLine="56"/>
       </Position22>
       <Position23>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="716" Column="40" TopLine="691"/>
+        <Caret Line="83" Column="25" TopLine="58"/>
       </Position23>
       <Position24>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3527" Column="60" TopLine="3513"/>
+        <Caret Line="2852" Column="11" TopLine="2843"/>
       </Position24>
       <Position25>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="696" Column="17" TopLine="687"/>
+        <Caret Line="2851" Column="5" TopLine="2843"/>
       </Position25>
       <Position26>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="720" Column="1" TopLine="710"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position26>
       <Position27>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3577" Column="43" TopLine="3562"/>
+        <Caret Line="426" Column="14" TopLine="411"/>
       </Position27>
       <Position28>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3531" Column="35" TopLine="3515"/>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <Caret Line="54" Column="1" TopLine="35"/>
       </Position28>
       <Position29>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="649" Column="14" TopLine="632"/>
+        <Caret Line="3683" Column="35" TopLine="3665"/>
       </Position29>
       <Position30>
         <Filename Value="codebuilder/uclassbuilder.pas"/>
-        <Caret Line="3590" Column="1" TopLine="3572"/>
+        <Caret Line="3" Column="1" TopLine="1"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

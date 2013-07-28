@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="5"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="46"/>
+      <BuildNr Value="56"/>
       <StringTable ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -47,7 +47,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="7">
+    <Units Count="8">
       <Unit0>
         <Filename Value="lazorm.pas"/>
         <IsPartOfProject Value="True"/>
@@ -85,6 +85,13 @@
         <Filename Value="../.gitignore"/>
         <IsPartOfProject Value="True"/>
       </Unit6>
+      <Unit7>
+        <Filename Value="test/frmdevtestform.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="frmDevTestForm"/>
+      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -95,7 +102,7 @@
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
       <Libraries Value="/usr/local/lib;/usr/lib"/>
-      <OtherUnitFiles Value="common;codebuilder;ui"/>
+      <OtherUnitFiles Value="common;codebuilder;ui;test"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
