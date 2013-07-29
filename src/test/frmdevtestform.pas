@@ -5,18 +5,20 @@ unit frmDevTestForm;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
 
   uClassBuilder;
 
 type
 
-  { TForm1 }
+  { TClassBuilderTestForm }
 
-  TForm1 = class(TForm)
-    Button1: TButton;
-    Memo1: TMemo;
-    procedure Button1Click(Sender: TObject);
+  TClassBuilderTestForm = class(TForm)
+    CenterPanel: TPanel;
+    SimpleTestButton: TButton;
+    OutputMemo: TMemo;
+    TopPanel: TPanel;
+    procedure SimpleTestButtonClick(Sender: TObject);
   private
     { private declarations }
   public
@@ -24,15 +26,15 @@ type
   end;
 
 var
-  Form1: TForm1;
+  ClassBuilderTestForm: TClassBuilderTestForm;
 
 implementation
 
 {$R *.lfm}
 
-{ TForm1 }
+{ TClassBuilderTestForm }
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TClassBuilderTestForm.SimpleTestButtonClick(Sender: TObject);
 var
   lUnit: TcbUnit;
   lSection1: TcbUnitInterfaceSection;
@@ -40,6 +42,7 @@ var
   cbTObject: TcbExternalType;
 begin
   lUnit := TcbUnit.Create(nil, 'TestUnit');
+  lUnit.UnitTopCompilerDirectives.Add('{$mode objfpc}{$H+}');
   cbTObject := TcbExternalType.Create(nil, 'TObject');
 
   lSection1 := lUnit.UnitSections.AddSection;
@@ -55,7 +58,7 @@ begin
       'Test');
   end;
 
-  Memo1.Lines.AddStrings(lUnit.WriteSourceCode);
+  OutputMemo.Lines.AddStrings(lUnit.WriteSourceCode);
 
   lUnit.Free;
   cbTObject.Free;

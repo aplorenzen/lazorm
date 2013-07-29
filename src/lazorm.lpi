@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="5"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="56"/>
+      <BuildNr Value="60"/>
       <StringTable ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -88,7 +88,8 @@
       <Unit7>
         <Filename Value="test/frmdevtestform.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
+        <ComponentName Value="ClassBuilderTestForm"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frmDevTestForm"/>
       </Unit7>
@@ -106,11 +107,15 @@
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
+      <VerifyObjMethodCallValidity Value="True"/>
       <Optimizations>
         <OptimizationLevel Value="0"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
+      <Debugging>
+        <UseHeaptrc Value="True"/>
+      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>
@@ -121,6 +126,7 @@
       <CompilerMessages>
         <MsgFileName Value=""/>
       </CompilerMessages>
+      <CustomOptions Value="-gl"/>
       <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>

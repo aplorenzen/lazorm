@@ -1298,9 +1298,13 @@ begin
 
   with Result do
   begin
+    if (fClasses.Count > 0) or (fInterfaces.Count > 0) then
+      Add('type');
     AddStrings(fClasses.WriteForwardDeclarations);
     AddStrings(fInterfaces.WriteForwardDeclarations);
     AddStrings(fConstants.WriteConstants);
+    if (fConstants.Count > 0) then
+      Add('type');
     AddStrings(fClasses.WritePrototypes);
     AddStrings(fVariables.WriteVariables);
     AddStrings(fPrototypedUnitMethods.WritePrototypes);
