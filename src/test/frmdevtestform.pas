@@ -40,28 +40,57 @@ var
   lSection1: TcbUnitInterfaceSection;
   lClass: TcbClass;
   cbTObject: TcbExternalType;
+  cbInteger: TcbExternalType;
+  lClassMethod: TcbClassMethod;
+  lTempInt: TcbVariable;
+  lIntParam: TcbMethodParameter;
 begin
   lUnit := TcbUnit.Create(nil, 'TestUnit');
   lUnit.UnitTopCompilerDirectives.Add('{$mode objfpc}{$H+}');
   cbTObject := TcbExternalType.Create(nil, 'TObject');
+  cbInteger := TcbExternalType.Create(nil, 'Integer');
 
-  lSection1 := lUnit.UnitSections.AddSection;
+  try
+    lSection1 := lUnit.UnitSections.AddSection;
 
-  with lSection1 do
-  begin
-    lClass := AddClass(
-      'SomeClass',
-      False,
-      cbTObject);
+    with lSection1 do
+    begin
+      lClass := AddClass(
+        'SomeClass',
+        False,
+        cbTObject);
 
-    lClass.AddMethod(
-      'Test');
+      lClassMethod := lClass.AddMethod(
+        'Test',
+        mtFunction,
+        csPublic,
+        [mdtDynamic],
+        cbInteger);
+
+      lIntParam := lClassMethod.Parameters.Add(
+        'TestParam',
+        cbInteger,
+        mpmConst,
+        '14');
+
+      lTempInt := lClassMethod.Variables.Add(
+        'TempInt',
+        cbInteger);
+
+      with lClassMethod.MethodCode do
+      begin
+        Add(lTempInt.VariableName + ' := ' + lIntParam.ParameterName + ';');
+      end;
+
+    end;
+
+    OutputMemo.Lines.AddStrings(lUnit.WriteSourceCode);
+
+  finally
+    lUnit.Free;
+    cbTObject.Free;
+    cbInteger.Free;
   end;
-
-  OutputMemo.Lines.AddStrings(lUnit.WriteSourceCode);
-
-  lUnit.Free;
-  cbTObject.Free;
 end;
 
 end.

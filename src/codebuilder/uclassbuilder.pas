@@ -1,12 +1,13 @@
-// TODO -oAPL -cClassBuilder 2: Find some way to implement generics
-// TODO -oAPL -cClassBuilder 3: Clean up the interface named element on properties
-// TODO -oAPL -cClassBuilder 3: Handle non prototyped functions
-// TODO -oAPL -cClassBuilder 3: Handle method level constants
-// TODO -oAPL -cClassBuilder 2: Make logic that makes sure that things are written in the right order, forward declarations solve some things, but constants and variables are not handled
-// TODO -oAPL -cClassBuilder 5: Perhaps clean up the unused list types
-// TODO -oAPL -cClassBuilder 3: Make logic that inspects all types used in a unit, to compose the uses clause for the implementation and the interface sections. Need to associate all types with an origin unit in this case
-// TODO -oAPL -cClassBuilder 1: Change the use of TMethod to the other Method types.
-// TODO -oAPL -cClassBuidler 1: Change it so that the sourcecode block used in the method bodies can contain comments
+{ TODO -oAPL -cClassBuilder 2: Find some way to implement generics }
+{ TODO -oAPL -cClassBuilder 3: Clean up the interface named element on properties }
+{ DONE -oAPL -cClassBuilder 3: Handle non prototyped functions }
+{ DONE -oAPL -cClassBuilder 3: Handle method level constants }
+{ TODO -oAPL -cClassBuilder 2: Make logic that makes sure that things are written in the right order, forward declarations solve some things, but constants and variables are not handled }
+{ TODO -oAPL -cClassBuilder 5: Perhaps clean up the unused list types }
+{ TODO -oAPL -cClassBuilder 3: Make logic that inspects all types used in a unit, to compose the uses clause for the implementation and the interface sections. Need to associate all types with an origin unit in this case }
+{ DONE -oAPL -cClassBuilder 1: Change the use of TMethod to the other Method types. }
+{ DONE -oAPL -cClassBuidler 1: Change it so that the sourcecode block used in the method bodies can contain comments }
+{ DONE -oAPL -cClassBuilder 5: Change commentstyle in ths file to brackets only }
 
 unit uclassbuilder;
 
@@ -59,12 +60,12 @@ type
     csProtected,
     csPublished);
 
-  // TODO -oAPL -cClassBuilder 4: Find out id there are more of these class modifiers, find them all and implement them
+  { TODO -oAPL -cClassBuilder 4: Find out id there are more of these class modifiers, find them all and implement them }
   TcbClassModifierTypes = (
     cmAbstract,
     cmSealed);
 
-  // TODO -oAPL -cClassBuilder 5: Assert that all classes are forward delared... not very important, perhaps not even a good idea
+  { TODO -oAPL -cClassBuilder 5: Assert that all classes are forward delared... not very important, perhaps not even a good idea }
   TcbComponent = class;
   TcbComponentList = class;
   TcbCommentLine = class;
@@ -90,8 +91,7 @@ type
   TcbInterface = class;
   TcbInterfaceList = class;
 
-  // TODO -oAPL -cClassBuilder 5: Forward declare interfaces?
-
+  { TODO -oAPL -cClassBuilder 5: Forward declare interfaces? }
   IcbNamedElement = interface(IInterface)
     ['{035C5796-ABB1-4523-A20A-4A7AC382CF47}']
     function GetElementName: String;
@@ -138,12 +138,6 @@ type
   published
     property OwnerInterface: TcbInterface read fOwnerInterface;
   end;
-
-  {IcbNamedElementContainer = interface(IInterface)
-    ['{19AEBB68-2358-45F6-AD30-5DDC4ECCD176}']
-    procedure AddNamedElement(AElement: IcbNamedElement);
-    function GetNamedElements: TcbNamedElementList;
-  end;}
 
   IcbLoggerConsumer = interface(IInterface)
     ['{C6C1AA83-B523-468A-AE02-1206F49A468E}']
@@ -951,6 +945,7 @@ type
     fInterfaceGUID: TGUID;
     fMethods: TcbInterfaceMethodList;
     fProperties: TcbInterfacePropertyList;
+    fForwardDeclarationStrings: TStringList;
   public
     constructor Create(
       AOwnerUnit: TcbUnit;
@@ -964,6 +959,7 @@ type
     function GetTypeName: String;
     procedure SetTypeName(ATypeName: String);
     function WritePrototype: TStringList; override;
+    function WriteForwardDeclaration: TStringList;
     property InterfaceGUID: TGUID read fInterfaceGUID write fInterfaceGUID;
   published
     property OwnerUnit: TcbUnit read fOwnerUnit write fOwnerUnit;
@@ -1006,7 +1002,7 @@ type
     fInterfaces: TcbInterfaceList;
     fPrototypedUnitMethods: TcbPrototypedUnitMethodList;
     fUnprototypedUnitMethods: TcbUnprototypedUnitMethodList;
-    // TODO -oAPL -cClassBuilder 2: Make records
+    { TODO -oAPL -cClassBuilder 2: Make records }
   public
     constructor Create(AOwnerUnit: TcbUnit);
     destructor Destroy; override;
@@ -1086,7 +1082,7 @@ type
     fUnitFinalization: TcbCodeBlock;
     fUnitSections: TcbUnitInterfaceSectionList;
 
-    // TODO -oAPL -cClassBuilder 3: Records, sets... and more?
+    { TODO -oAPL -cClassBuilder 3: Records, sets... and more? }
   public
     constructor Create(AOwner: TcbComponent; AUnitName: String);
     destructor Destroy; override;
@@ -1119,12 +1115,12 @@ type
 
   { TcbUnitWriter }
 
-  TcbUnitWriter = class(TcbComponent, IcbUnitWriter)
+  TcbUnitWriter = class(TcbComponent{, IcbUnitWriter})
   private
   public
     constructor Create(AOwner: TcbComponent);
     destructor Destroy; override;
-    function WriteUnit(AUnit: TcbUnit): TStrings;
+    // function WriteUnit(AUnit: TcbUnit): TStrings;
   end;
 
   { TcbCodeWriter }
@@ -1189,9 +1185,9 @@ function MethodParameterModifierToString(AParameterModifier: TcbMethodParameterM
 begin
   case AParameterModifier of
     mpmNone: Result := '';
-    mpmOut: Result := 'out';
-    mpmConst: Result := 'const';
-    mpmVar: Result := 'var';
+    mpmOut: Result := 'out' + ' ';
+    mpmConst: Result := 'const' + ' ';
+    mpmVar: Result := 'var' + ' ';
   end;
 end;
 
@@ -1330,7 +1326,8 @@ function TcbUnitInterfaceSection.AddConstant(AConstantName: String; AConstantVal
 begin
   Result := fConstants.Add(
     AConstantName,
-    AConstantValue);
+    AConstantValue,
+    AConstantType);
 end;
 
 function TcbUnitInterfaceSection.AddVariable(AVariableName: String; AVariableType: IcbType): TcbVariable;
@@ -1582,7 +1579,6 @@ begin
   if fMethodType = mtFunction then
     lString := lString + ': ' + fReturnType.GetTypeName;
   lString := lString + ';';
-  lString := lString + MethodDirectivesToString(fMethodDirectives);
   fProtoTypeStrings.Add(lString);
   Result := fProtoTypeStrings;
 end;
@@ -1678,7 +1674,7 @@ begin
     case fCommentStyle of
       ccsSlashes:
       begin
-        // DONE oAPL -cClassBuilder 3: The comment string can contain linefeeds, so either clean the string, og parse it into a stringlist and preceed each line with the slashes, if that is chosen
+        { DONE -oAPL -cClassBuilder 3: The comment string can contain linefeeds, so either clean the string, og parse it into a stringlist and preceed each line with the slashes, if that is chosen }
 
         lCommentStrings := TStringList.Create;
 
@@ -1701,9 +1697,6 @@ begin
       ccsParenthesis: Add('(* ' + fComment + ' *)');
     end;
   end;
-
-  // NOTE: Depending on if the inherited assignment of Result worked, this is not needed
-  // Result := fCommentLines;
 end;
 
 { TcbConstantBlock }
@@ -1711,6 +1704,7 @@ end;
 constructor TcbConstantBlock.Create(AOwnerComponent: TcbComponent);
 begin
   inherited Create;
+  fOwnerComponent := AOwnerComponent;
   fCodeStrings := TStringList.Create;
 end;
 
@@ -1810,7 +1804,6 @@ begin
   if fMethodType = mtFunction then
     lString := lString + ': ' + fReturnType.GetTypeName;
   lString := lString + ';';
-  lString := lString + MethodDirectivesToString(fMethodDirectives);
   fImplementationProtoTypeStrings.Add(lString);
   Result := fImplementationProtoTypeStrings;
 end;
@@ -1926,14 +1919,14 @@ begin
   if (fMethodType = mtFunction) and (not Assigned(fReturnType)) then
     raise TcbNilReferenceException.CreateFmt('Cannot write interface %s %s. ReturnType is not assigned.', [MethodTypeToString(fMethodType), fMethodName]);
 
-  // Get the inherited StringList
+  { Get the inherited StringList }
   Result := inherited WritePrototype;
 
-  // fMethodType: TcbMethodType;
+  { Write the method type }
   lString := MethodTypeToString(fMethodType) + ' ';
-  // fMethodName: String;
+  { Write method name }
   lString := lString + fMethodName;
-  // fParameterList: TcbMethodParameterList;
+  { Write the parameters }
   lString := lString + fParameters.WriteParameters;
 
   if fMethodType = mtFunction then
@@ -1966,6 +1959,7 @@ end;
 constructor TcbCodeBlock.Create(AOwnerComponent: TcbComponent);
 begin
   inherited Create;
+  fOwnerComponent := AOwnerComponent;
   fCodeStrings := TStringList.Create;
 end;
 
@@ -2272,22 +2266,20 @@ var
   lComment: TcbCommentLine;
 begin
   Result := inherited WriteSourceCode;
-  // TODO -oAPL -cClassBuilder 5: Introduce a variable to control if the comment should be writted before or after the codeline
+
+  { TODO -oAPL -cClassBuilder 5: Introduce a variable to control if the comment should be writted before or after the codeline }
 
   with Result do
   begin
-    // Write the comment, if any
+    { Write the comment, if any }
     if Assigned(fComments) then
       for lComment in fComments do
         if Assigned(lComment) then
           AddStrings(lComment.WriteSourceCode);
 
-    // Write the codeline
+    { Write the codeline }
     Add(fCodeLine);
   end;
-
-  // NOTE: Depending on if the inherited assignment of Result worked, this is not needed
-  // Result := fCodeLines;
 end;
 
 { TcbInterfaceList }
@@ -2319,8 +2311,16 @@ begin
 end;
 
 function TcbInterfaceList.WriteForwardDeclarations: TStringList;
+var
+  lInterface: TcbInterface;
 begin
+  fForwardDeclarations.Clear;
 
+  for lInterface in Self do
+    if Assigned(lInterface) then
+      fForwardDeclarations.AddStrings(lInterface.WriteForwardDeclaration);
+
+  Result := fForwardDeclarations;
 end;
 
 function TcbInterfaceList.WritePrototypes: TStringList;
@@ -2367,10 +2367,13 @@ begin
 
   fMethods := TcbInterfaceMethodList.Create(Self);
   fProperties := TcbInterfacePropertyList.Create(Self);
+  fForwardDeclarationStrings := TStringList.Create;
 end;
 
 destructor TcbInterface.Destroy;
 begin
+  if Assigned(fForwardDeclarationStrings) then
+    fForwardDeclarationStrings.Free;
   if Assigned(fMethods) then
     fMethods.Free;
   if Assigned(fProperties) then
@@ -2428,6 +2431,13 @@ begin
     if lHasElements then
       Add('end;');
   end;
+end;
+
+function TcbInterface.WriteForwardDeclaration: TStringList;
+begin
+  fForwardDeclarationStrings.Clear;
+  fForwardDeclarationStrings.Add(fInterfaceName + ' = interface;');
+  Result := fForwardDeclarationStrings;
 end;
 
 { TcbInterfacePropertyList }
@@ -3014,8 +3024,8 @@ function TcbMethodParameterList.WriteParameters: String;
 var
   lMethodParameter: TcbMethodParameter;
 begin
-  // DONE -oAPL -cClassBuilder 1: Write the parameter strings
-  // DONE -oAPL -cClassBuilder 2: Make sure that items with defaults are in the end of the written string
+  { DONE -oAPL -cClassBuilder 1: Write the parameter strings }
+  { DONE -oAPL -cClassBuilder 2: Make sure that items with defaults are in the end of the written string }
 
   Result := '';
 
@@ -3039,7 +3049,7 @@ begin
     end;
 
   if Count > 0 then
-    Result := ')';
+    Result := Result + ')';
 end;
 
 function TcbMethodParameterList.WriteImplementationParameters: String;
@@ -3068,7 +3078,7 @@ begin
     end;
 
   if Count > 0 then
-    Result := ')';
+    Result := Result + ')';
 end;
 
 function TcbMethodParameterList.Add(AParameterName: String; AParameterType: IcbType; AParameterModifier: TcbMethodParameterModifier; AParameterDefault: String
@@ -3100,136 +3110,10 @@ begin
   inherited;
 end;
 
-function TcbUnitWriter.WriteUnit(AUnit: TcbUnit): TStrings;
-(*var
-  lIndex: Integer;
-  lUnitMethod: TcbMethod;
-  lClass: TcbClass;
-  lVariable: TcbVariable;
-  lInterface: TcbInterface;*)
+{ function TcbUnitWriter.WriteUnit(AUnit: TcbUnit): TStrings;
 begin
-  (*Result := TStringList.Create;
 
-  // property UnitFileName: String read fUnitFileName write fUnitFileName;
-
-  with Result, AUnit do
-  begin
-    // Write unit top comment
-    Add('(*');
-    AddStrings(UnitTopCommentBlock);
-    Add('*)');
-
-    // Write the unit name
-    Add('unit ' + UnitName);
-
-    // Write any unit top compiler directives
-    AddStrings(UnitTopCompilerDirectives);
-
-    // Write interface section
-    Add('interface');
-
-    // Write unit interface uses clause
-    if UnitInterfaceUsesList.Count > 0 then
-    begin
-      Add('uses');
-
-      for lIndex := 0 to UnitInterfaceUsesList.Count - 1 do
-        if lIndex < (UnitInterfaceUsesList.Count - 1) then
-          Add(UnitInterfaceUsesList.Strings[lIndex] + ',')
-        else
-          Add(UnitInterfaceUsesList.Strings[lIndex] + ';');
-    end;
-
-    // Write unit constants
-    if UnitConstants.Count > 0 then
-    begin
-      Add('const');
-      AddStrings(UnitConstants);
-    end;
-
-    // Write the type unit section
-    Add('type');
-
-    // Write forward class declarations
-    for lClass in UnitClassList do
-      if lClass.HasClassForwardDeclaration then
-        Add(lClass.ClassName + ' = class;');
-
-    // Write interfaces
-    for lInterface in UnitInterfaces do
-      AddStrings(lInterface.WriteTypeDeclaration);
-
-    // Write types
-
-    // Write classless methods in the unit
-    if UnitMethods.Count > 0 then
-      for lUnitMethod in UnitMethods do
-        Add(lUnitMethod.WritePrototype);
-
-    // Write unit variables
-    if UnitVariables.Count > 0 then
-    begin
-      Add('var');
-
-      for lVariable in UnitVariables do
-        Add(lVariable.VariableName + ': ' + lVariable.VariableType);
-    end;
-
-    Add('implementation');
-
-    // Write unit interface uses clause
-    // TODO -oAPL -cClassBuilder 2: Write class for uses lists
-    if UnitImplementationUsesList.Count > 0 then
-    begin
-      Add('uses');
-
-      for lIndex := 0 to UnitImplementationUsesList.Count - 1 do
-        if lIndex < (UnitImplementationUsesList.Count - 1) then
-          Add(UnitImplementationUsesList.Strings[lIndex] + ',')
-        else
-          Add(UnitImplementationUsesList.Strings[lIndex] + ';');
-    end;
-
-    // Write unit functions
-    if UnitMethods.Count > 0 then
-      for lUnitMethod in UnitMethods do
-      begin
-        Add(lUnitMethod.WritePrototype);
-
-        if lUnitMethod.ImplementationVars.Count > 0 then
-        begin
-          Add('var');
-
-          for lVariable in lUnitMethod.ImplementationVars do
-            Add(lVariable.fVariableName + ': ' + lVariable.VariableType + ';');
-        end;
-
-        Add('begin');
-        AddStrings(lUnitMethod.WriteImplementation);
-        Add('end;');
-      end;
-
-    // Write class implementations
-
-    // Write unit initialization section
-    if UnitInitialization.Count > 0 then
-    begin
-      Add('initialization');
-
-      for lIndex := 0 to UnitInitialization.Count - 1 do
-        Add(UnitImplementationUsesList.Strings[lIndex]);
-    end;
-
-    // Write unit finalization section
-    if UnitFinalization.Count > 0 then
-    begin
-      Add('finalization');
-
-      for lIndex := 0 to UnitFinalization.Count - 1 do
-        Add(UnitFinalization.Strings[lIndex]);
-    end;
-  end;*)
-end;
+end; }
 
 { TcbCodeWriter }
 
@@ -3264,18 +3148,14 @@ begin
   if Assigned(fOwnerComponent) then
     fOwnerComponent.RegisterChild(Self);
 
-  // fNamedItemList := TcbNamedElementList.Create;
-
-  // Assign the specified config locally, or take from AOwner component if
-  // possible
-   if Assigned(AConfig) then
+  { Assign the specified config locally, or take from AOwner component if possible }
+  if Assigned(AConfig) then
     fConfig := AConfig
-   else if Assigned(fOwnerComponent) then
+  else if Assigned(fOwnerComponent) then
     if Supports(fOwnerComponent, IcbXMLConfigConsumer, lConfigConsumer) then
       fConfig := lConfigConsumer.Config;
 
-  // Assign the specified logger locally, or take from AOwner component if
-  // possible
+  { Assign the specified logger locally, or take from AOwner component if possible }
   if Assigned(ALogger) then
     fLogger := ALogger
   else if Assigned(fOwnerComponent) then
@@ -3301,12 +3181,12 @@ end;
 
 function TcbComponent.GetLogger: TLogger;
 begin
-  {if not Assigned(fLogger) then
+  { DONE -oAPL -cClassBuilder 4: Hmm, perhaps it's not a good idea to create a logger here. The unit user should retain control of what is created }
+  { if not Assigned(fLogger) then
   begin
-    // TODO -oAPL -cClassBuilder 4: Hmm, perhaps it's not a good idea to create a logger here. The unit user should retain control of what is created
     TLoggerUnit.initialize();
     fLogger := TLogger.GetInstance();
-  end;}
+  end; }
   Result := fLogger;
 end;
 
@@ -3404,8 +3284,8 @@ begin
 
     AddStrings(fUnitSections.WriteImplementationCode);
 
-    // fUnitInitialization: TcbCodeBlock;
-    // fUnitFinalization: TcbCodeBlock;
+    { TODO -oAPL -cClassBuilder 3: Write the initialization code, fUnitInitialization }
+    { TODO -oAPL -cClassBuilder 3: Write the finalization code, fUnitFinalization }
 
     Add('end.');
   end;
@@ -3481,13 +3361,13 @@ begin
 
   Result := '';
 
-  // Wtite parameter modifier
+  { Wtite parameter modifier }
   Result := Result + MethodParameterModifierToString(fParameterModifier);
-  // Write parameter name
+  { Write parameter name }
   Result := Result + fParameterName;
-  // Write parameter type
+  { Write parameter type }
   Result := Result + ': ' + fParameterType.GetTypeName;
-  // Write parameter default
+  { Write parameter default }
   if fParameterDefault <> '' then
     Result := Result + ' = ' + fParameterDefault;
 end;
@@ -3499,11 +3379,11 @@ begin
 
   Result := '';
 
-  // Wtite parameter modifier
+  { Wtite parameter modifier }
   Result := Result + MethodParameterModifierToString(fParameterModifier);
-  // Write parameter name
+  { Write parameter name }
   Result := Result + fParameterName;
-  // Write parameter type
+  { Write parameter type }
   Result := Result + ': ' + fParameterType.GetTypeName;
 end;
 
@@ -3631,25 +3511,25 @@ begin
 
     Add(lClassDeclaration);
 
-    // Write package section
+    { Write package section }
     AddStrings(WritePrototypeSection(csDefault));
 
-    // Write private section
+    { Write private section }
     if HasElementsInSection(csPrivate) then
       Add(ClassSectionToString(csPrivate));
     AddStrings(WritePrototypeSection(csPrivate));
 
-    // Write protected section
+    { Write protected section }
     if HasElementsInSection(csProtected) then
       Add(ClassSectionToString(csProtected));
     AddStrings(WritePrototypeSection(csProtected));
 
-    // Write public section
+    { Write public section }
     if HasElementsInSection(csPublic) then
       Add(ClassSectionToString(csPublic));
     AddStrings(WritePrototypeSection(csPublic));
 
-    // Write published section
+    { Write published section }
     if HasElementsInSection(csPublished) then
       Add(ClassSectionToString(csPublished));
     AddStrings(WritePrototypeSection(csPublished));
@@ -3796,27 +3676,24 @@ begin
   if (fMethodType = mtFunction) and (not Assigned(fReturnType)) then
     raise TcbNilReferenceException.CreateFmt('Cannot write class method implementation prototype for %s %s. ReturnType is not assigned.', [MethodTypeToString(fMethodType), fMethodName]);
 
-  // DONE -oAPL -cCodeBuilder 2: Write code that generates the declaration, the prototype
+  { DONE -oAPL -cCodeBuilder 2: Write code that generates the declaration, the prototype }
 
   lString := '';
 
-  // Write method type
+  { Write method type }
   lString := MethodTypeToString(fMethodType) + ' ';
-  // Write the classname
+  { Write the classname }
   lString := lString + fOwnerClass.ClassTypeName + '.';
-  // Write methodname
+  { Write methodname }
   lString := lString + fMethodName;
-  // Write parameters
+  { Write parameters }
   lString := lString + fParameters.WriteImplementationParameters;
-  // Write returntype, if this is a function
+  { Write returntype, if this is a function }
   if fMethodType = mtFunction then
     lString := lString + ': ' + fReturnType.GetTypeName;
 
-  // End the header
+  { End the header }
   lString := lString + ';';
-
-  // Write method directives
-  lString := lString + MethodDirectivesToString(fMethodDirectives);
 
   fImplementationPrototypeCode.Add(lString);
   Result := fImplementationPrototypeCode;
@@ -3884,20 +3761,20 @@ begin
 
   lString := '';
 
-  // Write method type
+  { Write method type }
   lString := MethodTypeToString(fMethodType) + ' ';
-  // Write methodname
+  { Write methodname }
   lString := lString + fMethodName;
-  // Write parameters
+  { Write parameters }
   lString := lString + fParameters.WriteParameters;
-  // Write returntype, if this is a function
+  { Write returntype, if this is a function }
   if fMethodType = mtFunction then
     lString := lString + ': ' + fReturnType.GetTypeName;
 
-  // End the header
+  { End the header }
   lString := lString + ';';
 
-  // Write method directives
+  { Write method directives }
   lString := lString + MethodDirectivesToString(fMethodDirectives);
 
   Result.Add(lString);
