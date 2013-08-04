@@ -1,4 +1,4 @@
-unit ulazormconstants;
+unit uloConstants;
 
 {$mode objfpc}{$H+}
 

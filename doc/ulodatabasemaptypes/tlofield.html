@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>TloField</title>
+<link rel="stylesheet" href="../fpdoc.css" type="text/css">
+
+</head>
+<body>
+<table class="bar" width="100%" border="0" cellpadding="4" cellspacing="0">
+<tr>
+<td><b>[<a href="../ulodatabasemaptypes/index.html">Overview</a>][<a href="../ulodatabasemaptypes/index-4.html">Classes</a>][<a href="../ulodatabasemaptypes/index-8.html">Index</a>]</b></td>
+<td align="right"><span class="bartitle">Reference for unit 'uloDatabaseMapTypes' (<a href="../index.html">#LazORM</a>)</span></td>
+</tr>
+</table>
+<h1>TloField</h1>
+<p>[<a href="../ulodatabasemaptypes/tlofield-1.html" onClick="window.open('../ulodatabasemaptypes/tlofield-1.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">Properties</a> (<a href="../ulodatabasemaptypes/tlofield-2.html" onClick="window.open('../ulodatabasemaptypes/tlofield-2.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">by Name</a>)] [<a href="../ulodatabasemaptypes/tlofield-3.html" onClick="window.open('../ulodatabasemaptypes/tlofield-3.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">Methods</a> (<a href="../ulodatabasemaptypes/tlofield-4.html" onClick="window.open('../ulodatabasemaptypes/tlofield-4.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">by Name</a>)] [<a href="../ulodatabasemaptypes/tlofield-5.html" onClick="window.open('../ulodatabasemaptypes/tlofield-5.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">Events</a> (<a href="../ulodatabasemaptypes/tlofield-6.html" onClick="window.open('../ulodatabasemaptypes/tlofield-6.html', 'list', 'dependent=yes,resizable=yes,scrollbars=yes,height=400,width=300'); return false;">by Name</a>)] </p>
+<p></p>
+<h2>Declaration</h2>
+<p>Source position: ulodatabasemaptypes.pas line 22</p>
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td><p><tt><span class="code"><span class="kw">type</span> TloField <span class="sym">=</span> <span class="kw">class</span><span class="sym">(</span>TInterfacedPersistent<span class="sym">)</span></span></tt></p></td>
+</tr>
+<tr>
+<td><p><tt><span class="code"><span class="kw">public</span></span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">constructor </span><a href="../ulodatabasemaptypes/tlofield.create.html">Create</a><span class="sym">();</span></span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">destructor </span><a href="../ulodatabasemaptypes/tlofield.destroy.html">Destroy</a><span class="sym">;</span><span class="kw"> override</span><span class="sym">;</span></span></tt></p></td>
+</tr>
+<tr>
+<td><p><tt><span class="code"><span class="kw">published</span></span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.ownertable.html">OwnerTable</a><span class="sym">: </span><a href="../ulodatabasemaptypes/tlotable.html">TloTable</a><span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.fieldname.html">FieldName</a><span class="sym">: </span><a href="../ulodatabasemaptypes/tlofield.fieldname.html"></a><span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.fieldno.html">FieldNo</a><span class="sym">: </span>LongInt<span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.fieldkind.html">FieldKind</a><span class="sym">: </span>TFieldKind<span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.datatype.html">DataType</a><span class="sym">: </span>TFieldType<span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.datasize.html">DataSize</a><span class="sym">: </span><a href="../ulodatabasemaptypes/tlofield.datasize.html"></a><span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.hasdefault.html">HasDefault</a><span class="sym">: </span>Boolean<span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.defaultvalue.html">DefaultValue</a><span class="sym">: </span><a href="../ulodatabasemaptypes/tlofield.defaultvalue.html"></a><span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.attributeset.html">AttributeSet</a><span class="sym">: </span><a href="../ulodatabasemaptypes/tlofield.attributeset.html"></a><span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.providerflags.html">ProviderFlags</a><span class="sym">: </span>TProviderFlags<span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.isindexed.html">IsIndexed</a><span class="sym">: </span>Boolean<span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.isprimarykey.html">IsPrimaryKey</a><span class="sym">: </span>Boolean<span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.description.html">Description</a><span class="sym">: </span><a href="../ulodatabasemaptypes/tlofield.description.html"></a><span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.foreignkeyreferences.html">ForeignKeyReferences</a><span class="sym">: </span><a href="../ulodatabasemaptypes/tlofieldlist.html">TloFieldList</a><span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td valign="top"><p><tt><span class="code">&nbsp;&nbsp;<span class="kw">property </span><a href="../ulodatabasemaptypes/tlofield.referencingforeignkeys.html">ReferencingForeignKeys</a><span class="sym">: </span><a href="../ulodatabasemaptypes/tlofieldlist.html">TloFieldList</a><span class="sym">;</span>  [rw]</span></tt></p></td>
+</tr>
+<tr>
+<td><p><tt><span class="code"> <span class="kw">end</span><span class="sym">;</span></span></tt></p></td>
+</tr>
+</table>
+<h2>Inheritance</h2>
+<table cellpadding="0" cellspacing="0">
+<tr>
+<td align="center" valign="top"><p><tt><span class="code"><a href="../ulodatabasemaptypes/tlofield.html">TloField</a></span></tt></p></td>
+</tr>
+<tr>
+<td align="center">|</td>
+</tr>
+<tr>
+<td align="center"><p><tt><span class="code">TInterfacedPersistent</span></tt></p></td>
+</tr>
+<tr>
+<td align="center">?</td>
+</tr>
+<tr>
+<td align="center"><p><tt><span class="code">TObject</span></tt></p></td>
+</tr>
+</table>
+</body>
+</html>

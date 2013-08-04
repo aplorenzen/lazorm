@@ -16,8 +16,8 @@ uses
 
 
 
-  ulazormtypes,
-  ulazormutils;
+  uloTypes,
+  uloUtils;
 
 type
 
@@ -28,6 +28,7 @@ type
   TloNewModelForm = class(TForm)
     BackButton: TButton;
     Button1: TButton;
+    Button2: TButton;
     CancelButton: TButton;
     CenterPanel: TPanel;
     DatabaseTypeComboBox: TComboBox;
@@ -49,6 +50,7 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     CatalogLabel: TLabel;
+    SQLQuery1: TSQLQuery;
     Step1TabSheet: TTabSheet;
     Step2TabSheet: TTabSheet;
     Step3TabSheet: TTabSheet;
@@ -61,9 +63,11 @@ type
     procedure Button1Click(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure NextButtonClick(Sender: TObject);
   private
     fStage: TloWizardStep;
+    lConnectionDefList: TConnectionDefList;
 
     procedure SetStage(AStage: TloWizardStep);
     procedure PrepareStage(AStage: TloWizardStep);
@@ -100,7 +104,6 @@ implementation
 
 procedure TloNewModelForm.FormCreate(Sender: TObject);
 var
-  lConnectionDefList: TConnectionDefList;
   lConnectionDef: TConnectionDef;
 begin
   // DONE -oAPL -cWizard 3: Add implementations here with their respective configurations as objects
@@ -133,6 +136,11 @@ begin
   PageControl.ShowTabs := False;
 
   Stage := lsStep1;
+end;
+
+procedure TloNewModelForm.FormDestroy(Sender: TObject);
+begin
+  lConnectionDefList.Free;
 end;
 
 procedure TloNewModelForm.BackButtonClick(Sender: TObject);

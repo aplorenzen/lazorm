@@ -1,4 +1,4 @@
-unit ulazormtypes;
+unit uloTypes;
 
 {$mode objfpc}{$H+}
 
@@ -33,13 +33,36 @@ type
     property Password: String read fPassword write fPassword;
   end;
 
+  { TConnectionDefList }
+
   TConnectionDefList = class(specialize TFPGList<TConnectionDef>)
+  public
+    constructor Create;
+    destructor Destroy; override;
   end;
 
   TLazProjectFileList = class(specialize TFPGList<TLazProjectFile>)
   end;
 
 implementation
+
+{ TConnectionDefList }
+
+constructor TConnectionDefList.Create;
+begin
+  inherited;
+end;
+
+destructor TConnectionDefList.Destroy;
+var
+  lConnectionDef: TConnectionDef;
+begin
+  for lConnectionDef in Self do
+    if Assigned(lConnectionDef) then
+      lConnectionDef.Free;
+
+  inherited Destroy;
+end;
 
 { TloDBConfig }
 

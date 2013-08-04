@@ -1,4 +1,4 @@
-unit ulazormutils;
+unit uloUtils;
 
 {$mode objfpc}{$H+}
 
@@ -9,7 +9,7 @@ uses
   SysUtils,
   FileUtil,
 
-  ulazormconstants;
+  uloConstants;
 
 function FilenameIsLazORMUnit(const AFileName: String): Boolean;
 

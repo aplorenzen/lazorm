@@ -10,6 +10,7 @@ object loNewModelForm: TloNewModelForm
   ClientHeight = 444
   ClientWidth = 551
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   LCLVersion = '1.0.10.0'
   object TitlePanel: TPanel
     Left = 0
@@ -400,6 +401,14 @@ object loNewModelForm: TloNewModelForm
             AutoSize = False
             TabOrder = 5
           end
+          object Button2: TButton
+            Left = 308
+            Height = 25
+            Top = 240
+            Width = 75
+            Caption = 'Button2'
+            TabOrder = 7
+          end
         end
       end
       object Step2TabSheet: TTabSheet
@@ -431,5 +440,11 @@ object loNewModelForm: TloNewModelForm
         end
       end
     end
+  end
+  object SQLQuery1: TSQLQuery
+    FieldDefs = <>
+    Params = <>
+    left = 160
+    top = 344
   end
 end

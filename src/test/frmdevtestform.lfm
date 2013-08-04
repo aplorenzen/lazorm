@@ -32,6 +32,24 @@ object ClassBuilderTestForm: TClassBuilderTestForm
       OnClick = SimpleTestButtonClick
       TabOrder = 0
     end
+    object Button1: TButton
+      Left = 504
+      Height = 41
+      Top = 0
+      Width = 75
+      Align = alRight
+      Caption = 'Button1'
+      TabOrder = 1
+    end
+    object Button2: TButton
+      Left = 579
+      Height = 41
+      Top = 0
+      Width = 75
+      Align = alRight
+      Caption = 'Button2'
+      TabOrder = 2
+    end
   end
   object CenterPanel: TPanel
     Left = 0

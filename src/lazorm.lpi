@@ -5,7 +5,7 @@
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="lazorm"/>
+      <Title Value="LazORM"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <Icon Value="0"/>
@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="5"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="68"/>
+      <BuildNr Value="92"/>
       <StringTable ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -47,7 +47,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="8">
+    <Units Count="12">
       <Unit0>
         <Filename Value="lazorm.pas"/>
         <IsPartOfProject Value="True"/>
@@ -62,24 +62,24 @@
         <UnitName Value="flazormnewmodelwizard"/>
       </Unit1>
       <Unit2>
-        <Filename Value="common/ulazormtypes.pas"/>
+        <Filename Value="common/ulotypes.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ulazormtypes"/>
+        <UnitName Value="uloTypes"/>
       </Unit2>
       <Unit3>
-        <Filename Value="common/ulazormutils.pas"/>
+        <Filename Value="common/uloutils.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ulazormutils"/>
+        <UnitName Value="uloUtils"/>
       </Unit3>
       <Unit4>
-        <Filename Value="common/ulazormconstants.pas"/>
+        <Filename Value="common/uloconstants.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ulazormconstants"/>
+        <UnitName Value="uloConstants"/>
       </Unit4>
       <Unit5>
-        <Filename Value="codebuilder/uclassbuilder.pas"/>
+        <Filename Value="codebuilder/ucbclassbuilder.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uclassbuilder"/>
+        <UnitName Value="ucbClassBuilder"/>
       </Unit5>
       <Unit6>
         <Filename Value="../.gitignore"/>
@@ -93,6 +93,26 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frmDevTestForm"/>
       </Unit7>
+      <Unit8>
+        <Filename Value="codebuilder/ucbcodebuilder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ucbCodeBuilder"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="common/ulodatabasemaptypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uloDatabaseMapTypes"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="common/ulodatabasetypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uloDatabaseTypes"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="common/ulodatabaseconstants.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uloDatabaseConstants"/>
+      </Unit11>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

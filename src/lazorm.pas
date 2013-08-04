@@ -10,16 +10,17 @@ uses
   Forms, log4fpc,
 
   flazormnewmodelwizard,
-  ulazormtypes,
-  ulazormutils,
-  ulazormconstants, uclassbuilder, frmDevTestForm;
+  uloTypes,
+  uloUtils,
+  uloConstants, ucbClassBuilder, frmDevTestForm, ucbCodeBuilder, uloDatabaseMapTypes, uloDatabaseTypes, uloDatabaseConstants;
 
 {$R *.res}
 
 begin
+  Application.Title:='LazORM';
   RequireDerivedFormResource := True;
   Application.Initialize;
-  Application.CreateForm(TClassBuilderTestForm, ClassBuilderTestForm);
+  Application.CreateForm(TloNewModelForm, loNewModelForm);
   Application.Run;
 end.
 

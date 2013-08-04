@@ -7,17 +7,22 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
 
-  uClassBuilder;
+  ucbClassBuilder;
+  //uCodeBuilder;
 
 type
 
   { TClassBuilderTestForm }
 
   TClassBuilderTestForm = class(TForm)
+    Button1: TButton;
+    Button2: TButton;
     CenterPanel: TPanel;
     SimpleTestButton: TButton;
     OutputMemo: TMemo;
     TopPanel: TPanel;
+    // procedure Button1Click(Sender: TObject);
+    // procedure Button2Click(Sender: TObject);
     procedure SimpleTestButtonClick(Sender: TObject);
   private
     { private declarations }
@@ -92,6 +97,62 @@ begin
     cbInteger.Free;
   end;
 end;
+
+(*procedure TClassBuilderTestForm.Button1Click(Sender: TObject);
+var
+  aList: TcbComponentList;
+  aCom1: TcbComponent;
+  aCom2: TcbComponent;
+  aCom3: TcbComponent;
+  aCom: TcbComponent;
+begin
+  aList := TcbComponentList.Create(nil);
+  aCom1 := TcbComponent.Create(nil);
+  aCom2 := TcbComponent.Create(nil);
+  aCom3 := TcbComponent.Create(nil);
+
+  aList.Add(aCom1);
+  aList.Add(aCom2);
+
+  aList.Add(aCom3);
+
+  // aCom2.Free;
+  for aCom in aList do
+  begin
+    if aCom = aCom1 then
+      OutputMemo.lines.add('com1');
+    if aCom = aCom2 then
+      OutputMemo.lines.add('com2');
+    if aCom = aCom3 then
+      OutputMemo.lines.add('com3');
+  end;
+
+  // aCom1.Free;
+  // aCom2.Free;
+  // aCom3.Free;
+  aList.Free;
+
+
+
+
+end;*)
+  (*
+procedure TClassBuilderTestForm.Button2Click(Sender: TObject);
+var
+  lCode: TcbCodeElement;
+begin
+  lCode := TcbCodeElement.Create(nil, 'some code here!', 'and a comment over here!', cb_ccsBrackets);
+
+  try
+    OutputMemo.Lines.Add(lCode.Print);
+
+
+
+  finally
+    lCode.Free;
+  end;
+
+end;*)
 
 end.
 
