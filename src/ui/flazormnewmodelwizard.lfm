@@ -1,7 +1,7 @@
 object loNewModelForm: TloNewModelForm
-  Left = 399
+  Left = 419
   Height = 444
-  Top = 155
+  Top = 181
   Width = 551
   AutoSize = True
   BorderIcons = [biSystemMenu]

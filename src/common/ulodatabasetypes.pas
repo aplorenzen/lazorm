@@ -16,12 +16,19 @@ uses
 
   uloDatabaseConstants;
 
+const
+  lo_INVALID_DATETIME = -1;
+
 type
+  TloELConnectionException = class(Exception);
+
   TloELComponent = class;
   TloELComponentList = class;
   TloELContainer = class;
   TloELTable = class;
+  TloELTableList = class;
   TloELAbstractField = class;
+  TloELAbstractFieldList = class;
 
   { TODO -oAPL -cDatabaseTypes 2: The basic loEL component must be one that does not have a child list, but only has the
     logging, mutex and config things going on. So that the class can be used for list types, and so that we do not risk
@@ -80,7 +87,7 @@ type
 
   { TloELDataFormatter }
 
-  TloELDataFormatter = class(TloELComponent)
+  {TloELDataFormatter = class(TloELComponent)
   private
     constructor Create(
       aOwner: TloELComponent);
@@ -96,20 +103,20 @@ type
       aOwner: TloELComponent);
     destructor Destroy; override;
   public
-    TBytes
-    String
-    Extended
-    Currency
-    Double
-    Single
-    Boolean
-    Int64
-    ShortInt
-    LongWord
-    Integer
-    SmallInt
-    Byte
-    TDateTime
+    function ToSQL(aBytes: TBytes): String; overload;
+    function ToSQL(aString: String): String; overload;
+    function ToSQL(aExtended: Extended): String; overload;
+    function ToSQL(aCurrency: Currency): String; overload;
+    function ToSQL(aDouble: Double): String; overload;
+    function ToSQL(aSingle: Single): String; overload;
+    function ToSQL(aBoolean: Boolean): String; overload;
+    function ToSQL(aInt64: Int64): String; overload;
+    function ToSQL(aShortInt: ShortInt): String; overload;
+    function ToSQL(aLongWord: LongWord): String; overload;
+    function ToSQL(aInteger: Integer): String; overload;
+    function ToSQL(aSmallInt: SmallInt): String; overload;
+    function ToSQL(aByte: Byte): String; overload;
+    function ToSQL(aDateTime: TDateTime): String; overload;
   end;
 
   { TloELSQLDataFormatter }
@@ -128,7 +135,7 @@ type
     constructor Create(
       aOwner: TloELComponent);
     destructor Destroy; override;
-  end;
+  end;}
 
   { TloELAbstractField }
 
@@ -169,7 +176,6 @@ type
 
   TloELAbstractFieldList = class(TloELComponent)
   private
-    fOwnerContainer: TloELContainer;
     fFieldList: TFPObjectList;
     function GetCount: Integer;
   public
@@ -189,8 +195,9 @@ type
         property Current: TloELAbstractField read GetCurrent;
       end;
 
-    constructor Create(aOwner: TloELContainer; aFreeObjects: Boolean = False);
+    constructor Create(aOwner: TloELComponent; aFreeObjects: Boolean = False);
     destructor Destroy; override;
+    function FindField
     procedure Clear;
     function IndexOf(aField: TloELAbstractField): Integer; virtual;
     function IsEmpty: Boolean;
@@ -203,10 +210,6 @@ type
     function Last: TloELAbstractField; virtual;
     property Count: Integer read GetCount;
     function GetEnumerator: TloELAbstractFieldListEnumerator;
-  published
-    { TODO -oAPL -cDatabaseTypes 1: Must change this to some sort of "named database object type" -
-      because we need to be able also to use these classes for f.ex. views, and other things may come along }
-    property Owner: TloELContainer read fOwnerContainer;
   end;
 
   { TloELGenericField }
@@ -234,7 +237,22 @@ type
     fSchemeName: String;
     fCatalogName: String;
     fFieldList: TloELAbstractFieldList;
+    fReferencedTables: TloELTableList;
+
+    { TODO -oAPL -cDatabaseTypes 3: Move functionality on IsDestroying over from the Delphi version }
+    fObjectIsDestroying: Boolean;
+    fObjectIsNew: Boolean;
+    fObjectIsLoaded: Boolean;
+    fObjectHasChanged: Boolean;
+    fObjectIsDeleted: Boolean;
+    fObjectCreatedTime: TDateTime;
+    fObjectLoadedFromTime: TDateTime;
+    fObjectChangedTime: TDateTime;
+    fObjectDeletedTime: TDateTime;
+    fObjectSavedTime: TDateTime;
+
     procedure AddField(aField: TloELAbstractField);
+    function GetFullTableName: String;
   public
     constructor Create(
       aOwner: TloELComponent;
@@ -243,11 +261,64 @@ type
       aLogger: TLogger = nil;
       aConfig: TXMLConfig = nil);
     destructor Destroy; override;
+
+    function Insert: Boolean;
+    function Update: Boolean;
+    function Load_OpenSQL(aSQL: String): Boolean;
   published
     property TableName: String read fTableName;
     property SchemeName: String read fSchemeName;
     property CatalogName: String read fCatalogName;
     property Fields: TloELAbstractFieldList read fFieldList;
+    property ObjectIsDestroying: Boolean read fIsDestroying;
+    property ObjectIsNew: Boolean read fIsNew;
+    property ObjectIsLoaded: Boolean read fIsLoaded;
+    property ObjectHasChanged: Boolean read fHasChanged;
+    property ObjectIsDeleted: Boolean read fIsDeleted;
+    property ObjectCreatedTime: TDateTime read fCreatedTime;
+    property ObjectLoadedFromTime: TDateTime read fLoadedFromTime;
+    property ObjectChangedTime: TDateTime read fChangedTime;
+    property ObjectDeletedTime: TDateTime read fDeletedTime;
+    property ObjectSavedTime: TDateTime read fSavedTime;
+  end;
+
+  { TloELTableList }
+
+  TloELTableList = class(TloELComponent)
+  private
+    fTableList: TFPObjectList;
+    function GetCount: Integer;
+  public
+    type
+
+      { TloELTableListEnumerator }
+
+      TloELTableListEnumerator = class(TInterfacedObject)
+      private
+        fTableList: TloELTableList;
+        fCurrenIndex: Integer;
+      public
+        constructor Create(aTableList: TloELTableList);
+        destructor Destroy; override;
+        function GetCurrent: TloELTable;
+        function MoveNext: Boolean;
+        property Current: TloELTable read GetCurrent;
+      end;
+
+    constructor Create(aOwner: TloELComponent; aFreeObjects: Boolean = False);
+    destructor Destroy; override;
+    procedure Clear;
+    function IndexOf(aField: TloELTable): Integer; virtual;
+    function IsEmpty: Boolean;
+    procedure Add(aField: TloELTable); virtual;
+    function Get(aIndex: Integer): TloELTable; virtual;
+    procedure Insert(aIndex: Integer; aField: TloELTable); virtual;
+    function Remove(aField: TloELTable): Boolean; virtual;
+    procedure Pack;
+    function First: TloELTable; virtual;
+    function Last: TloELTable; virtual;
+    property Count: Integer read GetCount;
+    function GetEnumerator: TloELTableListEnumerator;
   end;
 
   { TloELView }
@@ -557,6 +628,144 @@ type
 
 implementation
 
+{ TloELTableList.TloELTableListEnumerator }
+
+constructor TloELTableList.TloELTableListEnumerator.Create(aTableList: TloELTableList);
+begin
+  inherited Create;
+  fTableList := aTableList;
+  fCurrenIndex := -1;
+end;
+
+destructor TloELTableList.TloELTableListEnumerator.Destroy;
+begin
+  inherited Destroy;
+end;
+
+function TloELTableList.TloELTableListEnumerator.GetCurrent: TloELTable;
+begin
+  Result := fTableList.Get(fCurrenIndex);
+end;
+
+function TloELTableList.TloELTableListEnumerator.MoveNext: Boolean;
+begin
+  Result := False;
+
+  if fCurrenIndex = -1 then
+    fCurrenIndex := fTableList.IndexOf(fTableList.First)
+  else
+    Inc(fCurrenIndex);
+
+  Result := fCurrenIndex < fTableList.Count;
+end;
+
+{ TloELTableList }
+
+function TloELTableList.GetCount: Integer;
+begin
+  Result := fTableList.Count;
+end;
+
+constructor TloELTableList.Create(aOwner: TloELComponent; aFreeObjects: Boolean);
+begin
+  inherited Create(aOwner);
+  fTableList := TFPObjectList.Create(aFreeObjects);
+end;
+
+destructor TloELTableList.Destroy;
+begin
+  fTableList.Free;
+  inherited Destroy;
+end;
+
+procedure TloELTableList.Clear;
+begin
+  fTableList.Clear;
+end;
+
+function TloELTableList.IndexOf(aField: TloELTable): Integer;
+begin
+  Result := fTableList.IndexOf(aField);
+end;
+
+function TloELTableList.IsEmpty: Boolean;
+begin
+  Result := fTableList.Count = 0;
+end;
+
+procedure TloELTableList.Add(aField: TloELTable);
+begin
+  fTableList.Add(aField);
+end;
+
+function TloELTableList.Get(aIndex: Integer): TloELTable;
+begin
+  if ((aIndex > fTableList.Count) or (aIndex < 0)) then
+    Result := nil
+  else
+    Result := TloELTable(fTableList.Items[aIndex]);
+end;
+
+procedure TloELTableList.Insert(aIndex: Integer; aField: TloELTable);
+begin
+  fTableList.Insert(aIndex, aField);
+end;
+
+function TloELTableList.Remove(aField: TloELTable): Boolean;
+begin
+  Result := (fTableList.Remove(aField) <> -1);
+end;
+
+procedure TloELTableList.Pack;
+begin
+  fTableList.Pack;
+end;
+
+function TloELTableList.First: TloELTable;
+begin
+  if fTableList.Count > 0 then
+    Result := TloELTable(fTableList.First)
+  else
+    Result := nil;
+end;
+
+function TloELTableList.Last: TloELTable;
+begin
+  if fTableList.Count > 0 then
+    Result := TloELTable(fTableList.Last)
+  else
+    Result := nil;
+end;
+
+function TloELTableList.GetEnumerator: TloELTableListEnumerator;
+begin
+  Result := TloELTableList.TloELTableListEnumerator.Create(Self);
+end;
+
+{ TloELDataFormatter }
+
+{constructor TloELDataFormatter.Create(aOwner: TloELComponent);
+begin
+  inherited Create(aOwner);
+end;
+
+destructor TloELDataFormatter.Destroy;
+begin
+  inherited Destroy;
+end;}
+
+{ TloELSQLDataFormatter }
+
+{constructor TloELSQLDataFormatter.Create(aOwner: TloELComponent);
+begin
+  inherited Create(aOwner);
+end;
+
+destructor TloELSQLDataFormatter.Destroy;
+begin
+  inherited Destroy;
+end;}
+
 { TloELView }
 
 procedure TloELView.AddField(aField: TloELAbstractField);
@@ -596,6 +805,12 @@ begin
   fFieldList.Add(aField);
 end;
 
+function TloELTable.GetTableName: String;
+begin
+  { TODO -oAPL -cDatabaseTypes 4: This may be different for the various database types, so perhaps should make case on the Connection.Vendor thingie }
+  Result := '[' + fCatalogName + '].[' + fSchemeName + '].[' + fTableName + ']';
+end;
+
 constructor TloELTable.Create(aOwner: TloELComponent; aConnection: TSQLConnector; aMutex: TCriticalSection; aLogger: TLogger; aConfig: TXMLConfig);
 begin
   inherited Create(
@@ -606,19 +821,114 @@ begin
     aConfig);
 
   fFieldList := TloELAbstractFieldList.Create(Self);
+  fReferencedTables := TloELTableList.Create(Self);
+  fIsDestroying := False;
+  fIsNew := True;
+  fIsLoaded := False;
+  fHasChanged := False;
+  fIsDeleted := False;
+  fCreatedTime := lo_INVALID_DATETIME;
+  fLoadedFromTime := lo_INVALID_DATETIME;
+  fChangedTime := lo_INVALID_DATETIME;
+  fDeletedTime := lo_INVALID_DATETIME;
+  fSavedTime := lo_INVALID_DATETIME;
 end;
 
 destructor TloELTable.Destroy;
 var
   lField: TloELAbstractField;
+  lTable: TloELTable;
 begin
+  if fObjectIsDestroying then
+    Exit;
+
+  fObjectIsDestroying := True;
+
   if Assigned(fFieldList) then
     for lField in fFieldList do
-      lField.Free;
+      if Assigned(lField) then
+        lField.Free;
 
   fFieldList.Free;
 
+  if Assigned(fReferencedTables) then
+    for lTable in fReferencedTables do
+      if Assigned(lTable) then
+        if not lTable.ObjectIsDestroying then
+          lTable.Free;
+
+  fReferencedTables.Free;
+
   inherited Destroy;
+end;
+
+function TloELTable.Insert: Boolean;
+var
+  lTable: TloELTable;
+begin
+  { TODO -oAPL -cDatabaseTypes 2: Migrate the Delphi equivilent function here }
+  if not Assigned(Connection) then
+    raise TloELConnectionException.CreateFmt('Unable to insert table object: %s, Connection not assigned.', [Self.GetFullTableName]);
+
+  for lTable in
+
+  if Assigned(fCreateSite_From_fk_CreateSite) then
+      if fCreateSite_From_fk_CreateSite.Obj_IsNew then
+      begin
+        if fCreateSite_From_fk_CreateSite.InsertAsNew then
+        ffk_CreateSite.Value := fCreateSite_From_fk_CreateSite.REC_ID.Value;
+      end
+      else if fCreateSite_From_fk_CreateSite.Obj_IsChanged then
+      begin
+        if fCreateSite_From_fk_CreateSite.Update then
+        ffk_CreateSite.Value := fCreateSite_From_fk_CreateSite.REC_ID.Value;
+      end;
+
+
+
+  { If this is not a new object, then update it instead. Make a piece of configuration that allows
+    the user to change this behaviour }
+  { TODO -oAPL -cDatabaseTypes 4: Make a piece of configuration that allows the user to change the
+    behaviour of this block, effectivly allowing objects to be duplicated }
+  if not Self.IsNew then
+  begin
+    Result := Self.Update;
+    Exit;
+  end;
+
+  { Must insert all the FK referenced tables here first, before inserting the object itself. Objects
+    that are referenced from an FK field locally. It is up the the decendant class to add these to
+    the proper table list, in order for this update to be done. }
+
+
+
+
+
+
+
+
+
+  if Assigned(Mutex) then
+    Mutex.Enter;
+
+
+  try
+
+    except on e:Exception do
+    begin
+      { TODO -oAPL -cDatabaseTypes 2: Handle exceptions from the database }
+    end;
+  end;
+end;
+
+function TloELTable.Update: Boolean;
+begin
+  { TODO -oAPL -cDatabaseTypes 2: Migrate the Delphi equivilent function here }
+end;
+
+function TloELTable.Load_OpenSQL(aSQL: String): Boolean;
+begin
+  { TODO -oAPL -cDatabaseTypes 2: Migrate the Delphi equivilent function here }
 end;
 
 { TloELFieldSmallInt }
@@ -708,16 +1018,14 @@ begin
   Result := fFieldList.Count;
 end;
 
-constructor TloELAbstractFieldList.Create(aOwner: TloELContainer; aFreeObjects: Boolean);
+constructor TloELAbstractFieldList.Create(aOwner: TloELComponent; aFreeObjects: Boolean);
 begin
   inherited Create(aOwner);
-  fOwnerContainer := aOwner;
   fFieldList := TFPObjectList.Create(aFreeObjects);
 end;
 
 destructor TloELAbstractFieldList.Destroy;
 begin
-  fFieldList.Clear;
   fFieldList.Free;
   inherited Destroy;
 end;
@@ -768,9 +1076,9 @@ end;
 function TloELAbstractFieldList.First: TloELAbstractField;
 begin
   if fFieldList.Count > 0 then
-      Result := TloELAbstractField(fFieldList.First)
-    else
-      Result := nil;
+    Result := TloELAbstractField(fFieldList.First)
+  else
+    Result := nil;
 end;
 
 function TloELAbstractFieldList.Last: TloELAbstractField;
