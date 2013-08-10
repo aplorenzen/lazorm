@@ -1,7 +1,7 @@
 object ClassBuilderTestForm: TClassBuilderTestForm
-  Left = 521
+  Left = 619
   Height = 431
-  Top = 214
+  Top = 286
   Width = 654
   Caption = 'ClassBuilder Test'
   ClientHeight = 431
@@ -10,19 +10,19 @@ object ClassBuilderTestForm: TClassBuilderTestForm
   LCLVersion = '1.0.10.0'
   object TopPanel: TPanel
     Left = 0
-    Height = 41
+    Height = 252
     Top = 0
     Width = 654
     Align = alTop
     AutoSize = True
     BorderSpacing.InnerBorder = 4
     BevelOuter = bvNone
-    ClientHeight = 41
+    ClientHeight = 252
     ClientWidth = 654
     TabOrder = 0
     object SimpleTestButton: TButton
       Left = 4
-      Height = 33
+      Height = 244
       Top = 4
       Width = 142
       Align = alLeft
@@ -34,7 +34,7 @@ object ClassBuilderTestForm: TClassBuilderTestForm
     end
     object Button1: TButton
       Left = 504
-      Height = 41
+      Height = 252
       Top = 0
       Width = 75
       Align = alRight
@@ -43,28 +43,34 @@ object ClassBuilderTestForm: TClassBuilderTestForm
     end
     object Button2: TButton
       Left = 579
-      Height = 41
+      Height = 252
       Top = 0
       Width = 75
       Align = alRight
       Caption = 'Button2'
       TabOrder = 2
     end
+    object loGraphPanel1: TloGraphPanel
+      Left = 0
+      Height = 244
+      Top = 0
+      Width = 272
+    end
   end
   object CenterPanel: TPanel
     Left = 0
-    Height = 390
-    Top = 41
+    Height = 179
+    Top = 252
     Width = 654
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
-    ClientHeight = 390
+    ClientHeight = 179
     ClientWidth = 654
     TabOrder = 1
     object OutputMemo: TMemo
       Left = 8
-      Height = 374
+      Height = 163
       Top = 8
       Width = 638
       Align = alClient

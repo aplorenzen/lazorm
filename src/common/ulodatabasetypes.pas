@@ -174,6 +174,8 @@ type
 
   { TloELAbstractFieldList }
 
+  { TODO -oAPL -cDatabaseTypes 3: Use TFPObjectHashTable instead? }
+
   TloELAbstractFieldList = class(TloELComponent)
   private
     fFieldList: TFPObjectList;
@@ -197,7 +199,6 @@ type
 
     constructor Create(aOwner: TloELComponent; aFreeObjects: Boolean = False);
     destructor Destroy; override;
-    function FindField
     procedure Clear;
     function IndexOf(aField: TloELAbstractField): Integer; virtual;
     function IsEmpty: Boolean;
@@ -233,6 +234,16 @@ type
 
   TloELTable = class(TloELContainer)
   private
+    fChangedTime: TDateTime;
+    fCreatedTime: TDateTime;
+    fDeletedTime: TDateTime;
+    fHasChanged: Boolean;
+    fIsDeleted: Boolean;
+    fIsDestroying: Boolean;
+    fIsLoaded: Boolean;
+    fIsNew: Boolean;
+    fLoadedFromTime: TDateTime;
+    fSavedTime: TDateTime;
     fTableName: String;
     fSchemeName: String;
     fCatalogName: String;
@@ -253,6 +264,7 @@ type
 
     procedure AddField(aField: TloELAbstractField);
     function GetFullTableName: String;
+    procedure SetHasChanged(aHasChanged: Boolean);
   public
     constructor Create(
       aOwner: TloELComponent;
@@ -273,7 +285,7 @@ type
     property ObjectIsDestroying: Boolean read fIsDestroying;
     property ObjectIsNew: Boolean read fIsNew;
     property ObjectIsLoaded: Boolean read fIsLoaded;
-    property ObjectHasChanged: Boolean read fHasChanged;
+    property ObjectHasChanged: Boolean read fHasChanged write SetHasChanged;
     property ObjectIsDeleted: Boolean read fIsDeleted;
     property ObjectCreatedTime: TDateTime read fCreatedTime;
     property ObjectLoadedFromTime: TDateTime read fLoadedFromTime;
@@ -351,7 +363,7 @@ type
     that does. Is there one such object already made? Look around for it! }
 
   { TloELFieldBytes }
-
+  (*
   TloELFieldBytes = class(specialize TloELGenericField<TBytes>)
   public
     constructor Create(
@@ -514,7 +526,7 @@ type
     function AsString(): String; override;
     function Equals(aValue: TloELFieldLongWord): Boolean; overload;
   end;
-
+  *)
   { TloELFieldInteger }
 
   TloELFieldInteger = class(specialize TloELGenericField<Integer>)
@@ -544,7 +556,7 @@ type
     function AsString(): String; override;
     function Equals(aValue: TloELFieldSmallInt): Boolean; overload;
   end;
-
+      (*
   { TloELFieldByte }
 
   TloELFieldByte = class(specialize TloELGenericField<Byte>)
@@ -625,7 +637,7 @@ type
     property DBFieldList: TDBFieldBaseList read GetDBFieldList write SetDBFieldList;
     property IsDestroying: Boolean read GetIsDestroying write SetIsDestroying;
   end;     }
-
+*)
 implementation
 
 { TloELTableList.TloELTableListEnumerator }
@@ -805,7 +817,14 @@ begin
   fFieldList.Add(aField);
 end;
 
-function TloELTable.GetTableName: String;
+procedure TloELTable.SetHasChanged(aHasChanged: Boolean);
+begin
+  fHasChanged := aHasChanged;
+  if aHasChanged then
+    fChangedTime := Now;
+end;
+
+function TloELTable.GetFullTableName: String;
 begin
   { TODO -oAPL -cDatabaseTypes 4: This may be different for the various database types, so perhaps should make case on the Connection.Vendor thingie }
   Result := '[' + fCatalogName + '].[' + fSchemeName + '].[' + fTableName + ']';
@@ -870,19 +889,7 @@ begin
   if not Assigned(Connection) then
     raise TloELConnectionException.CreateFmt('Unable to insert table object: %s, Connection not assigned.', [Self.GetFullTableName]);
 
-  for lTable in
 
-  if Assigned(fCreateSite_From_fk_CreateSite) then
-      if fCreateSite_From_fk_CreateSite.Obj_IsNew then
-      begin
-        if fCreateSite_From_fk_CreateSite.InsertAsNew then
-        ffk_CreateSite.Value := fCreateSite_From_fk_CreateSite.REC_ID.Value;
-      end
-      else if fCreateSite_From_fk_CreateSite.Obj_IsChanged then
-      begin
-        if fCreateSite_From_fk_CreateSite.Update then
-        ffk_CreateSite.Value := fCreateSite_From_fk_CreateSite.REC_ID.Value;
-      end;
 
 
 
@@ -890,7 +897,7 @@ begin
     the user to change this behaviour }
   { TODO -oAPL -cDatabaseTypes 4: Make a piece of configuration that allows the user to change the
     behaviour of this block, effectivly allowing objects to be duplicated }
-  if not Self.IsNew then
+  if not Self.ObjectIsNew then
   begin
     Result := Self.Update;
     Exit;
@@ -1189,9 +1196,9 @@ begin
   if not ValueEquals(aValue) then
   begin
     fHasChanged := True;
-    { TODO -oAPL -cDatabaseTypes 3: Implement the TloTable type so that these variables can be set here }
-    // OwnerTable.Obj_IsChanged := True;
-    // OwnerTable.Obj_ChangedTime := Now;
+    { DONE -oAPL -cDatabaseTypes 3: Implement the TloTable type so that these variables can be set here (did it with a typecast and a SetMethod on the ObjectHasChanged property) }
+    if Owner is TloELTable then
+      TloELTable(Owner).ObjectHasChanged := True;
   end;
 
   fIsNull := False;

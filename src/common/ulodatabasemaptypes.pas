@@ -14,14 +14,14 @@ uses
   uloDatabaseTypes;
 
 type
-  TloTable = class;
-  TloFieldList = class;
+  TloDMTable = class;
+  TloDMFieldList = class;
 
-  { TloField }
+  { TloDMField }
 
-  TloField = class(TInterfacedPersistent)
+  TloDMField = class(TInterfacedPersistent)
   private
-    fOwnerTable: TloTable;
+    fOwnerTable: TloDMTable;
     fFieldName: String;
     fFieldNo: LongInt;
     fFieldKind: TFieldKind;
@@ -34,13 +34,13 @@ type
     fIsIndexed: Boolean;
     fIsPrimaryKey: Boolean;
     fDescription: String;
-    fForeignKeyReferences: TloFieldList;
-    fReferencingForeignKeys: TloFieldList;
+    fForeignKeyReferences: TloDMFieldList;
+    fReferencingForeignKeys: TloDMFieldList;
   public
-    constructor Create(aOwnerTable: TloTable);
+    constructor Create(aOwnerTable: TloDMTable);
     destructor Destroy; override;
   published
-    property OwnerTable: TloTable read fOwnerTable write fOwnerTable;
+    property OwnerTable: TloDMTable read fOwnerTable write fOwnerTable;
     property FieldName: String read fFieldName write fFieldName;
     property FieldNo: LongInt read fFieldNo write fFieldNo;
     property FieldKind: TFieldKind read fFieldKind write fFieldKind;
@@ -53,21 +53,21 @@ type
     property IsIndexed: Boolean read fIsIndexed write fIsIndexed;
     property IsPrimaryKey: Boolean read fIsPrimaryKey write fIsPrimaryKey;
     property Description: String read fDescription write fDescription;
-    property ForeignKeyReferences: TloFieldList read fForeignKeyReferences write fForeignKeyReferences;
-    property ReferencingForeignKeys: TloFieldList read fReferencingForeignKeys write fReferencingForeignKeys;
+    property ForeignKeyReferences: TloDMFieldList read fForeignKeyReferences write fForeignKeyReferences;
+    property ReferencingForeignKeys: TloDMFieldList read fReferencingForeignKeys write fReferencingForeignKeys;
   end;
 
   { DONE -oAPL -cDatabaseTypes 1: Complete the TloFieldList type }
-  TloFieldList = class(specialize TFPGList<TloField>);
+  TloDMFieldList = class(specialize TFPGList<TloDMField>);
 
-  { TloTable }
+  { TloDMTable }
 
-  TloTable = class(TInterfacedPersistent)
+  TloDMTable = class(TInterfacedPersistent)
   private
     fTableName: String;
     fSchemeName: String;
     fCatalogName: String;
-    fFieldList: TloFieldList;
+    fFieldList: TloDMFieldList;
   public
     constructor Create;
     destructor Destroy; override;
@@ -75,39 +75,39 @@ type
     property TableName: String read fTableName write fTableName;
     property SchemeName: String read fSchemeName write fSchemeName;
     property CatalogName: String read fCatalogName write fCatalogName;
-    property FieldList: TloFieldList read fFieldList write fFieldList;
+    property FieldList: TloDMFieldList read fFieldList write fFieldList;
   end;
 
-  TloTableList = class(specialize TFPGList<TloTable>);
+  TloDMTableList = class(specialize TFPGList<TloDMTable>);
 
 
 
 
 implementation
 
-{ TloTable }
+{ TloDMTable }
 
-constructor TloTable.Create;
+constructor TloDMTable.Create;
 begin
   inherited Create;
 end;
 
-destructor TloTable.Destroy;
+destructor TloDMTable.Destroy;
 begin
   inherited Destroy;
 end;
 
-{ TloField }
+{ TloDMField }
 
-constructor TloField.Create(aOwnerTable: TloTable);
+constructor TloDMField.Create(aOwnerTable: TloDMTable);
 begin
   inherited Create;
   fOwnerTable := aOwnerTable;
-  fForeignKeyReferences := TloFieldList.Create;
-  fReferencingForeignKeys := TloFieldList.Create;
+  fForeignKeyReferences := TloDMFieldList.Create;
+  fReferencingForeignKeys := TloDMFieldList.Create;
 end;
 
-destructor TloField.Destroy;
+destructor TloDMField.Destroy;
 begin
   if Assigned(fForeignKeyReferences) then
     fForeignKeyReferences.Free;

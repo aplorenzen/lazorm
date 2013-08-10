@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
 
-  ucbClassBuilder;
+  ucbClassBuilder, loGraphPanel;
   //uCodeBuilder;
 
 type
@@ -18,6 +18,7 @@ type
     Button1: TButton;
     Button2: TButton;
     CenterPanel: TPanel;
+    loGraphPanel1: TloGraphPanel;
     SimpleTestButton: TButton;
     OutputMemo: TMemo;
     TopPanel: TPanel;

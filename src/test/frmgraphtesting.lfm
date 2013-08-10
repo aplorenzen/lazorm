@@ -1,0 +1,57 @@
+object Form1: TForm1
+  Left = 374
+  Height = 533
+  Top = 174
+  Width = 840
+  Caption = 'Form1'
+  ClientHeight = 533
+  ClientWidth = 840
+  LCLVersion = '1.0.10.0'
+  object ScrollBox2: TScrollBox
+    Left = 0
+    Height = 483
+    Top = 0
+    Width = 840
+    HorzScrollBar.Page = 819
+    VertScrollBar.Page = 462
+    Align = alClient
+    ClientHeight = 462
+    ClientWidth = 819
+    TabOrder = 0
+    OnResize = ScrollBox2Resize
+    object loDataModelPanel1: TloDataModelPanel
+      Left = 0
+      Height = 1000
+      Top = 0
+      Width = 1000
+      BevelOuter = bvNone
+      Caption = 'loDataModelPanel1'
+      Color = clWhite
+      ParentColor = False
+      TabOrder = 0
+      GridOptions.GridHeight = 64
+      GridOptions.GridWidth = 64
+      GridOptions.GridColor = clBlue
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 483
+    Width = 840
+    Align = alBottom
+    Caption = 'Panel1'
+    ClientHeight = 50
+    ClientWidth = 840
+    TabOrder = 1
+    object Button1: TButton
+      Left = 24
+      Height = 25
+      Top = 5
+      Width = 75
+      Caption = 'Button1'
+      OnClick = Button1Click
+      TabOrder = 0
+    end
+  end
+end
