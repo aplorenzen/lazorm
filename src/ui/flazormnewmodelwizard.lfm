@@ -443,8 +443,17 @@ object loNewModelForm: TloNewModelForm
   end
   object SQLQuery1: TSQLQuery
     FieldDefs = <>
+    Database = SQLConnector1
     Params = <>
     left = 160
     top = 344
+  end
+  object SQLConnector1: TSQLConnector
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    LogEvents = []
+    left = 149
+    top = 218
   end
 end

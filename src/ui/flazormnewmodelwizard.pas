@@ -17,7 +17,8 @@ uses
 
 
   uloTypes,
-  uloUtils;
+  uloUtils,
+  uloDatabaseMapTypes;
 
 type
 
@@ -50,6 +51,7 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     CatalogLabel: TLabel;
+    SQLConnector1: TSQLConnector;
     SQLQuery1: TSQLQuery;
     Step1TabSheet: TTabSheet;
     Step2TabSheet: TTabSheet;
@@ -156,8 +158,11 @@ procedure TloNewModelForm.Button1Click(Sender: TObject);
 var
   lConnector: TSQLConnector;
   // lConnectionDef: TConnectionDef;
+  lMetaDataRetreiver: TloDMMetaDataRetriever;
+  lTableList: TloDMTableList;
 begin
   lConnector := TSQLConnector.Create(nil);
+  lMetaDataRetreiver := TloDMMetaDataRetriever.Create(lConnector);
 
   try
     try
@@ -170,6 +175,7 @@ begin
 
       lConnector.Connected := True;
 
+      lTableList := lMetaDataRetreiver.RetrieveTableMetaData;
 
 
 
@@ -182,6 +188,7 @@ begin
 
     finally
       lConnector.Free;
+      lMetaDataRetreiver.Free;
   end;
 
 end;
