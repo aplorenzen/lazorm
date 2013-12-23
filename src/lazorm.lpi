@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="5"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="105"/>
+      <BuildNr Value="125"/>
       <StringTable ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -53,7 +53,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="14">
       <Unit0>
         <Filename Value="lazorm.pas"/>
         <IsPartOfProject Value="True"/>
@@ -100,33 +100,38 @@
         <UnitName Value="frmDevTestForm"/>
       </Unit7>
       <Unit8>
-        <Filename Value="codebuilder/ucbcodebuilder.pas"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ucbCodeBuilder"/>
+        <UnitName Value="ulodbmodeltypes"/>
       </Unit8>
       <Unit9>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uloDatabaseMapTypes"/>
-      </Unit9>
-      <Unit10>
         <Filename Value="common/ulodatabasetypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uloDatabaseTypes"/>
-      </Unit10>
-      <Unit11>
+      </Unit9>
+      <Unit10>
         <Filename Value="common/ulodatabaseconstants.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uloDatabaseConstants"/>
-      </Unit11>
-      <Unit12>
+      </Unit10>
+      <Unit11>
         <Filename Value="test/frmgraphtesting.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frmGraphTesting"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="common/ulocoretypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulocoretypes"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="test/persistencetest.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="persistencetest"/>
+      </Unit13>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -137,7 +142,7 @@
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
       <Libraries Value="/usr/local/lib;/usr/lib"/>
-      <OtherUnitFiles Value="common;codebuilder;ui;test"/>
+      <OtherUnitFiles Value="common;codebuilder;ui;test;common/dbmodel"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

@@ -9,7 +9,7 @@
 {    Constants should be here for the reason that they will not be subject to  }
 {    change within the scope of the tool.                                      }
 {                                                                              }
-{  (EDIT!!!) TODO:                                                                       }
+{  TODO:                                                                       }
 {    - Constants should be split between two files. One that is supplied along }
 {      with the super classes of the objects in the generated code. In other   }
 {      words the ones that are used in the product of the tool. Other          }

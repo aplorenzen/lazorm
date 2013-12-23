@@ -5,7 +5,7 @@
                    in the code.
 *)
 
-unit ucbCodeBuilder;
+unit _ucbcodebuilder;
 
 {$mode objfpc}{$H+}
 
@@ -417,7 +417,7 @@ end;
 
 procedure TcbComment.Add(aComment: String);
 begin
-  // TODO: Do this
+  // ..TODO?: Do this
 end;
 
 end.

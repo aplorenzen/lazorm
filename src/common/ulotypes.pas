@@ -15,7 +15,7 @@ type
 
   { TloDBConfig }
 
-  TloDBConfig = class(TObject)
+  TloDBConfig = class(TInterfacedPersistent)
   private
     fHostName: String;
     fPort: Integer;

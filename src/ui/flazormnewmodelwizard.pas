@@ -18,7 +18,10 @@ uses
 
   uloTypes,
   uloUtils,
-  uloDatabaseMapTypes;
+  uloDBModelTypes,
+
+  // TEST
+  persistencetest;
 
 type
 
@@ -37,6 +40,7 @@ type
     HostnameEdit: TEdit;
     HostportEdit: TEdit;
     LoginEdit: TEdit;
+    Memo1: TMemo;
     PasswordEdit: TEdit;
     Image1: TImage;
     DatabaseTypeLabel: TLabel;
@@ -63,6 +67,7 @@ type
     BottomPanel: TPanel;
     procedure BackButtonClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -135,6 +140,9 @@ begin
   for lConnectionDef in lConnectionDefList do
     DatabaseTypeComboBox.AddItem(lConnectionDef.TypeName, lConnectionDef);
 
+  for lConnectionDef in lConnectionDefList do
+    Memo1.Lines.add(lConnectionDef.TypeName);
+
   PageControl.ShowTabs := False;
 
   Stage := lsStep1;
@@ -155,41 +163,51 @@ begin
 end;
 
 procedure TloNewModelForm.Button1Click(Sender: TObject);
-var
-  lConnector: TSQLConnector;
+//var
+  //lConnector: TSQLConnector;
   // lConnectionDef: TConnectionDef;
-  lMetaDataRetreiver: TloDMMetaDataRetriever;
-  lTableList: TloDMTableList;
+  //lMetaDataRetreiver: TloDMMetaDataRetriever;
+  //lTableList: TloDMTableList;
 begin
-  lConnector := TSQLConnector.Create(nil);
-  lMetaDataRetreiver := TloDMMetaDataRetriever.Create(lConnector);
+  //lConnector := TSQLConnector.Create(nil);
+  //lMetaDataRetreiver := TloDMMetaDataRetriever.Create(lConnector);
+  //
+  //try
+  //  try
+  //    // Tested with MSSQL Server, works - FreeTDS and unixODBC
+  //    lConnector.HostName := Format('%s:%d', [Trim(HostnameEdit.Text), StrToInt(Trim(HostportEdit.Text))]);
+  //    lConnector.UserName := Trim(LoginEdit.Text);
+  //    lConnector.Password := Trim(PasswordEdit.Text);
+  //    lConnector.DatabaseName := Trim(CatalogEdit.Text);
+  //    lConnector.ConnectorType := TConnectionDef(DatabaseTypeComboBox.Items.Objects[DatabaseTypeComboBox.ItemIndex]).TypeName;
+  //
+  //    lConnector.Connected := True;
+  //
+  //    lTableList := lMetaDataRetreiver.RetrieveTableMetaData;
+  //
+  //
+  //
+  //    except on e:Exception do
+  //    begin
+  //      // TODO -oAPL -cWizard 2: How to handle exceptions durring the wizard?
+  //      ShowMessage(e.Message);
+  //    end;
+  //  end;
+  //
+  //  finally
+  //    lConnector.Free;
+  //    lMetaDataRetreiver.Free;
+  //end;
+  //
+end;
 
-  try
-    try
-      // Tested with MSSQL Server, works - FreeTDC and unixODBC
-      lConnector.HostName := Format('%s:%d', [Trim(HostnameEdit.Text), StrToInt(Trim(HostportEdit.Text))]);
-      lConnector.UserName := Trim(LoginEdit.Text);
-      lConnector.Password := Trim(PasswordEdit.Text);
-      lConnector.DatabaseName := Trim(CatalogEdit.Text);
-      lConnector.ConnectorType := TConnectionDef(DatabaseTypeComboBox.Items.Objects[DatabaseTypeComboBox.ItemIndex]).TypeName;
+procedure TloNewModelForm.Button2Click(Sender: TObject);
+var
+  tester: TTester;
+begin
+  tester := TTester.Create(Self);
 
-      lConnector.Connected := True;
-
-      lTableList := lMetaDataRetreiver.RetrieveTableMetaData;
-
-
-
-      except on e:Exception do
-      begin
-        // TODO -oAPL -cWizard 2: How to handle exceptions durring the wizard?
-        ShowMessage(e.Message);
-      end;
-    end;
-
-    finally
-      lConnector.Free;
-      lMetaDataRetreiver.Free;
-  end;
+  tester.Test;
 
 end;
 

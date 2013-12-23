@@ -1,7 +1,7 @@
 object loNewModelForm: TloNewModelForm
-  Left = 419
+  Left = 2010
   Height = 444
-  Top = 181
+  Top = 225
   Width = 551
   AutoSize = True
   BorderIcons = [biSystemMenu]
@@ -317,6 +317,7 @@ object loNewModelForm: TloNewModelForm
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False
             TabOrder = 1
+            Text = 'sos.telecare.dk'
           end
           object HostportEdit: TEdit
             Left = 180
@@ -327,6 +328,7 @@ object loNewModelForm: TloNewModelForm
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False
             TabOrder = 2
+            Text = '2066'
           end
           object LoginEdit: TEdit
             Left = 180
@@ -337,6 +339,7 @@ object loNewModelForm: TloNewModelForm
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False
             TabOrder = 3
+            Text = 'sa'
           end
           object HostportLabel: TLabel
             Left = 12
@@ -373,6 +376,7 @@ object loNewModelForm: TloNewModelForm
             EchoMode = emPassword
             PasswordChar = '*'
             TabOrder = 4
+            Text = 'tc27138454'
           end
           object Button1: TButton
             Left = 457
@@ -400,6 +404,7 @@ object loNewModelForm: TloNewModelForm
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False
             TabOrder = 5
+            Text = 'test'
           end
           object Button2: TButton
             Left = 308
@@ -407,7 +412,18 @@ object loNewModelForm: TloNewModelForm
             Top = 240
             Width = 75
             Caption = 'Button2'
+            OnClick = Button2Click
             TabOrder = 7
+          end
+          object Memo1: TMemo
+            Left = 20
+            Height = 90
+            Top = 208
+            Width = 150
+            Lines.Strings = (
+              'Memo1'
+            )
+            TabOrder = 8
           end
         end
       end

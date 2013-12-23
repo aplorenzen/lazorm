@@ -3,17 +3,15 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="64">
+    <Units Count="60">
       <Unit0>
         <Filename Value="lazorm.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="lazorm"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="1" Y="24"/>
+        <CursorPos X="24" Y="21"/>
         <UsageCount Value="200"/>
-        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="ui/flazormnewmodelwizard.pas"/>
@@ -22,10 +20,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="flazormnewmodelwizard"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="18"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="151"/>
-        <CursorPos X="1" Y="178"/>
+        <TopLine Value="57"/>
+        <CursorPos X="15" Y="69"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -34,10 +32,10 @@
         <Filename Value="common/ulotypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uloTypes"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="47"/>
-        <CursorPos X="1" Y="1"/>
+        <TopLine Value="25"/>
+        <CursorPos X="57" Y="35"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -45,10 +43,10 @@
         <Filename Value="common/uloutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uloUtils"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="5"/>
-        <CursorPos X="19" Y="12"/>
+        <TopLine Value="1"/>
+        <CursorPos X="15" Y="14"/>
         <UsageCount Value="228"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -56,7 +54,7 @@
         <Filename Value="common/uloconstants.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uloConstants"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="9"/>
@@ -67,10 +65,10 @@
         <Filename Value="codebuilder/ucbclassbuilder.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ucbClassBuilder"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="212"/>
-        <CursorPos X="3" Y="230"/>
+        <TopLine Value="642"/>
+        <CursorPos X="1" Y="651"/>
         <UsageCount Value="225"/>
         <Loaded Value="True"/>
       </Unit5>
@@ -90,636 +88,622 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frmDevTestForm"/>
-        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="52"/>
-        <CursorPos X="13" Y="11"/>
+        <TopLine Value="47"/>
+        <CursorPos X="27" Y="59"/>
         <UsageCount Value="240"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="codebuilder/ucbcodebuilder.pas"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ucbCodeBuilder"/>
+        <UnitName Value="ulodbmodeltypes"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="283"/>
-        <CursorPos X="1" Y="288"/>
-        <UsageCount Value="214"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uloDatabaseMapTypes"/>
-        <EditorIndex Value="4"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="16"/>
-        <CursorPos X="10" Y="41"/>
+        <TopLine Value="153"/>
+        <CursorPos X="14" Y="166"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
-      </Unit9>
-      <Unit10>
+      </Unit8>
+      <Unit9>
         <Filename Value="common/ulodatabasetypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uloDatabaseTypes"/>
-        <EditorIndex Value="0"/>
+        <EditorIndex Value="14"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="21" Y="15"/>
+        <TopLine Value="94"/>
+        <CursorPos X="16" Y="61"/>
         <UsageCount Value="218"/>
         <Bookmarks Count="1">
           <Item0 X="5" Y="219" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
-      </Unit10>
-      <Unit11>
+      </Unit9>
+      <Unit10>
         <Filename Value="common/ulodatabaseconstants.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uloDatabaseConstants"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="89" Y="12"/>
+        <TopLine Value="15"/>
+        <CursorPos X="1" Y="1"/>
         <UsageCount Value="212"/>
         <Loaded Value="True"/>
-      </Unit11>
-      <Unit12>
+      </Unit10>
+      <Unit11>
         <Filename Value="test/frmgraphtesting.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="frmGraphTesting"/>
-        <EditorIndex Value="15"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="8"/>
-        <CursorPos X="31" Y="21"/>
-        <UsageCount Value="199"/>
+        <TopLine Value="13"/>
+        <CursorPos X="96" Y="8"/>
+        <UsageCount Value="279"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="common/ulocoretypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulocoretypes"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="86"/>
+        <CursorPos X="3" Y="100"/>
+        <UsageCount Value="105"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit12>
       <Unit13>
+        <Filename Value="test/persistencetest.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="persistencetest"/>
+        <EditorIndex Value="16"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="codebuilder/_ucbcodebuilder.pas"/>
+        <UnitName Value="_ucbcodebuilder"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="334"/>
+        <CursorPos X="19" Y="408"/>
+        <UsageCount Value="213"/>
+      </Unit14>
+      <Unit15>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/postgres/pqconnection.pp"/>
         <UnitName Value="pqconnection"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="76"/>
-      </Unit13>
-      <Unit14>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
-        <UnitName Value="sqldb"/>
-        <EditorIndex Value="14"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="26"/>
-        <CursorPos X="33" Y="45"/>
-        <UsageCount Value="130"/>
-        <Loaded Value="True"/>
-      </Unit14>
-      <Unit15>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/inc/objpash.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="177"/>
-        <CursorPos X="23" Y="192"/>
-        <UsageCount Value="82"/>
+        <UsageCount Value="50"/>
       </Unit15>
       <Unit16>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <UnitName Value="sqldb"/>
+        <EditorIndex Value="15"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="474"/>
+        <CursorPos X="67" Y="496"/>
+        <UsageCount Value="113"/>
+        <Loaded Value="True"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/inc/objpash.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="180"/>
+        <CursorPos X="23" Y="192"/>
+        <UsageCount Value="58"/>
+      </Unit17>
+      <Unit18>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/win64/classes.pp"/>
         <UnitName Value="Classes"/>
         <WindowIndex Value="0"/>
         <TopLine Value="17"/>
         <CursorPos X="29" Y="28"/>
-        <UsageCount Value="75"/>
-      </Unit16>
-      <Unit17>
+        <UsageCount Value="49"/>
+      </Unit18>
+      <Unit19>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/fgl.pp"/>
         <UnitName Value="fgl"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="131"/>
-        <CursorPos X="11" Y="144"/>
-        <UsageCount Value="82"/>
-      </Unit17>
-      <Unit18>
+        <TopLine Value="30"/>
+        <CursorPos X="3" Y="41"/>
+        <UsageCount Value="60"/>
+        <Loaded Value="True"/>
+      </Unit19>
+      <Unit20>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/win/wininc/struct.inc"/>
-        <EditorIndex Value="22"/>
         <WindowIndex Value="0"/>
         <TopLine Value="220"/>
         <CursorPos X="6" Y="233"/>
-        <UsageCount Value="101"/>
-        <Loaded Value="True"/>
-      </Unit18>
-      <Unit19>
+        <UsageCount Value="83"/>
+      </Unit20>
+      <Unit21>
         <Filename Value="fpdoc/uclassbuilder.xml"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="42" Y="2"/>
-        <UsageCount Value="61"/>
+        <UsageCount Value="35"/>
         <DefaultSyntaxHighlighter Value="XML"/>
-      </Unit19>
-      <Unit20>
+      </Unit21>
+      <Unit22>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/win/sysutils.pp"/>
         <UnitName Value="sysutils"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="23" Y="16"/>
-        <UsageCount Value="29"/>
-      </Unit20>
-      <Unit21>
+        <UsageCount Value="3"/>
+      </Unit22>
+      <Unit23>
         <Filename Value="../lib/log4delphi-0.7/src/delphi/tloggerunit.pas"/>
         <UnitName Value="TLoggerUnit"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="67"/>
-        <CursorPos X="17" Y="92"/>
-        <UsageCount Value="28"/>
-      </Unit21>
-      <Unit22>
+        <TopLine Value="280"/>
+        <CursorPos X="4" Y="292"/>
+        <UsageCount Value="104"/>
+        <Loaded Value="True"/>
+      </Unit23>
+      <Unit24>
         <Filename Value="../lib/Jcf_243_source/IdePlugin/Lazarus/jcfidelazarus.pas"/>
         <UnitName Value="jcfidelazarus"/>
         <WindowIndex Value="0"/>
         <TopLine Value="8"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="27"/>
-      </Unit22>
-      <Unit23>
+        <UsageCount Value="1"/>
+      </Unit24>
+      <Unit25>
         <Filename Value="../lib/Jcf_243_source/IdePlugin/Lazarus/jcfidemain.pas"/>
         <UnitName Value="JcfIdeMain"/>
         <WindowIndex Value="0"/>
         <TopLine Value="174"/>
         <CursorPos X="50" Y="43"/>
-        <UsageCount Value="27"/>
-      </Unit23>
-      <Unit24>
+        <UsageCount Value="1"/>
+      </Unit25>
+      <Unit26>
         <Filename Value="../lib/Jcf_243_source/IdePlugin/Lazarus/jcfideregister.pas"/>
         <UnitName Value="JcfIdeRegister"/>
         <WindowIndex Value="0"/>
         <TopLine Value="9"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="27"/>
-      </Unit24>
-      <Unit25>
+        <UsageCount Value="1"/>
+      </Unit26>
+      <Unit27>
         <Filename Value="../lib/Jcf_243_source/Utils/JcfSystemUtils.pas"/>
         <UnitName Value="JcfSystemUtils"/>
         <WindowIndex Value="0"/>
         <TopLine Value="51"/>
         <CursorPos X="4" Y="72"/>
-        <UsageCount Value="27"/>
-      </Unit25>
-      <Unit26>
+        <UsageCount Value="1"/>
+      </Unit27>
+      <Unit28>
         <Filename Value="../lib/Jcf_243_source/Utils/JcfMiscFunctions.pas"/>
         <UnitName Value="JcfMiscFunctions"/>
         <WindowIndex Value="0"/>
         <TopLine Value="90"/>
         <CursorPos X="24" Y="107"/>
-        <UsageCount Value="27"/>
-      </Unit26>
-      <Unit27>
+        <UsageCount Value="1"/>
+      </Unit28>
+      <Unit29>
         <Filename Value="../lib/Jcf_243_source/ReadWrite/FileConverter.pas"/>
         <UnitName Value="FileConverter"/>
         <WindowIndex Value="0"/>
         <TopLine Value="186"/>
         <CursorPos X="3" Y="214"/>
-        <UsageCount Value="27"/>
-      </Unit27>
-      <Unit28>
+        <UsageCount Value="1"/>
+      </Unit29>
+      <Unit30>
         <Filename Value="../lib/Jcf_243_source/ReadWrite/ConvertTypes.pas"/>
         <UnitName Value="ConvertTypes"/>
         <WindowIndex Value="0"/>
         <TopLine Value="35"/>
         <CursorPos X="3" Y="53"/>
-        <UsageCount Value="27"/>
-      </Unit28>
-      <Unit29>
+        <UsageCount Value="1"/>
+      </Unit30>
+      <Unit31>
         <Filename Value="../lib/Jcf_243_source/Settings/JcfRegistrySettings.pas"/>
         <UnitName Value="JcfRegistrySettings"/>
         <WindowIndex Value="0"/>
         <TopLine Value="154"/>
         <CursorPos X="10" Y="185"/>
-        <UsageCount Value="27"/>
-      </Unit29>
-      <Unit30>
+        <UsageCount Value="1"/>
+      </Unit31>
+      <Unit32>
         <Filename Value="../lib/Jcf_243_source/ReadWrite/Converter.pas"/>
         <UnitName Value="Converter"/>
         <WindowIndex Value="0"/>
         <TopLine Value="165"/>
         <CursorPos X="6" Y="185"/>
-        <UsageCount Value="27"/>
-      </Unit30>
-      <Unit31>
+        <UsageCount Value="1"/>
+      </Unit32>
+      <Unit33>
         <Filename Value="../lib/Jcf_243_source/Parse/BuildTokenList.pas"/>
         <UnitName Value="BuildTokenList"/>
         <WindowIndex Value="0"/>
         <TopLine Value="736"/>
         <CursorPos X="3" Y="748"/>
-        <UsageCount Value="27"/>
-      </Unit31>
-      <Unit32>
+        <UsageCount Value="1"/>
+      </Unit33>
+      <Unit34>
         <Filename Value="../lib/Jcf_243_source/Parse/Tokens.pas"/>
         <UnitName Value="Tokens"/>
         <WindowIndex Value="0"/>
         <TopLine Value="701"/>
         <CursorPos X="43" Y="794"/>
-        <UsageCount Value="27"/>
-      </Unit32>
-      <Unit33>
-        <Filename Value="../lib/Jcf_243_source/Utils/JcfStringUtils.pas"/>
-        <UnitName Value="JcfStringUtils"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="37"/>
-        <CursorPos X="3" Y="54"/>
-        <UsageCount Value="26"/>
-      </Unit33>
-      <Unit34>
-        <Filename Value="../lib/Jcf_243_source/Parse/SourceTokenList.pas"/>
-        <UnitName Value="SourceTokenList"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="277"/>
-        <CursorPos X="3" Y="283"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="1"/>
       </Unit34>
       <Unit35>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/classes/classesh.inc"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="20"/>
-        <CursorPos X="4" Y="33"/>
-        <UsageCount Value="101"/>
+        <TopLine Value="1731"/>
+        <CursorPos X="15" Y="1744"/>
+        <UsageCount Value="89"/>
         <Loaded Value="True"/>
       </Unit35>
       <Unit36>
-        <Filename Value="../lib/Jcf_243_source/Parse/PreProcessor/PreProcessorParseTree.pas"/>
-        <UnitName Value="PreProcessorParseTree"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="200"/>
-        <CursorPos X="3" Y="206"/>
-        <UsageCount Value="26"/>
-      </Unit36>
-      <Unit37>
-        <Filename Value="../lib/Jcf_243_source/Parse/SourceToken.pas"/>
-        <UnitName Value="SourceToken"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="256"/>
-        <CursorPos X="3" Y="287"/>
-        <UsageCount Value="26"/>
-      </Unit37>
-      <Unit38>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-base/src/contnrs.pp"/>
         <UnitName Value="contnrs"/>
-        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="558"/>
         <CursorPos X="21" Y="459"/>
-        <UsageCount Value="134"/>
-        <Loaded Value="True"/>
-      </Unit38>
-      <Unit39>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/inc/objpas.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="265"/>
-        <CursorPos X="9" Y="267"/>
-        <UsageCount Value="3"/>
-      </Unit39>
-      <Unit40>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/base/db.pas"/>
-        <UnitName Value="db"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="60"/>
-        <CursorPos X="3" Y="74"/>
-        <UsageCount Value="2"/>
-      </Unit40>
-      <Unit41>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/classes/collect.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="293"/>
-        <CursorPos X="3" Y="298"/>
-        <UsageCount Value="2"/>
-      </Unit41>
-      <Unit42>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/classes/stringl.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="114"/>
-        <CursorPos X="3" Y="121"/>
-        <UsageCount Value="2"/>
-      </Unit42>
-      <Unit43>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/win/sysosh.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="2"/>
-        <CursorPos X="3" Y="19"/>
-        <UsageCount Value="2"/>
-      </Unit43>
-      <Unit44>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/classes/compon.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="600"/>
-        <CursorPos X="3" Y="605"/>
-        <UsageCount Value="2"/>
-      </Unit44>
-      <Unit45>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/sysutils/sysutilh.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="217"/>
-        <CursorPos X="61" Y="137"/>
-        <UsageCount Value="3"/>
-      </Unit45>
-      <Unit46>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/sysutils/sysutils.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="147"/>
-        <CursorPos X="9" Y="151"/>
-        <UsageCount Value="2"/>
-      </Unit46>
-      <Unit47>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/base/fields.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="318"/>
-        <CursorPos X="3" Y="321"/>
-        <UsageCount Value="2"/>
-      </Unit47>
-      <Unit48>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-base/src/syncobjs.pp"/>
-        <UnitName Value="syncobjs"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="113"/>
-        <CursorPos X="3" Y="115"/>
-        <UsageCount Value="26"/>
-      </Unit48>
-      <Unit49>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/inc/threadh.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="57"/>
-        <CursorPos X="30" Y="74"/>
-        <UsageCount Value="26"/>
-      </Unit49>
-      <Unit50>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/inc/thread.inc"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="208"/>
-        <CursorPos X="3" Y="211"/>
-        <UsageCount Value="26"/>
-      </Unit50>
-      <Unit51>
+        <UsageCount Value="116"/>
+      </Unit36>
+      <Unit37>
         <Filename Value="package/lographpanel.pas"/>
         <UnitName Value="loGraphPanel"/>
-        <EditorIndex Value="16"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="10" Y="113"/>
-        <UsageCount Value="100"/>
-        <Loaded Value="True"/>
-      </Unit51>
-      <Unit52>
+        <UsageCount Value="82"/>
+      </Unit37>
+      <Unit38>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-image/src/fpcanvas.pp"/>
         <UnitName Value="FPCanvas"/>
-        <EditorIndex Value="27"/>
         <WindowIndex Value="0"/>
         <TopLine Value="122"/>
         <CursorPos X="33" Y="134"/>
-        <UsageCount Value="87"/>
-        <Loaded Value="True"/>
-      </Unit52>
-      <Unit53>
+        <UsageCount Value="109"/>
+      </Unit38>
+      <Unit39>
         <Filename Value="../../../../Andreas/lazarus/lcl/include/customcontrol.inc"/>
-        <EditorIndex Value="26"/>
         <WindowIndex Value="0"/>
         <TopLine Value="112"/>
         <CursorPos X="28" Y="130"/>
-        <UsageCount Value="87"/>
-        <Loaded Value="True"/>
-      </Unit53>
-      <Unit54>
+        <UsageCount Value="109"/>
+      </Unit39>
+      <Unit40>
         <Filename Value="../../../../Andreas/lazarus/lcl/graphics.pp"/>
         <UnitName Value="Graphics"/>
-        <EditorIndex Value="25"/>
         <WindowIndex Value="0"/>
         <TopLine Value="639"/>
         <CursorPos X="3" Y="614"/>
-        <UsageCount Value="87"/>
-        <Loaded Value="True"/>
-      </Unit54>
-      <Unit55>
+        <UsageCount Value="109"/>
+      </Unit40>
+      <Unit41>
         <Filename Value="../../../../Andreas/lazarus/lcl/grids.pas"/>
         <UnitName Value="Grids"/>
-        <EditorIndex Value="24"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1353"/>
         <CursorPos X="3" Y="1370"/>
-        <UsageCount Value="78"/>
-        <Loaded Value="True"/>
-      </Unit55>
-      <Unit56>
+        <UsageCount Value="100"/>
+      </Unit41>
+      <Unit42>
         <Filename Value="package/lodatamodelpanel.pas"/>
         <UnitName Value="loDataModelPanel"/>
-        <EditorIndex Value="17"/>
         <WindowIndex Value="0"/>
         <TopLine Value="157"/>
         <CursorPos X="6" Y="172"/>
-        <UsageCount Value="78"/>
-        <Loaded Value="True"/>
-      </Unit56>
-      <Unit57>
+        <UsageCount Value="100"/>
+      </Unit42>
+      <Unit43>
         <Filename Value="../../../../Andreas/lazarus/lcl/forms.pp"/>
         <UnitName Value="Forms"/>
-        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="166"/>
         <CursorPos X="30" Y="168"/>
-        <UsageCount Value="78"/>
-        <Loaded Value="True"/>
-      </Unit57>
-      <Unit58>
+        <UsageCount Value="100"/>
+      </Unit43>
+      <Unit44>
         <Filename Value="../../../../Andreas/lazarus/lcl/controls.pp"/>
         <UnitName Value="Controls"/>
-        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1300"/>
         <CursorPos X="15" Y="1313"/>
-        <UsageCount Value="78"/>
-        <Loaded Value="True"/>
-      </Unit58>
-      <Unit59>
+        <UsageCount Value="100"/>
+      </Unit44>
+      <Unit45>
         <Filename Value="../../../../Andreas/lazarus/lcl/include/wincontrol.inc"/>
-        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="6351"/>
         <CursorPos X="3" Y="6360"/>
-        <UsageCount Value="78"/>
-        <Loaded Value="True"/>
-      </Unit59>
-      <Unit60>
+        <UsageCount Value="100"/>
+      </Unit45>
+      <Unit46>
         <Filename Value="../../../../Andreas/lazarus/lcl/include/control.inc"/>
-        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2270"/>
         <CursorPos X="46" Y="2281"/>
-        <UsageCount Value="78"/>
-        <Loaded Value="True"/>
-      </Unit60>
-      <Unit61>
+        <UsageCount Value="100"/>
+      </Unit46>
+      <Unit47>
         <Filename Value="../../../../Andreas/lazarus/lcl/extctrls.pp"/>
         <UnitName Value="ExtCtrls"/>
-        <EditorIndex Value="23"/>
         <WindowIndex Value="0"/>
         <TopLine Value="955"/>
         <CursorPos X="17" Y="968"/>
-        <UsageCount Value="78"/>
-        <Loaded Value="True"/>
-      </Unit61>
-      <Unit62>
+        <UsageCount Value="100"/>
+      </Unit47>
+      <Unit48>
         <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/types.pp"/>
         <UnitName Value="types"/>
-        <EditorIndex Value="21"/>
         <WindowIndex Value="0"/>
         <TopLine Value="70"/>
         <CursorPos X="3" Y="83"/>
-        <UsageCount Value="62"/>
-        <Loaded Value="True"/>
-      </Unit62>
-      <Unit63>
+        <UsageCount Value="84"/>
+      </Unit48>
+      <Unit49>
         <Filename Value="../../../../Andreas/lazarus/lcl/include/scrollingwincontrol.inc"/>
-        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="46"/>
         <CursorPos X="3" Y="48"/>
-        <UsageCount Value="61"/>
+        <UsageCount Value="83"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="unit1.pas"/>
+        <UnitName Value="Unit1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="55"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-xml/src/xmlconf.pp"/>
+        <UnitName Value="XMLConf"/>
+        <EditorIndex Value="9"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="33"/>
+        <CursorPos X="3" Y="46"/>
+        <UsageCount Value="15"/>
         <Loaded Value="True"/>
-      </Unit63>
+      </Unit51>
+      <Unit52>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/classes/compon.inc"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="464"/>
+        <CursorPos X="3" Y="472"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/classes/streams.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="268"/>
+        <CursorPos X="7" Y="271"/>
+        <UsageCount Value="11"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/classes/writer.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="759"/>
+        <CursorPos X="3" Y="762"/>
+        <UsageCount Value="11"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/base/db.pas"/>
+        <UnitName Value="db"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1887"/>
+        <CursorPos X="3" Y="1900"/>
+        <UsageCount Value="10"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="common/xmlserializer.pas"/>
+        <UnitName Value="XMLSerializer"/>
+        <EditorIndex Value="17"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="18"/>
+        <CursorPos X="3" Y="31"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="../../../../Andreas/lazarus/components/lazutils/laz2_dom.pas"/>
+        <UnitName Value="laz2_DOM"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="156"/>
+        <CursorPos X="1" Y="157"/>
+        <UsageCount Value="9"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-xml/src/xmlcfg.pp"/>
+        <UnitName Value="XMLCfg"/>
+        <EditorIndex Value="8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="25"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="../lib/log4delphi-0.7/src/delphi/tloggingeventunit.pas"/>
+        <UnitName Value="TLoggingEventUnit"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="75"/>
+        <CursorPos X="4" Y="84"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit59>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="30" HistoryIndex="27">
       <Position1>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="87" Column="54" TopLine="70"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <Caret Line="476" Column="19" TopLine="454"/>
       </Position1>
       <Position2>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="90" Column="20" TopLine="70"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position2>
       <Position3>
-        <Filename Value="ui/flazormnewmodelwizard.pas"/>
-        <Caret Line="149" Column="75" TopLine="134"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <Caret Line="476" Column="19" TopLine="454"/>
       </Position3>
       <Position4>
-        <Filename Value="ui/flazormnewmodelwizard.pas"/>
-        <Caret Line="169" Column="4" TopLine="154"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <Caret Line="479" Column="17" TopLine="457"/>
       </Position4>
       <Position5>
-        <Filename Value="codebuilder/ucbclassbuilder.pas"/>
-        <Caret Line="1027" Column="14" TopLine="973"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <Caret Line="488" Column="48" TopLine="466"/>
       </Position5>
       <Position6>
-        <Filename Value="codebuilder/ucbclassbuilder.pas"/>
-        <Caret Line="252" Column="3" TopLine="234"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <Caret Line="493" Column="50" TopLine="471"/>
       </Position6>
       <Position7>
-        <Filename Value="codebuilder/ucbclassbuilder.pas"/>
-        <Caret Line="230" Column="3" TopLine="212"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <Caret Line="494" Column="52" TopLine="472"/>
       </Position7>
       <Position8>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="121" Column="1" TopLine="103"/>
+        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <Caret Line="496" Column="67" TopLine="474"/>
       </Position8>
       <Position9>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="89" Column="89" TopLine="64"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="171" Column="55" TopLine="156"/>
       </Position9>
       <Position10>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="142" Column="24" TopLine="128"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="212" Column="3" TopLine="201"/>
       </Position10>
       <Position11>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="149" Column="36" TopLine="118"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="223" Column="30" TopLine="210"/>
       </Position11>
       <Position12>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="156" Column="12" TopLine="130"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="288" Column="36" TopLine="275"/>
       </Position12>
       <Position13>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="169" Column="1" TopLine="140"/>
+        <Filename Value="ui/flazormnewmodelwizard.pas"/>
+        <Caret Line="1" Column="1" TopLine="127"/>
       </Position13>
       <Position14>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="136" Column="31" TopLine="118"/>
+        <Filename Value="ui/flazormnewmodelwizard.pas"/>
+        <Caret Line="197" Column="34" TopLine="189"/>
       </Position14>
       <Position15>
-        <Filename Value="../../../../Andreas/lazarus/fpc/2.6.2/source/packages/fcl-db/src/sqldb/sqldb.pp"/>
-        <Caret Line="159" Column="14" TopLine="141"/>
+        <Filename Value="ui/flazormnewmodelwizard.pas"/>
+        <Caret Line="148" Column="52" TopLine="126"/>
       </Position15>
       <Position16>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="133" Column="26" TopLine="118"/>
+        <Filename Value="ui/flazormnewmodelwizard.pas"/>
+        <Caret Line="144" Column="21" TopLine="128"/>
       </Position16>
       <Position17>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="89" Column="76" TopLine="71"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="213" Column="11" TopLine="210"/>
       </Position17>
       <Position18>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="136" Column="8" TopLine="111"/>
+        <Filename Value="common/ulocoretypes.pas"/>
+        <Caret Line="106" Column="9" TopLine="127"/>
       </Position18>
       <Position19>
-        <Filename Value="ui/flazormnewmodelwizard.pas"/>
-        <Caret Line="163" Column="25" TopLine="145"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="254" Column="74" TopLine="239"/>
       </Position19>
       <Position20>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="107" Column="35" TopLine="84"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="165" Column="11" TopLine="160"/>
       </Position20>
       <Position21>
-        <Filename Value="ui/flazormnewmodelwizard.pas"/>
-        <Caret Line="178" Column="1" TopLine="151"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="189" Column="1" TopLine="177"/>
       </Position21>
       <Position22>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="10" Column="50" TopLine="1"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="190" Column="9" TopLine="178"/>
       </Position22>
       <Position23>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="1" Column="82" TopLine="1"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="228" Column="35" TopLine="222"/>
       </Position23>
       <Position24>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="13" Column="1" TopLine="1"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="233" Column="94" TopLine="228"/>
       </Position24>
       <Position25>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="8" Column="6" TopLine="1"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="229" Column="98" TopLine="214"/>
       </Position25>
       <Position26>
-        <Filename Value="common/ulodatabasemaptypes.pas"/>
-        <Caret Line="13" Column="58" TopLine="5"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="164" Column="51" TopLine="150"/>
       </Position26>
       <Position27>
-        <Filename Value="common/ulodatabasetypes.pas"/>
-        <Caret Line="179" Column="26" TopLine="165"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="245" Column="1" TopLine="242"/>
       </Position27>
       <Position28>
-        <Filename Value="common/ulodatabasetypes.pas"/>
-        <Caret Line="15" Column="27" TopLine="1"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="244" Column="23" TopLine="231"/>
       </Position28>
       <Position29>
-        <Filename Value="common/ulodatabaseconstants.pas"/>
-        <Caret Line="13" Column="17" TopLine="1"/>
+        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Caret Line="162" Column="3" TopLine="149"/>
       </Position29>
       <Position30>
-        <Filename Value="common/ulodatabaseconstants.pas"/>
-        <Caret Line="12" Column="12" TopLine="1"/>
+        <Filename Value="common/ulocoretypes.pas"/>
+        <Caret Line="100" Column="3" TopLine="86"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="1">
+    <BreakPoints Count="5">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ui/flazormnewmodelwizard.pas"/>
-        <Line Value="178"/>
+        <Line Value="186"/>
       </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../../../Andreas/lazarus/fpc/2.6.2/source/rtl/objpas/fgl.pp"/>
+        <Line Value="107"/>
+      </Item2>
+      <Item3>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ui/flazormnewmodelwizard.pas"/>
+        <Line Value="210"/>
+      </Item3>
+      <Item4>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Line Value="365"/>
+      </Item4>
+      <Item5>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Line Value="357"/>
+      </Item5>
     </BreakPoints>
   </Debugging>
 </CONFIG>

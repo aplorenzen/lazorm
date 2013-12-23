@@ -1,7 +1,7 @@
 object ClassBuilderTestForm: TClassBuilderTestForm
-  Left = 619
+  Left = 591
   Height = 431
-  Top = 286
+  Top = 246
   Width = 654
   Caption = 'ClassBuilder Test'
   ClientHeight = 431

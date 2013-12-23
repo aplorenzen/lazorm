@@ -27,8 +27,9 @@ interface
 {$mode objfpc}{$H+}
 
 uses
-  Classes, Controls,
-  XMLDoc, XMLIntf, TypInfo, Variants, SysUtils, XmlDom;
+  Classes, Controls, TypInfo, Variants, SysUtils,
+  XMLDoc, XMLIntf, XmlDom;
+
 
 type
   TxsOnSetPropertyError = procedure (aSender: TObject; aPropertyName: string;

@@ -12,12 +12,12 @@ uses
   flazormnewmodelwizard,
   uloTypes,
   uloUtils,
-  uloConstants, ucbClassBuilder, frmDevTestForm, ucbCodeBuilder, uloDatabaseMapTypes, uloDatabaseTypes, uloDatabaseConstants, frmGraphTesting;
+  uloConstants, ucbClassBuilder, frmDevTestForm, ulodbmodeltypes, uloDatabaseTypes, uloDatabaseConstants, frmGraphTesting, ulocoretypes, persistencetest;
 
 {$R *.res}
 
 begin
-  Application.Title:='LazORM';
+  Application.Title := 'LazORM';
   RequireDerivedFormResource := True;
   Application.Initialize;
   Application.CreateForm(TloNewModelForm, loNewModelForm);
