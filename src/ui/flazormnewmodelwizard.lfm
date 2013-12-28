@@ -1,7 +1,7 @@
 object loNewModelForm: TloNewModelForm
-  Left = 2010
+  Left = 1033
   Height = 444
-  Top = 225
+  Top = 201
   Width = 551
   AutoSize = True
   BorderIcons = [biSystemMenu]
@@ -412,7 +412,6 @@ object loNewModelForm: TloNewModelForm
             Top = 240
             Width = 75
             Caption = 'Button2'
-            OnClick = Button2Click
             TabOrder = 7
           end
           object Memo1: TMemo

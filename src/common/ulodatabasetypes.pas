@@ -24,13 +24,13 @@ interface
 uses
   Classes,
   SysUtils,
-  sqldb,
-  fgl,
-  syncobjs,
+  SQLDB,
+  FGL,
+  SyncObjs,
   contnrs,
-  TLoggerUnit,
   XMLConf,
 
+  uloCoreInterfaces,
   uloDatabaseConstants;
 
 const
@@ -62,21 +62,21 @@ type
     fOwnerComponent: TloELComponent;
     fConnection: TSQLConnector;
     fMutex: TCriticalSection;
-    fLogger: TLogger;
+    fLogger: IloLogger;
     fConfig: TXMLConfig;
   public
     constructor Create(
         aOwner: TloELComponent;
         aConnection: TSQLConnector = nil;
         aMutex: TCriticalSection = nil;
-        aLogger: TLogger = nil;
+        aLogger: IloLogger = nil;
         aConfig: TXMLConfig = nil);
     destructor Destroy; override;
   published
     property Owner: TloELComponent read fOwnerComponent;
     property Connection: TSQLConnector read fConnection write fConnection;
     property Mutex: TCriticalSection read fMutex write fMutex;
-    property Log: TLogger read fLogger write fLogger;
+    property Log: IloLogger read fLogger write fLogger;
     property Config: TXMLConfig read fConfig write fConfig;
   end;
 
@@ -94,7 +94,7 @@ type
       aOwner: TloELComponent;
       aConnection: TSQLConnector = nil;
       aMutex: TCriticalSection = nil;
-      aLogger: TLogger = nil;
+      aLogger: IloLogger = nil;
       aConfig: TXMLConfig = nil);
     destructor Destroy; override;
     procedure RegisterChild(aComponent: TloELComponent);
@@ -287,7 +287,7 @@ type
       aOwner: TloELComponent;
       aConnection: TSQLConnector = nil;
       aMutex: TCriticalSection = nil;
-      aLogger: TLogger = nil;
+      aLogger: IloLogger = nil;
       aConfig: TXMLConfig = nil);
     destructor Destroy; override;
 
@@ -366,7 +366,7 @@ type
       aOwner: TloELComponent;
       aConnection: TSQLConnector = nil;
       aMutex: TCriticalSection = nil;
-      aLogger: TLogger = nil;
+      aLogger: IloLogger = nil;
       aConfig: TXMLConfig = nil);
     destructor Destroy; override;
   published
@@ -804,7 +804,7 @@ begin
   fFieldList.Add(aField);
 end;
 
-constructor TloELView.Create(aOwner: TloELComponent; aConnection: TSQLConnector; aMutex: TCriticalSection; aLogger: TLogger; aConfig: TXMLConfig);
+constructor TloELView.Create(aOwner: TloELComponent; aConnection: TSQLConnector; aMutex: TCriticalSection; aLogger: IloLogger; aConfig: TXMLConfig);
 begin
   inherited Create(
     aOwner,
@@ -849,7 +849,7 @@ begin
   Result := '[' + fCatalogName + '].[' + fSchemeName + '].[' + fTableName + ']';
 end;
 
-constructor TloELTable.Create(aOwner: TloELComponent; aConnection: TSQLConnector; aMutex: TCriticalSection; aLogger: TLogger; aConfig: TXMLConfig);
+constructor TloELTable.Create(aOwner: TloELComponent; aConnection: TSQLConnector; aMutex: TCriticalSection; aLogger: IloLogger; aConfig: TXMLConfig);
 begin
   inherited Create(
     aOwner,
@@ -1014,7 +1014,7 @@ end;
 
 { TloELContainer }
 
-constructor TloELContainer.Create(aOwner: TloELComponent; aConnection: TSQLConnector; aMutex: TCriticalSection; aLogger: TLogger; aConfig: TXMLConfig);
+constructor TloELContainer.Create(aOwner: TloELComponent; aConnection: TSQLConnector; aMutex: TCriticalSection; aLogger: IloLogger; aConfig: TXMLConfig);
 begin
   inherited Create(
     aOwner,
@@ -1295,12 +1295,7 @@ end;
 
 { TloELComponent }
 
-constructor TloELComponent.Create(
-  aOwner: TloELComponent;
-  aConnection: TSQLConnector;
-  aMutex: TCriticalSection;
-  aLogger: TLogger;
-  aConfig: TXMLConfig);
+constructor TloELComponent.Create(aOwner: TloELComponent; aConnection: TSQLConnector; aMutex: TCriticalSection; aLogger: IloLogger; aConfig: TXMLConfig);
 begin
   inherited Create;
 

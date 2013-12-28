@@ -19,9 +19,10 @@ interface
 uses
   Classes,
   SysUtils,
-  fgl,
-  TLoggerUnit,
-  XMLConf;
+  FGL,
+  XMLConf,
+
+  uloCoreInterfaces;
 
 var
   LO_EMPTY_GUID: TGUID;
@@ -142,9 +143,9 @@ type
 
   IcbLoggerConsumer = interface(IInterface)
     ['{C6C1AA83-B523-468A-AE02-1206F49A468E}']
-    procedure SetLogger(ALogger: TLogger);
-    function GetLogger: TLogger;
-    property Log: TLogger read GetLogger write SetLogger;
+    procedure SetLogger(ALogger: IloLogger);
+    function GetLogger: IloLogger;
+    property Log: IloLogger read GetLogger write SetLogger;
   end;
 
   IcbXMLConfigConsumer = interface(IInterface)
@@ -182,15 +183,15 @@ type
   TcbComponent = class(TInterfacedPersistent, IcbComponent, IcbXMLConfigConsumer, IcbLoggerConsumer)
   private
     fOwnerComponent: TcbComponent;
-    fLogger: TLogger;
+    fLogger: IloLogger;
     fConfig: TXMLConfig;
     fChildComponents: TcbComponentList;
   public
-    constructor Create(AOwnerComponent: TcbComponent; AConfig: TXMLConfig = nil; ALogger: TLogger = nil); overload;
+    constructor Create(AOwnerComponent: TcbComponent; AConfig: TXMLConfig = nil; ALogger: IloLogger = nil); overload;
     destructor Destroy; override;
 
-    procedure SetLogger(ALogger: TLogger);
-    function GetLogger: TLogger;
+    procedure SetLogger(ALogger: IloLogger);
+    function GetLogger: IloLogger;
     procedure SetConfig(AConfig: TXMLConfig);
     function GetConfig: TXMLConfig;
     function GetOwnerComponent: TcbComponent; virtual;
@@ -3135,7 +3136,7 @@ end;
 
 { TcbComponent }
 
-constructor TcbComponent.Create(AOwnerComponent: TcbComponent; AConfig: TXMLConfig; ALogger: TLogger);
+constructor TcbComponent.Create(AOwnerComponent: TcbComponent; AConfig: TXMLConfig; ALogger: IloLogger);
 var
   lConfigConsumer: IcbXMLConfigConsumer;
   lLoggerConsumer: IcbLoggerConsumer;
@@ -3175,18 +3176,18 @@ begin
   inherited;
 end;
 
-procedure TcbComponent.SetLogger(ALogger: TLogger);
+procedure TcbComponent.SetLogger(ALogger: IloLogger);
 begin
   fLogger := ALogger;
 end;
 
-function TcbComponent.GetLogger: TLogger;
+function TcbComponent.GetLogger: IloLogger;
 begin
   { DONE -oAPL -cClassBuilder 4: Hmm, perhaps it's not a good idea to create a logger here. The unit user should retain control of what is created }
   { if not Assigned(fLogger) then
   begin
     TLoggerUnit.initialize();
-    fLogger := TLogger.GetInstance();
+    fLogger := IloLogger.GetInstance();
   end; }
   Result := fLogger;
 end;

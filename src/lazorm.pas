@@ -7,12 +7,13 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, log4fpc,
+  Forms,
 
   flazormnewmodelwizard,
   uloTypes,
   uloUtils,
-  uloConstants, ucbClassBuilder, frmDevTestForm, ulodbmodeltypes, uloDatabaseTypes, uloDatabaseConstants, frmGraphTesting, ulocoretypes, persistencetest;
+  uloConstants, ucbClassBuilder, frmDevTestForm, ulodmtypes, uloDatabaseTypes, uloDatabaseConstants, frmGraphTesting, ulocoretypes, persistencetest,
+uloDMRetriever, ulodmretriever_mssqlserver, ulodmretrieverfactory, ulocoreinterfaces, ulodminterfaces;
 
 {$R *.res}
 

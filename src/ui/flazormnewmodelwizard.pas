@@ -14,14 +14,11 @@ uses
   pqconnection, mssqlconn, FileUtil, Forms, Controls, Graphics, Dialogs,
   ExtCtrls, StdCtrls, ComCtrls, LCLProc, LazIDEIntf, ProjectIntf,
 
-
-
   uloTypes,
   uloUtils,
-  uloDBModelTypes,
-
-  // TEST
-  persistencetest;
+  uloDMTypes,
+  uloDMRetriever,
+  uloDMRetrieverFactory;
 
 type
 
@@ -67,7 +64,6 @@ type
     BottomPanel: TPanel;
     procedure BackButtonClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -113,7 +109,6 @@ procedure TloNewModelForm.FormCreate(Sender: TObject);
 var
   lConnectionDef: TConnectionDef;
 begin
-  // DONE -oAPL -cWizard 3: Add implementations here with their respective configurations as objects
 
   // initialize all connection types
   lConnectionDefList := TConnectionDefList.Create;
@@ -163,51 +158,63 @@ begin
 end;
 
 procedure TloNewModelForm.Button1Click(Sender: TObject);
-//var
-  //lConnector: TSQLConnector;
-  // lConnectionDef: TConnectionDef;
-  //lMetaDataRetreiver: TloDMMetaDataRetriever;
-  //lTableList: TloDMTableList;
-begin
-  //lConnector := TSQLConnector.Create(nil);
-  //lMetaDataRetreiver := TloDMMetaDataRetriever.Create(lConnector);
-  //
-  //try
-  //  try
-  //    // Tested with MSSQL Server, works - FreeTDS and unixODBC
-  //    lConnector.HostName := Format('%s:%d', [Trim(HostnameEdit.Text), StrToInt(Trim(HostportEdit.Text))]);
-  //    lConnector.UserName := Trim(LoginEdit.Text);
-  //    lConnector.Password := Trim(PasswordEdit.Text);
-  //    lConnector.DatabaseName := Trim(CatalogEdit.Text);
-  //    lConnector.ConnectorType := TConnectionDef(DatabaseTypeComboBox.Items.Objects[DatabaseTypeComboBox.ItemIndex]).TypeName;
-  //
-  //    lConnector.Connected := True;
-  //
-  //    lTableList := lMetaDataRetreiver.RetrieveTableMetaData;
-  //
-  //
-  //
-  //    except on e:Exception do
-  //    begin
-  //      // TODO -oAPL -cWizard 2: How to handle exceptions durring the wizard?
-  //      ShowMessage(e.Message);
-  //    end;
-  //  end;
-  //
-  //  finally
-  //    lConnector.Free;
-  //    lMetaDataRetreiver.Free;
-  //end;
-  //
-end;
-
-procedure TloNewModelForm.Button2Click(Sender: TObject);
 var
-  tester: TTester;
+  lConnector: TSQLConnector;
+  lConnectionDef: TConnectionDef;
+  // lMetaDataRetreiver: TloDMMetaDataRetriever;
+  // lTableList: TloDMTableList;
+  lDMReceiverFactory: TloDMRetrieverFactory;
+  lDMRetriever: TloDMRetriever;
+  lModel: TloDMModel;
 begin
-  tester := TTester.Create(Self);
+  lConnector := TSQLConnector.Create(nil);
 
-  tester.Test;
+
+
+  // lMetaDataRetreiver := TloDMMetaDataRetriever.Create(lConnector);
+
+  try
+    try
+      // Tested with MSSQL Server, works - FreeTDS and unixODBC
+      lConnector.HostName := Format('%s:%d', [Trim(HostnameEdit.Text), StrToInt(Trim(HostportEdit.Text))]);
+      lConnector.UserName := Trim(LoginEdit.Text);
+      lConnector.Password := Trim(PasswordEdit.Text);
+      lConnector.DatabaseName := Trim(CatalogEdit.Text);
+      lConnector.ConnectorType := TConnectionDef(DatabaseTypeComboBox.Items.Objects[DatabaseTypeComboBox.ItemIndex]).TypeName;
+
+      lDMReceiverFactory := TloDMRetrieverFactory.Create(nil, lConnector, nil, nil);
+
+      try
+        lDMRetriever := lDMReceiverFactory.GetDMRetriever();
+        try
+          if lDMRetriever.ConnectionTest then
+            ShowMessage('Connection ok')
+          else
+            ShowMessage('Connection NOT ok');
+
+          lModel := lDMRetriever.RetrieveDatabaseMetadataModel(nil);
+
+        finally
+          lDMRetriever.Free;
+        end;
+
+      finally
+        lDMReceiverFactory.Free;
+      end;
+
+
+
+      except on e:Exception do
+      begin
+        // TODO -oAPL -cWizard 2: How to handle exceptions durring the wizard?
+        ShowMessage(e.Message);
+      end;
+    end;
+
+    finally
+      lConnector.Free;
+      // lMetaDataRetreiver.Free;
+  end;
 
 end;
 
@@ -350,4 +357,5 @@ begin
 end;
 
 end.
+
 

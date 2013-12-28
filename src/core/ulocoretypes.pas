@@ -24,74 +24,59 @@ interface
 
 uses
   Classes,
-  sysutils,
-  fgl,
-  syncobjs,
-  TLoggerUnit,
+  SysUtils,
+  FGL,
+  SyncObjs,
   XMLConf,
-  sqldb;
+  SQLDB,
 
+  ulocoreinterfaces;
+
+  //LCLIntf,
+  //lcl,
+  //LMessages;
 
 type
   TloException = class(Exception);
 
   TloObject = class;
 
-  { IloObject }
-
-  IloObject = interface(IInterface)
-    ['{CC0C9225-C547-4450-9B7C-4777A0C19DE1}']
-    function GetOwner: TloObject;
-    function GetMutex: TCriticalSection;
-    function GetLog: TLogger;
-    function GetConfig: TXMLConfig;
-    procedure SetMutex(aMutex: TCriticalSection);
-    procedure SetLog(aLog: TLogger);
-    procedure SetConfig(aConfig: TXMLConfig);
-
-    property Owner: TloObject read GetOwner;
-    property Mutex: TCriticalSection read GetMutex write SetMutex;
-    property Log: TLogger read GetLog write SetLog;
-    property Config: TXMLConfig read GetConfig write SetConfig;
-  end;
-
-  { IloDatabaseObject }
-
-  IloDatabaseObject = interface(IInterface)
-    ['{51145759-F1DE-42C9-9308-EEE0344DE147}']
-    function GetConnection: TSQLConnector;
-    procedure SetConnection(aConnection: TSQLConnector);
-
-    property Connection: TSQLConnector read GetConnection write SetConnection;
-  end;
-
   { TloObject }
 
-  TloObject = class(TComponent, IloObject)
+  TloObject = class(TInterfacedPersistent, IloObject)
   private
-    fOwner: TloObject;
+    fOwner: IloObject;
     fMutex: TCriticalSection;
-    fLog: TLogger;
+    fLog: IloLogger;
     fConfig: TXMLConfig;
-
-    function GetOwner: TloObject;
+    function GetOwner: IloObject;
     function GetMutex: TCriticalSection;
-    function GetLog: TLogger;
+    function GetLog: IloLogger;
     function GetConfig: TXMLConfig;
+    procedure SetOwner(aOwner: IloObject);
     procedure SetMutex(aMutex: TCriticalSection);
-    procedure SetLog(aLog: TLogger);
+    procedure SetLog(aLog: IloLogger);
     procedure SetConfig(aConfig: TXMLConfig);
+  protected
+    procedure LogFatal(const aMsg: String);
+    procedure LogError(const aMsg: String);
+    procedure LogWarn(const aMsg: String);
+    procedure LogInfo(const aMsg: String);
+    procedure LogDebug(const aMsg: String);
+    procedure LogTrace(const aMsg: String);
+    procedure MutexEnter;
+    procedure MutexExit;
   public
     constructor Create(
-      aOwner: TloObject;
-      aLog: TLogger = nil;
+      aOwner: IloObject;
+      aLog: IloLogger = nil;
       aConfig: TXMLConfig = nil;
       aMutex: TCriticalSection = nil);
     destructor Destroy; override;
 
-    property Owner: TloObject read GetOwner;
+    property Owner: IloObject read GetOwner write SetOwner;
     property Mutex: TCriticalSection read GetMutex write SetMutex;
-    property Log: TLogger read GetLog write SetLog;
+    property Log: IloLogger read GetLog write SetLog;
     property Config: TXMLConfig read GetConfig write SetConfig;
   end;
 
@@ -104,13 +89,12 @@ type
     procedure SetConnection(aConnection: TSQLConnector);
   public
     constructor Create(
-      aOwner: TloObject;
+      aOwner: IloObject;
       aConnection: TSQLConnector = nil;
-      aLog: TLogger = nil;
+      aLog: IloLogger = nil;
       aConfig: TXMLConfig = nil;
       aMutex: TCriticalSection = nil);
     destructor Destroy; override;
-
     property Connection: TSQLConnector read GetConnection write SetConnection;
   end;
 
@@ -128,7 +112,7 @@ begin
   fConnection := aConnection;
 end;
 
-constructor TloDatabaseObject.Create(aOwner: TloObject; aConnection: TSQLConnector; aLog: TLogger; aConfig: TXMLConfig; aMutex: TCriticalSection);
+constructor TloDatabaseObject.Create(aOwner: IloObject; aConnection: TSQLConnector; aLog: IloLogger; aConfig: TXMLConfig; aMutex: TCriticalSection);
 var
   lDatabaseObject: IloDatabaseObject;
 begin
@@ -161,7 +145,7 @@ end;
 
 { TloObject }
 
-function TloObject.GetOwner: TloObject;
+function TloObject.GetOwner: IloObject;
 begin
   Result := fOwner;
 end;
@@ -171,7 +155,7 @@ begin
   Result := fMutex;
 end;
 
-function TloObject.GetLog: TLogger;
+function TloObject.GetLog: IloLogger;
 begin
   Result := fLog;
 end;
@@ -181,12 +165,17 @@ begin
   Result := fConfig;
 end;
 
+procedure TloObject.SetOwner(aOwner: IloObject);
+begin
+  fOwner := aOwner;
+end;
+
 procedure TloObject.SetMutex(aMutex: TCriticalSection);
 begin
   fMutex := aMutex;
 end;
 
-procedure TloObject.SetLog(aLog: TLogger);
+procedure TloObject.SetLog(aLog: IloLogger);
 begin
   fLog := aLog;
 end;
@@ -196,9 +185,57 @@ begin
   fConfig := aConfig;
 end;
 
-constructor TloObject.Create(aOwner: TloObject; aLog: TLogger; aConfig: TXMLConfig; aMutex: TCriticalSection);
+procedure TloObject.LogFatal(const AMsg: String);
 begin
-  inherited Create(aOwner);
+  if Assigned(Log) then
+    Log.Fatal(AMsg);
+end;
+
+procedure TloObject.LogError(const AMsg: String);
+begin
+  if Assigned(Log) then
+    Log.Error(AMsg);
+end;
+
+procedure TloObject.LogWarn(const AMsg: String);
+begin
+  if Assigned(Log) then
+    Log.Warning(AMsg);
+end;
+
+procedure TloObject.LogInfo(const AMsg: String);
+begin
+  if Assigned(Log) then
+    Log.Info(AMsg);
+end;
+
+procedure TloObject.LogDebug(const AMsg: String);
+begin
+  if Assigned(Log) then
+    Log.Debug(AMsg);
+end;
+
+procedure TloObject.LogTrace(const AMsg: String);
+begin
+  if Assigned(Log) then
+    Log.Trace(AMsg);
+end;
+
+procedure TloObject.MutexEnter;
+begin
+  if Assigned(Mutex) then
+    Mutex.Enter;
+end;
+
+procedure TloObject.MutexExit;
+begin
+  if Assigned(Mutex) then
+    Mutex.Leave;
+end;
+
+constructor TloObject.Create(aOwner: IloObject; aLog: IloLogger; aConfig: TXMLConfig; aMutex: TCriticalSection);
+begin
+  inherited Create();
 
   fOwner := aOwner;
 

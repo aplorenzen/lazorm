@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="5"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="125"/>
+      <BuildNr Value="194"/>
       <StringTable ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -36,7 +36,7 @@
         <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="5">
+    <RequiredPackages Count="4">
       <Item1>
         <PackageName Value="LazORM"/>
       </Item1>
@@ -44,16 +44,13 @@
         <PackageName Value="TurboPowerIPro"/>
       </Item2>
       <Item3>
-        <PackageName Value="log4fpc"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item3>
       <Item4>
-        <PackageName Value="SQLDBLaz"/>
-      </Item4>
-      <Item5>
         <PackageName Value="LCL"/>
-      </Item5>
+      </Item4>
     </RequiredPackages>
-    <Units Count="14">
+    <Units Count="19">
       <Unit0>
         <Filename Value="lazorm.pas"/>
         <IsPartOfProject Value="True"/>
@@ -100,9 +97,9 @@
         <UnitName Value="frmDevTestForm"/>
       </Unit7>
       <Unit8>
-        <Filename Value="common/dbmodel/ulodbmodeltypes.pas"/>
+        <Filename Value="dmm/ulodmtypes.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ulodbmodeltypes"/>
+        <UnitName Value="ulodmtypes"/>
       </Unit8>
       <Unit9>
         <Filename Value="common/ulodatabasetypes.pas"/>
@@ -123,7 +120,7 @@
         <UnitName Value="frmGraphTesting"/>
       </Unit11>
       <Unit12>
-        <Filename Value="common/ulocoretypes.pas"/>
+        <Filename Value="core/ulocoretypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ulocoretypes"/>
       </Unit12>
@@ -132,6 +129,31 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="persistencetest"/>
       </Unit13>
+      <Unit14>
+        <Filename Value="dmm/ulodmretriever.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uloDMRetriever"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="dmm/ulodmretriever_mssqlserver.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulodmretriever_mssqlserver"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="dmm/ulodmretrieverfactory.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulodmretrieverfactory"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="core/ulocoreinterfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulocoreinterfaces"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="dmm/ulodminterfaces.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ulodminterfaces"/>
+      </Unit18>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -142,7 +164,7 @@
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
       <Libraries Value="/usr/local/lib;/usr/lib"/>
-      <OtherUnitFiles Value="common;codebuilder;ui;test;common/dbmodel"/>
+      <OtherUnitFiles Value="common;codebuilder;ui;test;common/dbmodel;dmm;core"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
