@@ -8,7 +8,6 @@
 { DONE -oAPL -cClassBuilder 1: Change the use of TMethod to the other Method types. }
 { DONE -oAPL -cClassBuidler 1: Change it so that the sourcecode block used in the method bodies can contain comments }
 { DONE -oAPL -cClassBuilder 5: Change commentstyle in ths file to brackets only }
-{ TODO -oAPL -cClassBuilder 2:  }
 
 unit ucbClassBuilder;
 

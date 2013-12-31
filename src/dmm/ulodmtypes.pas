@@ -10,7 +10,7 @@
 {    the tables, and can in turn be used for generating code to access the     }
 {    entities fast and native.                                                 }
 {                                                                              }
-{  TODO:                                                                       }
+{  Missing:                                                                    }
 {    -                                                                         }
 {                                                                              }
 {  Copyright (c) 2013 Andreas Lorenzen                                         }

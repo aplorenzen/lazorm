@@ -11,9 +11,8 @@ uses
 
   flazormnewmodelwizard,
   uloTypes,
-  uloUtils,
-  uloConstants, ucbClassBuilder, frmDevTestForm, ulodmtypes, uloDatabaseTypes, uloDatabaseConstants, frmGraphTesting, ulocoretypes, persistencetest,
-uloDMRetriever, ulodmretriever_mssqlserver, ulodmretrieverfactory, ulocoreinterfaces, ulodminterfaces;
+  ulocoreconstants, ucbClassBuilder, frmDevTestForm, ulodmtypes, uloDatabaseTypes, uloDatabaseConstants, frmGraphTesting, ulocoretypes, persistencetest,
+uloDMRetriever, ulodmretriever_mssqlserver, ulodmretrieverfactory, ulocoreinterfaces, ulodminterfaces, ulocoreutils;
 
 {$R *.res}
 

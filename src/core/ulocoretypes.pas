@@ -9,7 +9,7 @@
 {    the foundation of all other classes in the project. This allows logging,  }
 {    configuration and threadsafety to be implemented at a lower level         }
 {                                                                              }
-{  TODO:                                                                       }
+{  Missing                                                                     }
 {    -                                                                         }
 {                                                                              }
 {  Copyright (c) 2013 Andreas Lorenzen                                         }
@@ -98,7 +98,190 @@ type
     property Connection: TSQLConnector read GetConnection write SetConnection;
   end;
 
+  { TloDatabaseWorkerObject }
+
+  TloDatabaseWorkerObject = class(TloDatabaseObject, IloWorker)
+  private
+    fThread: TThread;
+    fSyncMutex: TCriticalSection;
+    fWorkTitle: String;
+    fWorkProgressPercentage: Integer;
+    fWorkDescription: String;
+    fWorkMonitor: IloWorkMonitor;
+  public
+    constructor Create(
+      aOwner: IloObject;
+      aWorkMonitor: IloWorkMonitor;
+      aConnection: TSQLConnector = nil;
+      aLog: IloLogger = nil;
+      aConfig: TXMLConfig = nil;
+      aMutex: TCriticalSection = nil);
+    destructor Destroy; override;
+
+    function GetWorkTitle: String;
+    procedure SetWorkTitle(aWorkTitle: String);
+    function GetWorkProgressPercentage: Integer;
+    procedure SetWorkProgressPercentage(aWorkProgressPercentage: Integer);
+    function GetWorkDescription: String;
+    procedure SetWorkDescription(aWorkDescription: String);
+    function GetWorkThread: TThread;
+    procedure SetWorkThread(aThread: TThread);
+
+    procedure AbortWork; virtual; abstract;
+    function GetWorkMethod: TThreadMethod; virtual; abstract;
+
+    property WorkMonitor: IloWorkMonitor read fWorkMonitor write fWorkMonitor;
+    property WorkTitle: String read GetWorkTitle write SetWorkTitle;
+    property WorkProgressPercentage: Integer read GetWorkProgressPercentage write SetWorkProgressPercentage;
+    property WorkDescription: String read GetWorkDescription write SetWorkDescription;
+  end;
+
+  { TloWorkerThread }
+
+  TloWorkerThread = class(TThread)
+  private
+    fWorker: IloWorker;
+  public
+    constructor Create(
+      aWorker: IloWorker;
+      const aCreateSuspended: Boolean = False;
+      const aFreeOnTerminate: Boolean = True;
+      const aStackSize: SizeUInt = DefaultStackSize);
+    destructor Destroy; override;
+    procedure DoTerminate; override;
+    procedure Execute; override;
+
+    property Worker: IloWorker read fWorker write fWorker;
+  end;
+
 implementation
+
+{ TloDatabaseWorkerObject }
+
+constructor TloDatabaseWorkerObject.Create(aOwner: IloObject; aWorkMonitor: IloWorkMonitor; aConnection: TSQLConnector; aLog: IloLogger; aConfig: TXMLConfig;
+  aMutex: TCriticalSection);
+begin
+  inherited Create(
+    aOwner,
+    aConnection,
+    aLog,
+    aConfig,
+    aMutex);
+
+  fWorkMonitor := aWorkMonitor;
+  fSyncMutex := TCriticalSection.Create;
+end;
+
+destructor TloDatabaseWorkerObject.Destroy;
+begin
+  if Assigned(fSyncMutex) then
+    fSyncMutex.Free;
+
+  inherited Destroy;
+end;
+
+function TloDatabaseWorkerObject.GetWorkTitle: String;
+begin
+  fSyncMutex.Enter;
+
+  try
+    Result := fWorkTitle;
+
+    finally
+      fSyncMutex.Leave;
+  end;
+end;
+
+procedure TloDatabaseWorkerObject.SetWorkTitle(aWorkTitle: String);
+begin
+  fSyncMutex.Enter;
+
+  try
+    fWorkTitle := aWorkTitle;
+    WorkThread.Synchronize(WorkMonitor.StatusUpdateMethod();
+
+    finally
+      fSyncMutex.Leave;
+  end;
+end;
+
+function TloDatabaseWorkerObject.GetWorkProgressPercentage: Integer;
+begin
+  fSyncMutex.Enter;
+
+  try
+    Result := fWorkProgressPercentage;
+
+    finally
+      fSyncMutex.Leave;
+  end;
+end;
+
+procedure TloDatabaseWorkerObject.SetWorkProgressPercentage(aWorkProgressPercentage: Integer);
+begin
+
+end;
+
+function TloDatabaseWorkerObject.GetWorkDescription: String;
+begin
+  fSyncMutex.Enter;
+
+  try
+    Result := fWorkDescription;
+
+    finally
+      fSyncMutex.Leave;
+  end;
+end;
+
+procedure TloDatabaseWorkerObject.SetWorkDescription(aWorkDescription: String);
+begin
+
+end;
+
+function TloDatabaseWorkerObject.GetWorkThread: TThread;
+begin
+  Result := fThread;
+end;
+
+procedure TloDatabaseWorkerObject.SetWorkThread(aThread: TThread);
+begin
+  fThread := aThread;
+end;
+
+{ TloWorkerThread }
+
+constructor TloWorkerThread.Create(aWorker: IloWorker; const aCreateSuspended: Boolean; const aFreeOnTerminate: Boolean; const aStackSize: SizeUInt);
+begin
+  inherited Create(
+    aCreateSuspended,
+    aStackSize);
+
+  FreeOnTerminate := aFreeOnTerminate;
+  fWorker := aWorker;
+
+  if Assigned(aWorker) then
+    aWorker.SetWorkThread(Self);
+end;
+
+destructor TloWorkerThread.Destroy;
+begin
+  inherited Destroy;
+end;
+
+procedure TloWorkerThread.DoTerminate;
+begin
+  inherited DoTerminate;
+  Terminated := True;
+  if Assigned(fWorker) then
+    fWorker.AbortWork;
+end;
+
+procedure TloWorkerThread.Execute;
+begin
+  if Assigned(fWorker) then
+    fWorker.GetWorkMethod();
+end;
 
 { TloDatabaseObject }
 

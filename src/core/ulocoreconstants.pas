@@ -1,4 +1,4 @@
-unit uloConstants;
+unit ulocoreconstants;
 
 {$mode objfpc}{$H+}
 

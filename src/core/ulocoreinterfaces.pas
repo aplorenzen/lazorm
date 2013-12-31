@@ -53,6 +53,29 @@ type
     property Connection: TSQLConnector read GetConnection write SetConnection;
   end;
 
+  IloWorker = interface(IInterface)
+    {WIP}
+    ['{58FD8735-A22A-42C5-B107-1B9D1534E7A2}']
+    function GetWorkThread: TThread;
+    procedure SetWorkThread(aThread: TThread);
+
+    function GetWorkTitle: String;
+    function GetWorkProgressPercentage: Integer;
+    function GetWorkDescription: String;
+    procedure AbortWork;
+
+    function GetWorkMethod: TThreadMethod;
+
+    property WorkMethod: TThreadMethod read GetWorkMethod;
+    property WorkThread: TThread read GetWorkThread write SetWorkThread;
+  end;
+
+  IloWorkMonitor = interface(IInterface)
+    ['{64B8DA98-C3F8-434D-84A5-A517690AFE0D}']
+    function GetStatusUpdateMethod: TThreadMethod;
+
+    property StatusUpdateMethod: TThreadMethod read GetStatusUpdateMethod;
+  end;
 
 implementation
 

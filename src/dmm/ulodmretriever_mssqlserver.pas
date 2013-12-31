@@ -1,3 +1,5 @@
+{ TODO -oAPL -cDMM_MSSQL 3: Find a way to have support functions as 'ToSQL(String)' as functions for all platforms }
+
 unit ulodmretriever_mssqlserver;
 
 {$mode objfpc}{$H+}
@@ -38,9 +40,7 @@ const
       'and [exprop].minor_id = 0' + LineEnding +
       'and [exprop].name = ''MS_Description''' + LineEnding +
     'where' + LineEnding +
-	    '[syso].[type] = ''u'';';{ + LineEnding +
-	    'and [sysu].name = ''%s''' + LineEnding +
-	    'and [syso].name = ''%s'';';}
+	    '[syso].[type] = ''u'';';
 
   	{select
 	    [sysu].name as [SchemeName]
@@ -54,9 +54,7 @@ const
       and [exprop].minor_id = 0
       and [exprop].name = 'MS_Description'
     where
-	    [syso].[type] = 'u'
-	    and [sysu].name = '%s'
-	    'and [syso].name = '%s'}
+	    [syso].[type] = 'u'}
 
   cSQL_GetFields =
     'SELECT TOP 0 * FROM [%s].[%s].[%s];';
@@ -221,7 +219,6 @@ begin
   aQuery.Close;
   aQuery.SQL.Clear;
 
-  // aQuery.SQL.Add(Format(cSQL_GetTableDescription, [lTable.SchemeName, lTable.TableName]));
   aQuery.SQL.Add(cSQL_GetTableDescription);
   aQuery.Open;
 
@@ -385,7 +382,8 @@ begin
 
             if Assigned(lReferencedField) then
             begin
-              // Found both tables and both fields in each table in the data in the model
+              // Found both tables and both fields in each table in the data in the model.
+              // Now we link up the FK reference between the two
               lParentField.ForeignKeyReference := lReferencedField;
               lReferencedField.ReferencingForeignKeys.Add(lParentField);
             end;
@@ -393,17 +391,7 @@ begin
         end;
       end;
     end;
-
-
-
-
-
-
   end;
-
-
-
-
 end;
 
 procedure TloDMRetriever_MSSQL.FetchTableFieldDescriptions(var aModel: TloDMModel; var aQuery: TSQLQuery);
@@ -500,6 +488,7 @@ var
   lTable: TloDMTable;
 begin
   // Prepare to query all the tables in the selected database
+  aQuery.Close;
   aQuery.SQL.Clear;
 
   { TODO -oAPL 2 Filter the selected tables here}
@@ -603,34 +592,26 @@ begin
             lTransaction.DataBase := Connection;
             // Associate the query with the transaction
             lQuery.Transaction := lTransaction;
-
-
             // Change the current connections active database to the selected
             SwitchDatabase(Connection.DatabaseName);
-
             // Get the list of all the selected tables
             FetchTableList(aSelection, lModel, lQuery);
-
             // Get descriptions for all the tables
             FetchTableDescriptions(lModel, lQuery);
-
             // Get all fields for all tables
             FetchTableFields(lModel, lQuery);
-
             // Get all descriptions for all fields in the tables
             FetchTableFieldDescriptions(lModel, lQuery);
-
             // Get single column index information and primary key data
             FetchTablePrimaryKeys(lModel, lQuery);
-
-
+            // Hook up the FK field references, between the field objects in the table objects
             FetchTableForeignKeys(lModel, lQuery);
-
 
 
 
             finally
             begin
+              lQuery.Close;
               lTransaction.Free;
               lQuery.Free;
             end;
@@ -660,6 +641,7 @@ begin
 
     finally
     begin
+      EndTime := Now;
       MutexExit;
     end;
   end;

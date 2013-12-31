@@ -68,7 +68,7 @@ begin
       except on e:Exception do
       begin
         // Some exception occurred when opening the connection
-        { TODO -oAPL 3: Log as a warning? }
+        { TODO -oAPL 3 -cDMM: Log as a warning? }
         // raise e;
         LogWarn(Format('Exception when testing connection: %s', [e.Message]));
 

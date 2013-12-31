@@ -25,7 +25,6 @@ type
     function RetrieveDatabaseMetadataModel(aSelection: IloDMSelection): TloDMModel;
   end;
 
-
 implementation
 
 end.
