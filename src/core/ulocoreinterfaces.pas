@@ -33,11 +33,12 @@ type
     function GetMutex: TCriticalSection;
     function GetLog: IloLogger;
     function GetConfig: TXMLConfig;
+    procedure SetOwner(aOwner: IloObject);
     procedure SetMutex(aMutex: TCriticalSection);
     procedure SetLog(aLog: IloLogger);
     procedure SetConfig(aConfig: TXMLConfig);
 
-    property Owner: IloObject read GetOwner;
+    property Owner: IloObject read GetOwner write SetOwner;
     property Mutex: TCriticalSection read GetMutex write SetMutex;
     property Log: IloLogger read GetLog write SetLog;
     property Config: TXMLConfig read GetConfig write SetConfig;

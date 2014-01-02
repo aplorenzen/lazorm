@@ -30,6 +30,7 @@ uses
   XMLConf,
   SQLDB,
 
+  uloCoreUtils,
   ulocoreinterfaces;
 
   //LCLIntf,
@@ -74,10 +75,15 @@ type
       aMutex: TCriticalSection = nil);
     destructor Destroy; override;
 
-    property Owner: IloObject read GetOwner write SetOwner;
+    {property Owner: IloObject read GetOwner write SetOwner;
     property Mutex: TCriticalSection read GetMutex write SetMutex;
     property Log: IloLogger read GetLog write SetLog;
-    property Config: TXMLConfig read GetConfig write SetConfig;
+    property Config: TXMLConfig read GetConfig write SetConfig;}
+  end;
+
+  { TloThreadObject }
+
+  TloThreadObject = class(TloObject)
   end;
 
   { TloDatabaseObject }
