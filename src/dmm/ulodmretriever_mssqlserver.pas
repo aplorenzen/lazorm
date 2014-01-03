@@ -641,7 +641,7 @@ begin
 
     finally
     begin
-      EndTime := Now;
+      lEndTime := Now;
       MutexExit;
     end;
   end;

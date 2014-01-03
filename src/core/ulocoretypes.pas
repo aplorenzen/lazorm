@@ -38,9 +38,17 @@ uses
   //LMessages;
 
 type
+  TloThreadStatus = (
+    lotsCreated,
+    lotsRunning,
+    lotsCompleted,
+    lotsSuspended,
+    lotsTerminated);
+
   TloException = class(Exception);
 
   TloObject = class;
+  TloThread = class;
 
   { TloObject }
 
@@ -81,9 +89,81 @@ type
     property Config: TXMLConfig read GetConfig write SetConfig;}
   end;
 
+  IloThreadObject = interface(IInterface)
+    { DONE -oAPL -cTloThread 5: Do we need a ref to the inside thread in this interface at all? Remove if possible! }
+    // procedure SetThread(aThread: TloThread);
+    // function GetThread: TloThread;
+    procedure Start;
+    procedure Abort;
+    procedure Pause;
+
+    function GetTaskProgressPercentage: SmallInt;
+    function GetTaskTitle: String;
+    procedure SetOnTaskStatusChangeProcedure(aThreadMethod: TThreadMethod);
+    function GetOnTaskStatusChangeProcedure: TThreadMethod;
+
+    // property Thread: TloThread read GetThread write SetThread;
+    property TaskTitle: String read GetTaskTitle;
+    property TaskProgressPercentage: SmallInt read GetTaskProgressPercentage;
+    property OnTaskStatusChange: TThreadMethod read GetOnTaskStatusChangeProcedure write SetOnTaskStatusChangeProcedure;
+  end;
+
+  { TloThread }
+
+  TloThread = class(TThread)
+  private
+    fOwner: IloThreadObject;
+    fThreadMethod: TThreadMethod;
+    fTaskProgressPercentage: SmallInt;
+    fTaskTitle: String;
+
+    procedure SetTaskProgressPercentage(aPercentage: SmallInt);
+    function GetTaskProgressPercentage: SmallInt;
+    procedure SetTaskTitle(aTaskTitle: String);
+    function GetTaskTitle: String;
+
+    { TODO -oAPL -cTloThread 4: Need to implement logging functions, and sync the calls to them (use local var to hold log message from parameterized log function }
+  public
+    constructor Create(
+      aOwner: IloThreadObject;
+      aCreateSuspended: Boolean = True;
+      aFreeOnTerminate: Boolean = False;
+      const aStackSize: SizeUInt = DefaultStackSize);
+    destructor Destroy; override;
+
+    procedure DoTerminate; override;
+    procedure Execute; virtual; abstract;
+
+    property TaskProgressPercentage: SmallInt read GetTaskProgressPercentage write SetTaskProgressPercentage;
+    property TaskTitle: String read GetTaskTitle write SetTaskTitle;
+  end;
+
   { TloThreadObject }
 
-  TloThreadObject = class(TloObject)
+  TloThreadObject = class(TloObject, IloThreadObject)
+  private
+    fThread: TloThread;
+    fOnTaskStatusChangeProcedure: TThreadMethod;
+    fThreadStatus: TloThreadStatus;
+
+    // procedure SetThread(aThread: TloThread);
+    // function GetThread: TloThread;
+    function GetTaskProgressPercentage: SmallInt;
+    function GetTaskTitle: String;
+    procedure SetOnTaskStatusChangeProcedure(aOnTaskStatusChangeProcedure: TThreadMethod);
+    function GetOnTaskStatusChangeProcedure: TThreadMethod;
+  public
+    constructor Create(
+      aOwner: IloObject;
+      aOnTaskStatusChangeProcedure: TThreadMethod;
+      aLog: IloLogger = nil;
+      aConfig: TXMLConfig = nil;
+      aMutex: TCriticalSection = nil);
+    destructor Destroy; override;
+
+    procedure Start;
+    procedure Abort;
+    procedure Pause;
   end;
 
   { TloDatabaseObject }
@@ -104,189 +184,127 @@ type
     property Connection: TSQLConnector read GetConnection write SetConnection;
   end;
 
-  { TloDatabaseWorkerObject }
-
-  TloDatabaseWorkerObject = class(TloDatabaseObject, IloWorker)
-  private
-    fThread: TThread;
-    fSyncMutex: TCriticalSection;
-    fWorkTitle: String;
-    fWorkProgressPercentage: Integer;
-    fWorkDescription: String;
-    fWorkMonitor: IloWorkMonitor;
-  public
-    constructor Create(
-      aOwner: IloObject;
-      aWorkMonitor: IloWorkMonitor;
-      aConnection: TSQLConnector = nil;
-      aLog: IloLogger = nil;
-      aConfig: TXMLConfig = nil;
-      aMutex: TCriticalSection = nil);
-    destructor Destroy; override;
-
-    function GetWorkTitle: String;
-    procedure SetWorkTitle(aWorkTitle: String);
-    function GetWorkProgressPercentage: Integer;
-    procedure SetWorkProgressPercentage(aWorkProgressPercentage: Integer);
-    function GetWorkDescription: String;
-    procedure SetWorkDescription(aWorkDescription: String);
-    function GetWorkThread: TThread;
-    procedure SetWorkThread(aThread: TThread);
-
-    procedure AbortWork; virtual; abstract;
-    function GetWorkMethod: TThreadMethod; virtual; abstract;
-
-    property WorkMonitor: IloWorkMonitor read fWorkMonitor write fWorkMonitor;
-    property WorkTitle: String read GetWorkTitle write SetWorkTitle;
-    property WorkProgressPercentage: Integer read GetWorkProgressPercentage write SetWorkProgressPercentage;
-    property WorkDescription: String read GetWorkDescription write SetWorkDescription;
-  end;
-
-  { TloWorkerThread }
-
-  TloWorkerThread = class(TThread)
-  private
-    fWorker: IloWorker;
-  public
-    constructor Create(
-      aWorker: IloWorker;
-      const aCreateSuspended: Boolean = False;
-      const aFreeOnTerminate: Boolean = True;
-      const aStackSize: SizeUInt = DefaultStackSize);
-    destructor Destroy; override;
-    procedure DoTerminate; override;
-    procedure Execute; override;
-
-    property Worker: IloWorker read fWorker write fWorker;
-  end;
-
 implementation
 
-{ TloDatabaseWorkerObject }
-
-constructor TloDatabaseWorkerObject.Create(aOwner: IloObject; aWorkMonitor: IloWorkMonitor; aConnection: TSQLConnector; aLog: IloLogger; aConfig: TXMLConfig;
-  aMutex: TCriticalSection);
+procedure TloThread.SetTaskProgressPercentage(aPercentage: SmallInt);
 begin
-  inherited Create(
-    aOwner,
-    aConnection,
-    aLog,
-    aConfig,
-    aMutex);
+  fTaskProgressPercentage := aPercentage;
 
-  fWorkMonitor := aWorkMonitor;
-  fSyncMutex := TCriticalSection.Create;
+  if Assigned(fThreadMethod) then
+    Synchronize(fThreadMethod);
 end;
 
-destructor TloDatabaseWorkerObject.Destroy;
+function TloThread.GetTaskProgressPercentage: SmallInt;
 begin
-  if Assigned(fSyncMutex) then
-    fSyncMutex.Free;
-
-  inherited Destroy;
+  Result := fTaskProgressPercentage;
 end;
 
-function TloDatabaseWorkerObject.GetWorkTitle: String;
+procedure TloThread.SetTaskTitle(aTaskTitle: String);
 begin
-  fSyncMutex.Enter;
+  fTaskTitle := aTaskTitle;
 
-  try
-    Result := fWorkTitle;
-
-    finally
-      fSyncMutex.Leave;
-  end;
+  if Assigned(fThreadMethod) then
+    Synchronize(fThreadMethod);
 end;
 
-procedure TloDatabaseWorkerObject.SetWorkTitle(aWorkTitle: String);
+function TloThread.GetTaskTitle: String;
 begin
-  fSyncMutex.Enter;
-
-  try
-    fWorkTitle := aWorkTitle;
-    WorkThread.Synchronize(WorkMonitor.StatusUpdateMethod();
-
-    finally
-      fSyncMutex.Leave;
-  end;
+  Result := fTaskTitle;
 end;
 
-function TloDatabaseWorkerObject.GetWorkProgressPercentage: Integer;
-begin
-  fSyncMutex.Enter;
-
-  try
-    Result := fWorkProgressPercentage;
-
-    finally
-      fSyncMutex.Leave;
-  end;
-end;
-
-procedure TloDatabaseWorkerObject.SetWorkProgressPercentage(aWorkProgressPercentage: Integer);
-begin
-
-end;
-
-function TloDatabaseWorkerObject.GetWorkDescription: String;
-begin
-  fSyncMutex.Enter;
-
-  try
-    Result := fWorkDescription;
-
-    finally
-      fSyncMutex.Leave;
-  end;
-end;
-
-procedure TloDatabaseWorkerObject.SetWorkDescription(aWorkDescription: String);
-begin
-
-end;
-
-function TloDatabaseWorkerObject.GetWorkThread: TThread;
-begin
-  Result := fThread;
-end;
-
-procedure TloDatabaseWorkerObject.SetWorkThread(aThread: TThread);
-begin
-  fThread := aThread;
-end;
-
-{ TloWorkerThread }
-
-constructor TloWorkerThread.Create(aWorker: IloWorker; const aCreateSuspended: Boolean; const aFreeOnTerminate: Boolean; const aStackSize: SizeUInt);
+constructor TloThread.Create(aOwner: IloThreadObject; aCreateSuspended: Boolean; aFreeOnTerminate: Boolean; const aStackSize: SizeUInt);
 begin
   inherited Create(
     aCreateSuspended,
     aStackSize);
 
-  FreeOnTerminate := aFreeOnTerminate;
-  fWorker := aWorker;
+  Self.FreeOnTerminate := aFreeOnTerminate;
 
-  if Assigned(aWorker) then
-    aWorker.SetWorkThread(Self);
+  if Assigned(aOwner) then
+  begin
+    fOwner := aOwner;
+    // fOwner.Thread := Self;
+    fThreadMethod := fOwner.GetOnTaskStatusChangeProcedure;
+  end;
 end;
 
-destructor TloWorkerThread.Destroy;
+destructor TloThread.Destroy;
 begin
   inherited Destroy;
 end;
 
-procedure TloWorkerThread.DoTerminate;
+procedure TloThread.DoTerminate;
 begin
   inherited DoTerminate;
-  Terminated := True;
-  if Assigned(fWorker) then
-    fWorker.AbortWork;
 end;
 
-procedure TloWorkerThread.Execute;
+{ TloThreadObject }
+
+//procedure TloThreadObject.SetThread(aThread: TloThread);
+//begin
+//  fThread := aThread;
+//end;
+//
+//function TloThreadObject.GetThread: TloThread;
+//begin
+//  Result := fThread;
+//end;
+
+function TloThreadObject.GetTaskProgressPercentage: SmallInt;
 begin
-  if Assigned(fWorker) then
-    fWorker.GetWorkMethod();
+  Result := fThread.GetTaskProgressPercentage;
+end;
+
+function TloThreadObject.GetTaskTitle: String;
+begin
+  Result := fThread.GetTaskTitle;
+end;
+
+procedure TloThreadObject.SetOnTaskStatusChangeProcedure(aOnTaskStatusChangeProcedure: TThreadMethod);
+begin
+  fOnTaskStatusChangeProcedure := aOnTaskStatusChangeProcedure;
+end;
+
+function TloThreadObject.GetOnTaskStatusChangeProcedure: TThreadMethod;
+begin
+  Result := fOnTaskStatusChangeProcedure;
+end;
+
+constructor TloThreadObject.Create(aOwner: IloObject; aOnTaskStatusChangeProcedure: TThreadMethod; aLog: IloLogger; aConfig: TXMLConfig;
+  aMutex: TCriticalSection);
+begin
+  inherited Create(
+    aOwner,
+    aLog,
+    aConfig,
+    aMutex);
+
+  fThreadStatus := lotsCreated;
+  fOnTaskStatusChangeProcedure := aOnTaskStatusChangeProcedure;
+  fThread := TloThread.Create(Self);
+end;
+
+destructor TloThreadObject.Destroy;
+begin
+  if Assigned(fThread) then
+    fThread.Free;
+
+  inherited Destroy;
+end;
+
+procedure TloThreadObject.Start;
+begin
+
+end;
+
+procedure TloThreadObject.Abort;
+begin
+
+end;
+
+procedure TloThreadObject.Pause;
+begin
+
 end;
 
 { TloDatabaseObject }
@@ -376,50 +394,50 @@ end;
 
 procedure TloObject.LogFatal(const AMsg: String);
 begin
-  if Assigned(Log) then
-    Log.Fatal(AMsg);
+  if Assigned(fLog) then
+    fLog.Fatal(AMsg);
 end;
 
 procedure TloObject.LogError(const AMsg: String);
 begin
-  if Assigned(Log) then
-    Log.Error(AMsg);
+  if Assigned(fLog) then
+    fLog.Error(AMsg);
 end;
 
 procedure TloObject.LogWarn(const AMsg: String);
 begin
-  if Assigned(Log) then
-    Log.Warning(AMsg);
+  if Assigned(fLog) then
+    fLog.Warning(AMsg);
 end;
 
 procedure TloObject.LogInfo(const AMsg: String);
 begin
-  if Assigned(Log) then
-    Log.Info(AMsg);
+  if Assigned(fLog) then
+    fLog.Info(AMsg);
 end;
 
 procedure TloObject.LogDebug(const AMsg: String);
 begin
-  if Assigned(Log) then
-    Log.Debug(AMsg);
+  if Assigned(fLog) then
+    fLog.Debug(AMsg);
 end;
 
 procedure TloObject.LogTrace(const AMsg: String);
 begin
-  if Assigned(Log) then
-    Log.Trace(AMsg);
+  if Assigned(fLog) then
+    fLog.Trace(AMsg);
 end;
 
 procedure TloObject.MutexEnter;
 begin
-  if Assigned(Mutex) then
-    Mutex.Enter;
+  if Assigned(fMutex) then
+    fMutex.Enter;
 end;
 
 procedure TloObject.MutexExit;
 begin
-  if Assigned(Mutex) then
-    Mutex.Leave;
+  if Assigned(fMutex) then
+    fMutex.Leave;
 end;
 
 constructor TloObject.Create(aOwner: IloObject; aLog: IloLogger; aConfig: TXMLConfig; aMutex: TCriticalSection);
