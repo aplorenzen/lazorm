@@ -39,10 +39,10 @@ uses
 
 type
   TloThreadStatus = (
-    lotsCreated,
+    lotsReady,
     lotsRunning,
     lotsCompleted,
-    lotsSuspended,
+    lotsPaused,
     lotsTerminated);
 
   TloException = class(Exception);
@@ -89,82 +89,95 @@ type
     property Config: TXMLConfig read GetConfig write SetConfig;}
   end;
 
-  IloThreadObject = interface(IInterface)
-    { DONE -oAPL -cTloThread 5: Do we need a ref to the inside thread in this interface at all? Remove if possible! }
-    // procedure SetThread(aThread: TloThread);
-    // function GetThread: TloThread;
-    procedure Start;
-    procedure Abort;
-    procedure Pause;
-
-    function GetTaskProgressPercentage: SmallInt;
-    function GetTaskTitle: String;
-    procedure SetOnTaskStatusChangeProcedure(aThreadMethod: TThreadMethod);
-    function GetOnTaskStatusChangeProcedure: TThreadMethod;
-
-    // property Thread: TloThread read GetThread write SetThread;
-    property TaskTitle: String read GetTaskTitle;
-    property TaskProgressPercentage: SmallInt read GetTaskProgressPercentage;
-    property OnTaskStatusChange: TThreadMethod read GetOnTaskStatusChangeProcedure write SetOnTaskStatusChangeProcedure;
-  end;
+  //IloThreadObject = interface(IInterface)
+  //  { DONE -oAPL -cTloThread 5: Do we need a ref to the inside thread in this interface at all? Remove if possible! }
+  //  // procedure SetThread(aThread: TloThread);
+  //  // function GetThread: TloThread;
+  //  procedure Start;
+  //  procedure Abort;
+  //  procedure Pause;
+  //
+  //  function GetTaskProgressPercentage: SmallInt;
+  //  function GetTaskTitle: String;
+  //  procedure SetOnTaskStatusChangeProcedure(aThreadMethod: TThreadMethod);
+  //  function GetOnTaskStatusChangeProcedure: TThreadMethod;
+  //
+  //  // property Thread: TloThread read GetThread write SetThread;
+  //  property TaskTitle: String read GetTaskTitle;
+  //  property TaskProgressPercentage: SmallInt read GetTaskProgressPercentage;
+  //  property OnTaskStatusChange: TThreadMethod read GetOnTaskStatusChangeProcedure write SetOnTaskStatusChangeProcedure;
+  //end;
 
   { TloThread }
 
   TloThread = class(TThread)
   private
-    fOwner: IloThreadObject;
-    fThreadMethod: TThreadMethod;
+    fOwner: IloObject;
+    fOnTaskStatusChangeProcedure: TThreadMethod;
     fTaskProgressPercentage: SmallInt;
     fTaskTitle: String;
+    fTaskStatus: TloThreadStatus;
+
+    fMutex: TCriticalSection;
+    fLog: IloLogger;
+    fConfig: TXMLConfig;
 
     procedure SetTaskProgressPercentage(aPercentage: SmallInt);
     function GetTaskProgressPercentage: SmallInt;
     procedure SetTaskTitle(aTaskTitle: String);
     function GetTaskTitle: String;
+    procedure SetTaskStatus(aTaskStatus: TloThreadStatus);
+    function GetTaskStatus: TloThreadStatus;
 
     { TODO -oAPL -cTloThread 4: Need to implement logging functions, and sync the calls to them (use local var to hold log message from parameterized log function }
   public
     constructor Create(
-      aOwner: IloThreadObject;
+      aOwner: IloObject;
+      aOnTaskStatusChangeProcedure: TThreadMethod;
       aCreateSuspended: Boolean = True;
       aFreeOnTerminate: Boolean = False;
       const aStackSize: SizeUInt = DefaultStackSize);
     destructor Destroy; override;
 
     procedure DoTerminate; override;
-    procedure Execute; virtual; abstract;
+    procedure Execute; override; abstract;
 
     property TaskProgressPercentage: SmallInt read GetTaskProgressPercentage write SetTaskProgressPercentage;
+    property TaskStatus: TloThreadStatus read GetTaskStatus write SetTaskStatus;
     property TaskTitle: String read GetTaskTitle write SetTaskTitle;
+
+    property Mutex: TCriticalSection read fMutex;
+    property Log: IloLogger read fLog;
+    property Config: TXMLConfig read fConfig;
   end;
 
   { TloThreadObject }
 
-  TloThreadObject = class(TloObject, IloThreadObject)
-  private
-    fThread: TloThread;
-    fOnTaskStatusChangeProcedure: TThreadMethod;
-    fThreadStatus: TloThreadStatus;
-
-    // procedure SetThread(aThread: TloThread);
-    // function GetThread: TloThread;
-    function GetTaskProgressPercentage: SmallInt;
-    function GetTaskTitle: String;
-    procedure SetOnTaskStatusChangeProcedure(aOnTaskStatusChangeProcedure: TThreadMethod);
-    function GetOnTaskStatusChangeProcedure: TThreadMethod;
-  public
-    constructor Create(
-      aOwner: IloObject;
-      aOnTaskStatusChangeProcedure: TThreadMethod;
-      aLog: IloLogger = nil;
-      aConfig: TXMLConfig = nil;
-      aMutex: TCriticalSection = nil);
-    destructor Destroy; override;
-
-    procedure Start;
-    procedure Abort;
-    procedure Pause;
-  end;
+  //TloThreadObject = class(TloObject, IloThreadObject)
+  //private
+  //  fThread: TloThread;
+  //  fOnTaskStatusChangeProcedure: TThreadMethod;
+  //  fThreadStatus: TloThreadStatus;
+  //
+  //  // procedure SetThread(aThread: TloThread);
+  //  // function GetThread: TloThread;
+  //  function GetTaskProgressPercentage: SmallInt;
+  //  function GetTaskTitle: String;
+  //  procedure SetOnTaskStatusChangeProcedure(aOnTaskStatusChangeProcedure: TThreadMethod);
+  //  function GetOnTaskStatusChangeProcedure: TThreadMethod;
+  //public
+  //  constructor Create(
+  //    aOwner: IloObject;
+  //    aOnTaskStatusChangeProcedure: TThreadMethod;
+  //    aLog: IloLogger = nil;
+  //    aConfig: TXMLConfig = nil;
+  //    aMutex: TCriticalSection = nil);
+  //  destructor Destroy; override;
+  //
+  //  procedure Start;
+  //  procedure Abort;
+  //  procedure Pause;
+  //end;
 
   { TloDatabaseObject }
 
@@ -190,8 +203,8 @@ procedure TloThread.SetTaskProgressPercentage(aPercentage: SmallInt);
 begin
   fTaskProgressPercentage := aPercentage;
 
-  if Assigned(fThreadMethod) then
-    Synchronize(fThreadMethod);
+  if Assigned(fOnTaskStatusChangeProcedure) then
+    Synchronize(fOnTaskStatusChangeProcedure);
 end;
 
 function TloThread.GetTaskProgressPercentage: SmallInt;
@@ -203,8 +216,8 @@ procedure TloThread.SetTaskTitle(aTaskTitle: String);
 begin
   fTaskTitle := aTaskTitle;
 
-  if Assigned(fThreadMethod) then
-    Synchronize(fThreadMethod);
+  if Assigned(fOnTaskStatusChangeProcedure) then
+    Synchronize(fOnTaskStatusChangeProcedure);
 end;
 
 function TloThread.GetTaskTitle: String;
@@ -212,20 +225,37 @@ begin
   Result := fTaskTitle;
 end;
 
-constructor TloThread.Create(aOwner: IloThreadObject; aCreateSuspended: Boolean; aFreeOnTerminate: Boolean; const aStackSize: SizeUInt);
+procedure TloThread.SetTaskStatus(aTaskStatus: TloThreadStatus);
+begin
+  fTaskStatus := aTaskStatus;
+
+  if Assigned(fOnTaskStatusChangeProcedure) then
+    Synchronize(fOnTaskStatusChangeProcedure);
+end;
+
+function TloThread.GetTaskStatus: TloThreadStatus;
+begin
+  Result := fTaskStatus;
+end;
+
+constructor TloThread.Create(aOwner: IloObject; aOnTaskStatusChangeProcedure: TThreadMethod; aCreateSuspended: Boolean; aFreeOnTerminate: Boolean;
+  const aStackSize: SizeUInt);
 begin
   inherited Create(
     aCreateSuspended,
     aStackSize);
 
-  Self.FreeOnTerminate := aFreeOnTerminate;
+  fOwner := aOwner;
 
   if Assigned(aOwner) then
   begin
-    fOwner := aOwner;
-    // fOwner.Thread := Self;
-    fThreadMethod := fOwner.GetOnTaskStatusChangeProcedure;
+    fLog := aOwner.GetLog;
+    fMutex := aOwner.GetMutex;
+    fConfig := aOwner.GetConfig;
   end;
+
+  FreeOnTerminate := aFreeOnTerminate;
+  fOnTaskStatusChangeProcedure := aOnTaskStatusChangeProcedure;
 end;
 
 destructor TloThread.Destroy;
@@ -240,72 +270,62 @@ end;
 
 { TloThreadObject }
 
-//procedure TloThreadObject.SetThread(aThread: TloThread);
+//function TloThreadObject.GetTaskProgressPercentage: SmallInt;
 //begin
-//  fThread := aThread;
+//  Result := fThread.GetTaskProgressPercentage;
 //end;
 //
-//function TloThreadObject.GetThread: TloThread;
+//function TloThreadObject.GetTaskTitle: String;
 //begin
-//  Result := fThread;
+//  Result := fThread.GetTaskTitle;
 //end;
-
-function TloThreadObject.GetTaskProgressPercentage: SmallInt;
-begin
-  Result := fThread.GetTaskProgressPercentage;
-end;
-
-function TloThreadObject.GetTaskTitle: String;
-begin
-  Result := fThread.GetTaskTitle;
-end;
-
-procedure TloThreadObject.SetOnTaskStatusChangeProcedure(aOnTaskStatusChangeProcedure: TThreadMethod);
-begin
-  fOnTaskStatusChangeProcedure := aOnTaskStatusChangeProcedure;
-end;
-
-function TloThreadObject.GetOnTaskStatusChangeProcedure: TThreadMethod;
-begin
-  Result := fOnTaskStatusChangeProcedure;
-end;
-
-constructor TloThreadObject.Create(aOwner: IloObject; aOnTaskStatusChangeProcedure: TThreadMethod; aLog: IloLogger; aConfig: TXMLConfig;
-  aMutex: TCriticalSection);
-begin
-  inherited Create(
-    aOwner,
-    aLog,
-    aConfig,
-    aMutex);
-
-  fThreadStatus := lotsCreated;
-  fOnTaskStatusChangeProcedure := aOnTaskStatusChangeProcedure;
-  fThread := TloThread.Create(Self);
-end;
-
-destructor TloThreadObject.Destroy;
-begin
-  if Assigned(fThread) then
-    fThread.Free;
-
-  inherited Destroy;
-end;
-
-procedure TloThreadObject.Start;
-begin
-
-end;
-
-procedure TloThreadObject.Abort;
-begin
-
-end;
-
-procedure TloThreadObject.Pause;
-begin
-
-end;
+//
+//procedure TloThreadObject.SetOnTaskStatusChangeProcedure(aOnTaskStatusChangeProcedure: TThreadMethod);
+//begin
+//  fOnTaskStatusChangeProcedure := aOnTaskStatusChangeProcedure;
+//end;
+//
+//function TloThreadObject.GetOnTaskStatusChangeProcedure: TThreadMethod;
+//begin
+//  Result := fOnTaskStatusChangeProcedure;
+//end;
+//
+//constructor TloThreadObject.Create(aOwner: IloObject; aOnTaskStatusChangeProcedure: TThreadMethod; aLog: IloLogger; aConfig: TXMLConfig;
+//  aMutex: TCriticalSection);
+//begin
+//  inherited Create(
+//    aOwner,
+//    aLog,
+//    aConfig,
+//    aMutex);
+//
+//  fThreadStatus := lotsCreated;
+//  fOnTaskStatusChangeProcedure := aOnTaskStatusChangeProcedure;
+//  fThread := TloThread.Create(Self);
+//end;
+//
+//destructor TloThreadObject.Destroy;
+//begin
+//  if Assigned(fThread) then
+//    fThread.Free;
+//
+//  inherited Destroy;
+//end;
+//
+//procedure TloThreadObject.Start;
+//begin
+//
+//end;
+//
+//procedure TloThreadObject.Abort;
+//begin
+//
+//end;
+//
+//procedure TloThreadObject.Pause;
+//begin
+//
+//end;
 
 { TloDatabaseObject }
 

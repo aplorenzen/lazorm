@@ -1,0 +1,52 @@
+object Form2: TForm2
+  Left = 2558
+  Height = 403
+  Top = 388
+  Width = 507
+  Caption = 'Form2'
+  ClientHeight = 403
+  ClientWidth = 507
+  OnDestroy = FormDestroy
+  LCLVersion = '1.0.10.0'
+  object StartButton: TButton
+    Left = 24
+    Height = 25
+    Top = 24
+    Width = 112
+    Caption = 'Start Thread'
+    OnClick = StartButtonClick
+    TabOrder = 0
+  end
+  object TerminateButton: TButton
+    Left = 280
+    Height = 25
+    Top = 24
+    Width = 120
+    Caption = 'Terminate Thread'
+    TabOrder = 1
+  end
+  object PauseButton: TButton
+    Left = 160
+    Height = 25
+    Top = 24
+    Width = 96
+    Caption = 'Pause Thread'
+    TabOrder = 2
+  end
+  object TaskProgressBar: TProgressBar
+    Left = 56
+    Height = 20
+    Top = 160
+    Width = 368
+    TabOrder = 3
+  end
+  object TaskInfoLabel: TLabel
+    Left = 32
+    Height = 64
+    Top = 80
+    Width = 448
+    AutoSize = False
+    Caption = 'TaskInfoLabel'
+    ParentColor = False
+  end
+end
