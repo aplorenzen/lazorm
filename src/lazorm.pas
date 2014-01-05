@@ -20,6 +20,7 @@ begin
   Application.Title := 'LazORM';
   RequireDerivedFormResource := True;
   Application.Initialize;
+  Application.CreateForm(TloNewModelForm, loNewModelForm);
   Application.Run;
 end.
 

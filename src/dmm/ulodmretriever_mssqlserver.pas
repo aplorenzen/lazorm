@@ -14,6 +14,7 @@ uses
   XMLConf,
   SQLDB,
 
+  uloCoreConstants,
   uloCoreInterfaces,
   uloCoreTypes,
   uloDMInterfaces,
@@ -188,6 +189,25 @@ type
 
    TloDMRetriever_MSSQL = class(TloDMRetriever)
    private
+     type
+
+        { TloDMRetrieverTaskThread_MSSQL }
+
+        TloDMRetrieverTaskThread_MSSQL = class(TloTaskThread)
+        public
+          constructor Create(
+            aOwner: TloThreadedTask;
+            aCreateSuspended: Boolean = True;
+            aFreeOnTerminate: Boolean = False;
+            const aStackSize: SizeUInt = DefaultStackSize);
+          destructor Destroy; override;
+
+          procedure Execute; override;
+        end;
+
+   private
+     fTaskThread: TloDMRetrieverTaskThread_MSSQL;
+
      procedure FetchTableDescriptions(var aModel: TloDMModel; var aQuery: TSQLQuery);
      procedure FetchTablePrimaryKeys(var aModel: TloDMModel; var aQuery: TSQLQuery);
      procedure FetchTableForeignKeys(var aModel: TloDMModel; var aQuery: TSQLQuery);
@@ -198,6 +218,9 @@ type
    public
      constructor Create(
        aOwner: IloObject;
+       // aSelection: IloDMSelection;
+       // aOnRetrieveCompleteProcedure: TThreadMethod;
+       aTaskName: String = 'Unnamed database metadata model retriever task';
        aConnection: TSQLConnector = nil;
        aLog: IloLogger = nil;
        aConfig: TXMLConfig = nil;
@@ -205,10 +228,58 @@ type
 
      destructor Destroy; override;
 
-     function RetrieveDatabaseMetadataModel(aSelection: IloDMSelection): TloDMModel; override;
+     // function RetrieveDatabaseMetadataModel(aSelection: IloDMSelection): TloDMModel; override;
+
+     function Start: Boolean; override;
+     function Pause: Boolean; override;
+     function Abort: Boolean; override;
    end;
 
+
+
 implementation
+
+{ TloDMRetriever_MSSQL.TloDMRetrieverTaskThread_MSSQL }
+
+constructor TloDMRetriever_MSSQL.TloDMRetrieverTaskThread_MSSQL.Create(aOwner: TloThreadedTask; aCreateSuspended: Boolean; aFreeOnTerminate: Boolean;
+  const aStackSize: SizeUInt);
+begin
+  inherited Create(
+    aOwner,
+    aCreateSuspended,
+    aFreeOnTerminate,
+    aStackSize);
+end;
+
+destructor TloDMRetriever_MSSQL.TloDMRetrieverTaskThread_MSSQL.Destroy;
+begin
+  inherited Destroy;
+end;
+
+procedure TloDMRetriever_MSSQL.TloDMRetrieverTaskThread_MSSQL.Execute;
+const
+  maxi = 10000;
+var
+  i: Integer;
+begin
+  TaskStatus := loTaskRunning;
+  TaskProgressPercentage := 0;
+
+  for i := 0 to maxi do
+  begin
+    // check for pause condition
+    // check for terminate condition
+    TaskWorkDescription := Format('Running %d out of %d', [i, maxi]);
+    TaskProgressPercentage := Round(i / (maxi / 100));
+
+  end;
+
+  TaskWorkDescription := Format('Done! running %d', [maxi]);
+  TaskStatus:= loTaskCompleted;
+
+
+
+end;
 
 procedure TloDMRetriever_MSSQL.FetchTableDescriptions(var aModel: TloDMModel; var aQuery: TSQLQuery);
 var
@@ -532,12 +603,15 @@ begin
   Connection.ExecuteDirect(Format(cSQL_SwitchDatabase, [aDatabaseName]));
 end;
 
-constructor TloDMRetriever_MSSQL.Create(aOwner: IloObject; aConnection: TSQLConnector; aLog: IloLogger; aConfig: TXMLConfig; aMutex: TCriticalSection);
+constructor TloDMRetriever_MSSQL.Create(aOwner: IloObject; aTaskName: String; aConnection: TSQLConnector; aLog: IloLogger; aConfig: TXMLConfig;
+  aMutex: TCriticalSection);
 const
   lProcedureName = 'Create';
 begin
   inherited Create(
     aOwner,
+    // aSelection,
+    // aOnRetrieveCompleteProcedure,
     'MS SQL Server Database Metadata Model Retriever',
     aConnection,
     aLog,
@@ -552,101 +626,144 @@ begin
   inherited Destroy;
 end;
 
-function TloDMRetriever_MSSQL.RetrieveDatabaseMetadataModel(aSelection: IloDMSelection): TloDMModel;
-const
-  lProcedureName = 'RetrieveDatabaseMetadataModel';
-var
-  lQuery: TSQLQuery;
-  lTransaction: TSQLTransaction;
-  lModel: TloDMModel;
+//function TloDMRetriever_MSSQL.RetrieveDatabaseMetadataModel(aSelection: IloDMSelection): TloDMModel;
+//const
+//  lProcedureName = 'RetrieveDatabaseMetadataModel';
+//var
+//  lQuery: TSQLQuery;
+//  lTransaction: TSQLTransaction;
+//  lModel: TloDMModel;
+//
+//  lStartTime: TDateTime;
+//  lEndTime: TDateTime;
+//begin
+//  // Enter the objects assigned (if any) mutex as the first thing, the intention of this
+//  // is to assure that no other thread is using this connection while we are querying
+//  // the database in this function
+//  MutexEnter;
+//
+//  lStartTime := Now;
+//
+//  try
+//    try
+//      Result := nil;
+//
+//      // Test the connection that exists in this object
+//      if not ConnectionTest then
+//      begin
+//        LogError('Unable to retreive database metadata model, could not open connection.');
+//        Exit;
+//      end;
+//
+//      lModel := TloDMModel.Create(Self, Connection);
+//
+//      try
+//        try
+//          // Create transaction and query objects for activities, not owned by any component, manage memory in local code
+//          lTransaction := TSQLTransaction.Create(nil);
+//          lQuery := TSQLQuery.Create(nil);
+//
+//          try
+//            // Associate the transaction with the connection
+//            lTransaction.DataBase := Connection;
+//            // Associate the query with the transaction
+//            lQuery.Transaction := lTransaction;
+//            // Change the current connections active database to the selected
+//            SwitchDatabase(Connection.DatabaseName);
+//            // Get the list of all the selected tables
+//            FetchTableList(aSelection, lModel, lQuery);
+//            // Get descriptions for all the tables
+//            FetchTableDescriptions(lModel, lQuery);
+//            // Get all fields for all tables
+//            FetchTableFields(lModel, lQuery);
+//            // Get all descriptions for all fields in the tables
+//            FetchTableFieldDescriptions(lModel, lQuery);
+//            // Get single column index information and primary key data
+//            FetchTablePrimaryKeys(lModel, lQuery);
+//            // Hook up the FK field references, between the field objects in the table objects
+//            FetchTableForeignKeys(lModel, lQuery);
+//
+//
+//
+//            finally
+//            begin
+//              lQuery.Close;
+//              lTransaction.Free;
+//              lQuery.Free;
+//            end;
+//          end;
+//
+//          except on e:Exception do
+//          begin
+//            LogError(e.Message);
+//          end;
+//        end;
+//
+//        finally
+//        begin
+//          Connection.Close;
+//        end;
+//      end;
+//
+//      // Finally, assign the generated model to the result
+//      Result := lModel;
+//
+//      except on e:Exception do
+//      begin
+//        LogError(Format('[%s.%s]: An exception occurred when retrieving database metadata for the database. Exception message: %s',
+//        [Self.ClassName, lProcedureName, e.Message]));
+//      end;
+//    end;
+//
+//    finally
+//    begin
+//      lEndTime := Now;
+//      MutexExit;
+//    end;
+//  end;
+//end;
 
-  lStartTime: TDateTime;
-  lEndTime: TDateTime;
+function TloDMRetriever_MSSQL.Start: Boolean;
 begin
-  // Enter the objects assigned (if any) mutex as the first thing, the intention of this
-  // is to assure that no other thread is using this connection while we are querying
-  // the database in this function
-  MutexEnter;
+  Result := inherited Start;
 
-  lStartTime := Now;
-
-  try
-    try
-      Result := nil;
-
-      // Test the connection that exists in this object
-      if not ConnectionTest then
+  if Assigned(fTaskThread) then
+  begin
+    case fTaskThread.TaskStatus of
+      loTaskReady,
+      loTaskCompleted,
+      loTaskTerminated,
+      loTaskFailed:
       begin
-        LogError('Unable to retreive database metadata model, could not open connection.');
-        Exit;
+        fTaskThread.Free;
+        fTaskThread := TloDMRetrieverTaskThread_MSSQL.Create(Self);
+        // Set it up
+        fTaskThread.Start;
       end;
-
-      lModel := TloDMModel.Create(Self, Connection);
-
-      try
-        try
-          // Create transaction and query objects for activities, not owned by any component, manage memory in local code
-          lTransaction := TSQLTransaction.Create(nil);
-          lQuery := TSQLQuery.Create(nil);
-
-          try
-            // Associate the transaction with the connection
-            lTransaction.DataBase := Connection;
-            // Associate the query with the transaction
-            lQuery.Transaction := lTransaction;
-            // Change the current connections active database to the selected
-            SwitchDatabase(Connection.DatabaseName);
-            // Get the list of all the selected tables
-            FetchTableList(aSelection, lModel, lQuery);
-            // Get descriptions for all the tables
-            FetchTableDescriptions(lModel, lQuery);
-            // Get all fields for all tables
-            FetchTableFields(lModel, lQuery);
-            // Get all descriptions for all fields in the tables
-            FetchTableFieldDescriptions(lModel, lQuery);
-            // Get single column index information and primary key data
-            FetchTablePrimaryKeys(lModel, lQuery);
-            // Hook up the FK field references, between the field objects in the table objects
-            FetchTableForeignKeys(lModel, lQuery);
-
-
-
-            finally
-            begin
-              lQuery.Close;
-              lTransaction.Free;
-              lQuery.Free;
-            end;
-          end;
-
-          except on e:Exception do
-          begin
-            LogError(e.Message);
-          end;
-        end;
-
-        finally
-        begin
-          Connection.Close;
-        end;
-      end;
-
-      // Finally, assign the generated model to the result
-      Result := lModel;
-
-      except on e:Exception do
+      loTaskRunning,
+      loTaskPaused:
       begin
-        LogError(Format('[%s.%s]: An exception occurred when retrieving database metadata for the database. Exception message: %s',
-        [Self.ClassName, lProcedureName, e.Message]));
+        raise TloDMException.CreateFmt('[%s]: Unable to start task, already running', [Self.ClassName]);;
       end;
     end;
-
-    finally
-    begin
-      lEndTime := Now;
-      MutexExit;
-    end;
+  end
+  else
+  begin
+    // TODO -oAPL -cDMRetriever 4: Refactor the following lines
+    fTaskThread := TloDMRetrieverTaskThread_MSSQL.Create(Self);
+    // Set it up
+    fTaskThread.Start;
   end;
+end;
+
+function TloDMRetriever_MSSQL.Pause: Boolean;
+begin
+
+end;
+
+function TloDMRetriever_MSSQL.Abort: Boolean;
+begin
+
 end;
 
 end.

@@ -424,6 +424,13 @@ object loNewModelForm: TloNewModelForm
             )
             TabOrder = 8
           end
+          object ProgressBar1: TProgressBar
+            Left = 212
+            Height = 20
+            Top = 216
+            Width = 100
+            TabOrder = 9
+          end
         end
       end
       object Step2TabSheet: TTabSheet

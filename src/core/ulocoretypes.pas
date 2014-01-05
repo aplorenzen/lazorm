@@ -133,7 +133,7 @@ type
       const aStackSize: SizeUInt = DefaultStackSize);
     destructor Destroy; override;
 
-    procedure DoTerminate; override;
+    // procedure DoTerminate; override;
     procedure Execute; override; abstract;
 
     property TaskProgressPercentage: Integer read GetTaskProgressPercentage write SetTaskProgressPercentage;
@@ -166,6 +166,15 @@ type
     fTaskWorkDescription: String;
     fTaskName: String;
 
+  public
+    constructor Create(
+      aOwner: IloObject;
+      aTaskName: String = 'Unnamed task';
+      aLog: IloLogger = nil;
+      aConfig: TXMLConfig = nil;
+      aMutex: TCriticalSection = nil);
+    destructor Destroy; override;
+
     function GetOnTaskNameChange: TThreadMethod;
     function GetOnTaskProgressPercentageChange: TThreadMethod;
     function GetOnTaskStatusChange: TThreadMethod;
@@ -185,18 +194,10 @@ type
     procedure SetTaskWorkDescription(aTaskWorkDescription: String);
     function GetTaskName: String;
     procedure SetTaskName(aTaskName: String);
-  public
-    constructor Create(
-      aOwner: IloObject;
-      aTaskName: String = 'Unnamed task';
-      aLog: IloLogger = nil;
-      aConfig: TXMLConfig = nil;
-      aMutex: TCriticalSection = nil);
-    destructor Destroy; override;
 
-    function Start: Boolean; virtual; abstract;
-    function Pause: Boolean; virtual; abstract;
-    function Abort: Boolean; virtual; abstract;
+    function Start: Boolean; virtual;
+    function Pause: Boolean; virtual;
+    function Abort: Boolean; virtual;
 
     property OnTaskProgressPercentageChange: TThreadMethod read GetOnTaskProgressPercentageChange write SetOnTaskProgressPercentageChange;
     property OnTaskStatusChange: TThreadMethod read GetOnTaskStatusChange write SetOnTaskStatusChange;
@@ -223,9 +224,9 @@ type
       aMutex: TCriticalSection = nil);
     destructor Destroy; override;
 
-    function Start: Boolean; override; abstract;
-    function Pause: Boolean; override; abstract;
-    function Abort: Boolean; override; abstract;
+    function Start: Boolean; override;
+    function Pause: Boolean; override;
+    function Abort: Boolean; override;
 
     property Connection: TSQLConnector read GetConnection write SetConnection;
   end;
@@ -244,9 +245,9 @@ type
     procedure OnTaskNameChanged;
     procedure OnTaskProgressPercentageChanged;
 
-    function Start: Boolean; override; abstract;
-    function Pause: Boolean; override; abstract;
-    function Abort: Boolean; override; abstract;
+    function Start: Boolean; override;
+    function Pause: Boolean; override;
+    function Abort: Boolean; override;
 
     property TaskThread: TloTaskThread read GetTaskThread write SetTaskThread;
   end;
@@ -269,13 +270,12 @@ type
       aMutex: TCriticalSection = nil);
     destructor Destroy; override;
 
-    function Start: Boolean; override; abstract;
-    function Pause: Boolean; override; abstract;
-    function Abort: Boolean; override; abstract;
+    function Start: Boolean; override;
+    function Pause: Boolean; override;
+    function Abort: Boolean; override;
 
     property Connection: TSQLConnector read GetConnection write SetConnection;
   end;
-
 
   { TloDatabaseObject }
 
@@ -342,6 +342,21 @@ begin
   inherited Destroy;
 end;
 
+function TloThreadedDatabaseTask.Start: Boolean;
+begin
+  Result:=inherited Start;
+end;
+
+function TloThreadedDatabaseTask.Pause: Boolean;
+begin
+  Result:=inherited Pause;
+end;
+
+function TloThreadedDatabaseTask.Abort: Boolean;
+begin
+  Result:=inherited Abort;
+end;
+
 { TloDatabaseTask }
 
 function TloDatabaseTask.GetConnection: TSQLConnector;
@@ -384,6 +399,21 @@ end;
 destructor TloDatabaseTask.Destroy;
 begin
   inherited Destroy;
+end;
+
+function TloDatabaseTask.Start: Boolean;
+begin
+  Result:=inherited Start;
+end;
+
+function TloDatabaseTask.Pause: Boolean;
+begin
+  Result:=inherited Pause;
+end;
+
+function TloDatabaseTask.Abort: Boolean;
+begin
+  Result:=inherited Abort;
 end;
 
 { TloTask }
@@ -498,6 +528,21 @@ begin
     fOnTaskStatusUpdate();
 end;
 
+function TloTask.Start: Boolean;
+begin
+
+end;
+
+function TloTask.Pause: Boolean;
+begin
+
+end;
+
+function TloTask.Abort: Boolean;
+begin
+
+end;
+
 constructor TloTask.Create(aOwner: IloObject; aTaskName: String; aLog: IloLogger; aConfig: TXMLConfig; aMutex: TCriticalSection);
 begin
   inherited Create(
@@ -557,6 +602,21 @@ procedure TloThreadedTask.OnTaskProgressPercentageChanged;
 begin
   if Assigned(fTaskThread) then
     SetTaskProgressPercentage(fTaskThread.TaskProgressPercentage);
+end;
+
+function TloThreadedTask.Start: Boolean;
+begin
+  Result:=inherited Start;
+end;
+
+function TloThreadedTask.Pause: Boolean;
+begin
+  Result:=inherited Pause;
+end;
+
+function TloThreadedTask.Abort: Boolean;
+begin
+  Result:=inherited Abort;
 end;
 
 { TloTaskThread }
@@ -714,10 +774,10 @@ begin
   inherited Destroy;
 end;
 
-procedure TloTaskThread.DoTerminate;
-begin
-  inherited DoTerminate;
-end;
+//procedure TloTaskThread.DoTerminate;
+//begin
+//  inherited DoTerminate;
+//end;
 
 { TloThreadObject }
 

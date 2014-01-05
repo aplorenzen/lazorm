@@ -52,6 +52,7 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     CatalogLabel: TLabel;
+    ProgressBar1: TProgressBar;
     SQLConnector1: TSQLConnector;
     SQLQuery1: TSQLQuery;
     Step1TabSheet: TTabSheet;
@@ -71,6 +72,8 @@ type
   private
     fStage: TloWizardStep;
     lConnectionDefList: TConnectionDefList;
+    lDMRetriever: TloDMRetriever;
+
 
     procedure SetStage(AStage: TloWizardStep);
     procedure PrepareStage(AStage: TloWizardStep);
@@ -81,6 +84,7 @@ type
     procedure EnableNextButton();
     function ValidateStage(): Boolean;
     function GetProjectLazORMFiles: TLazProjectFileList;
+    procedure OnDMRetrieveProgress;
   public
     property Stage: TloWizardStep read fStage write SetStage;
   end;
@@ -164,7 +168,6 @@ var
   // lMetaDataRetreiver: TloDMMetaDataRetriever;
   // lTableList: TloDMTableList;
   lDMReceiverFactory: TloDMRetrieverFactory;
-  lDMRetriever: TloDMRetriever;
   lModel: TloDMModel;
 begin
   lConnector := TSQLConnector.Create(nil);
@@ -186,17 +189,19 @@ begin
 
       try
         lDMRetriever := lDMReceiverFactory.GetDMRetriever();
-        try
-          if lDMRetriever.ConnectionTest then
-            ShowMessage('Connection ok')
-          else
-            ShowMessage('Connection NOT ok');
+        lDMRetriever.OnTaskProgressPercentageChange := @OnDMRetrieveProgress;
+        // try
+          //if lDMRetriever.ConnectionTest then
+          //  ShowMessage('Connection ok')
+          //else
+          //  ShowMessage('Connection NOT ok');
+          //
+          //lModel := lDMRetriever.RetrieveDatabaseMetadataModel(nil);
+          lDMRetriever.StartRetrieve;
 
-          lModel := lDMRetriever.RetrieveDatabaseMetadataModel(nil);
-
-        finally
-          lDMRetriever.Free;
-        end;
+        // finally
+          // lDMRetriever.Free;
+        // end;
 
       finally
         lDMReceiverFactory.Free;
@@ -354,6 +359,11 @@ begin
       then
         Result.Add(lLazProject.Files[i]);
     end;
+end;
+
+procedure TloNewModelForm.OnDMRetrieveProgress;
+begin
+  ProgressBar1.Position := lDMRetriever.GetTaskProgressPercentage;
 end;
 
 end.
