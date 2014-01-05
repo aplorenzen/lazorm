@@ -12,7 +12,7 @@ uses
   flazormnewmodelwizard,
   uloTypes,
   ulocoreconstants, ucbClassBuilder, frmDevTestForm, ulodmtypes, uloDatabaseTypes, uloDatabaseConstants, frmGraphTesting, ulocoretypes, persistencetest,
-uloDMRetriever, ulodmretriever_mssqlserver, ulodmretrieverfactory, ulocoreinterfaces, ulodminterfaces, ulocoreutils, threadtest;
+uloDMRetriever, ulodmretriever_mssqlserver, ulodmretrieverfactory, ulocoreinterfaces, ulodminterfaces, ulocoreutils;
 
 {$R *.res}
 
@@ -20,8 +20,6 @@ begin
   Application.Title := 'LazORM';
   RequireDerivedFormResource := True;
   Application.Initialize;
-  // Application.CreateForm(TloNewModelForm, loNewModelForm);
-  Application.CreateForm(TForm2, Form2);
   Application.Run;
 end.
 

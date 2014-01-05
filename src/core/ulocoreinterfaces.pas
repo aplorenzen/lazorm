@@ -9,7 +9,9 @@ uses
   SysUtils,
   SyncObjs,
   XMLConf,
-  SQLDB;
+  SQLDB,
+
+  uloCoreConstants;
 
 type
 
@@ -77,6 +79,47 @@ type
 
     property StatusUpdateMethod: TThreadMethod read GetStatusUpdateMethod;
   end;
+
+  { IloTask }
+
+  IloTask = interface(IInterface)
+    ['{96F49351-F3E5-4097-AC14-0B241A70CA28}']
+    function GetOnTaskNameChange: TThreadMethod;
+    function GetOnTaskProgressPercentageChange: TThreadMethod;
+    function GetOnTaskStatusChange: TThreadMethod;
+    function GetOnTaskStatusUpdate: TThreadMethod;
+    function GetOnTaskWorkDescriptionChange: TThreadMethod;
+    procedure SetOnTaskNameChange(aOnTaskNameChange: TThreadMethod);
+    procedure SetOnTaskProgressPercentageChange(aOnTaskProgressPercentageChange: TThreadMethod);
+    procedure SetOnTaskStatusChange(aOnTaskStatusChange: TThreadMethod);
+    procedure SetOnTaskStatusUpdate(aOnTaskStatusUpdate: TThreadMethod);
+    procedure SetOnTaskWorkDescriptionChange(aOnTaskWorkDescriptionChange: TThreadMethod);
+
+    function GetTaskProgressPercentage: Integer;
+    procedure SetTaskProgressPercentage(aTaskProgressPercentage: Integer);
+    function GetTaskStatus: TloTaskStatus;
+    procedure SetTaskStatus(aTaskStatus: TloTaskStatus);
+    function GetTaskWorkDescription: String;
+    procedure SetTaskWorkDescription(aTaskWorkDescription: String);
+    function GetTaskName: String;
+    procedure SetTaskName(aTaskName: String);
+
+    function Start: Boolean;
+    function Pause: Boolean;
+    function Abort: Boolean;
+
+    property OnTaskProgressPercentageChange: TThreadMethod read GetOnTaskProgressPercentageChange write SetOnTaskProgressPercentageChange;
+    property OnTaskStatusChange: TThreadMethod read GetOnTaskStatusChange write SetOnTaskStatusChange;
+    property OnTaskWorkDescriptionChange: TThreadMethod read GetOnTaskWorkDescriptionChange write SetOnTaskWorkDescriptionChange;
+    property OnTaskNameChange: TThreadMethod read GetOnTaskNameChange write SetOnTaskNameChange;
+    property OnTaskStatusUpdate: TThreadMethod read GetOnTaskStatusUpdate write SetOnTaskStatusUpdate;
+
+    property TaskProgressPercentage: Integer read GetTaskProgressPercentage write SetTaskProgressPercentage;
+    property TaskStatus: TloTaskStatus read GetTaskStatus write SetTaskStatus;
+    property TaskWorkDescription: String read GetTaskWorkDescription write SetTaskWorkDescription;
+    property TaskName: String read GetTaskName write SetTaskName;
+  end;
+
 
 implementation
 

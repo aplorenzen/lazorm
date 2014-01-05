@@ -202,6 +202,7 @@ type
        aLog: IloLogger = nil;
        aConfig: TXMLConfig = nil;
        aMutex: TCriticalSection = nil);
+
      destructor Destroy; override;
 
      function RetrieveDatabaseMetadataModel(aSelection: IloDMSelection): TloDMModel; override;
@@ -537,6 +538,7 @@ const
 begin
   inherited Create(
     aOwner,
+    'MS SQL Server Database Metadata Model Retriever',
     aConnection,
     aLog,
     aConfig,

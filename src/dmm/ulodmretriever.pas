@@ -20,18 +20,28 @@ uses
 type
    { TloDMRetriever }
 
-   TloDMRetriever = class(TloDatabaseObject, IloDMRetriever)
+   TloDMRetriever = class(TloThreadedDatabaseTask, IloDMRetriever)
+   private
+     fModel: TloDMModel;
+     fSelection: TloDMSelection;
    public
      constructor Create(
        aOwner: IloObject;
+       aTaskName: String = 'Unnamed database metadata model retriever task';
        aConnection: TSQLConnector = nil;
        aLog: IloLogger = nil;
        aConfig: TXMLConfig = nil;
        aMutex: TCriticalSection = nil);
+
      destructor Destroy; override;
 
      function ConnectionTest: Boolean;
+
      function RetrieveDatabaseMetadataModel(aSelection: IloDMSelection): TloDMModel; virtual; abstract;
+
+     function Start: Boolean; override; abstract;
+     function Pause: Boolean; override; abstract;
+     function Abort: Boolean; override; abstract;
    end;
 
 implementation
@@ -70,7 +80,7 @@ begin
         // Some exception occurred when opening the connection
         { TODO -oAPL 3 -cDMM: Log as a warning? }
         // raise e;
-        LogWarn(Format('Exception when testing connection: %s', [e.Message]));
+        LogWarning(Format('Exception when testing connection: %s', [e.Message]));
 
         raise TloDMException.Create(Format(
           '[%s.%s]: Unable to connect, exception when connecting: ' + e.Message,
@@ -83,12 +93,14 @@ begin
   end;
 end;
 
-constructor TloDMRetriever.Create(aOwner: IloObject; aConnection: TSQLConnector; aLog: IloLogger; aConfig: TXMLConfig; aMutex: TCriticalSection);
+constructor TloDMRetriever.Create(aOwner: IloObject; aTaskName: String; aConnection: TSQLConnector; aLog: IloLogger; aConfig: TXMLConfig;
+  aMutex: TCriticalSection);
 const
   lProcedureName = 'Create';
 begin
   inherited Create(
     aOwner,
+    aTaskName,
     aConnection,
     aLog,
     aConfig,

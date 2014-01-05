@@ -16,7 +16,7 @@ type
 
   { TloTestThread }
 
-  TloTestThread = class(TloThread)
+  TloTestThread = class(TloTaskThread)
   public
     constructor Create(
       aOwner: IloObject;
@@ -97,15 +97,15 @@ end;
 
 procedure TForm2.UpdateTaskStatus;
 begin
-  if Assigned(fThread) then
-  begin
-    TaskInfoLabel.Caption := fThread.TaskTitle;
-    TaskProgressBar.Position := fThread.TaskProgressPercentage;
-    TaskProgressBar.Caption:=fThread.TaskTitle;
-
-    if fThread.TaskStatus = lotsCompleted then
-      fThread := nil;
-  end;
+  //if Assigned(fThread) then
+  //begin
+  //  TaskInfoLabel.Caption := fThread.TaskTitle;
+  //  TaskProgressBar.Position := fThread.TaskProgressPercentage;
+  //  TaskProgressBar.Caption:=fThread.TaskTitle;
+  //
+  //  if fThread.TaskStatus = loThreadCompleted then
+  //    fThread := nil;
+  //end;
 end;
 
 function TForm2.GetOwner: IloObject;
@@ -174,7 +174,7 @@ const
 var
   i: Integer;
 begin
-  TaskStatus := lotsRunning;
+  TaskStatus := loThreadRunning;
 
   for i := 0 to total do
   begin
@@ -183,7 +183,7 @@ begin
   end;
 
   TaskTitle := Format('Done processing %d items!', [total]);
-  TaskStatus := lotsCompleted;
+  TaskStatus := loThreadCompleted;
 end;
 
 end.
